@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const { usersRoutes } = require('./controllers/routers/usersRoutes')
+const { usersRoutes } = require('./controllers/routers/usersRoutes');
 const { errorMiddleware } = require('./middlewares/index');
 
 const app = express();

@@ -8,7 +8,7 @@ const {
   validateUniqueEmail,
 } = require('../services/userServices');
 
-const createUser = rescue(async (req, res, next) => {
+const createUser = rescue(async (req, res) => {
   const { name, email, password } = req.body;
   const nameIsValid = validateName(name);
   const passwordIsValid = validatePassword(password);
