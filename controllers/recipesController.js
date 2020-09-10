@@ -3,10 +3,11 @@ const { Router } = require('express');
 const { loginService, recipesService } = require('../services');
 const multer = require('multer');
 const { ObjectId } = require('mongodb');
+const path = require('path');
 
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, '../uploads/');
+  destination: (_req, file, cb) => {
+    cb(null, path.join(__dirname, '..', 'uploads'));
   },
   filename: async (req, _file, cb) => {
     const id = ObjectId(req.params.id).toString();
