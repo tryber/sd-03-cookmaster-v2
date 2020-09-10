@@ -1,5 +1,5 @@
 const rescue = require('express-rescue');
-const ErrorClass = require('../utils/ErrorClass');
+const { ErrorClass } = require('../utils/ErrorClass');
 const {
   insertCommonUser,
   validateName,

@@ -2,13 +2,13 @@ const connect = require('./connect');
 
 const insertUser = async (user) => {
   const db = await connect();
-  const insertedUser = db.insertOne({ user });
-  return insertedUser;
+  const insertedUser = await db.collection('users').insertOne(user);
+  return insertedUser.ops[0];
 };
 
 const getEmail = async (email) => {
   const db = await connect();
-  const emailExists = await db.findOne({ email });
+  const emailExists = await db.collection('users').findOne({ email });
   return emailExists;
 };
 

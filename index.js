@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const { usersRoutes } = require('./controllers/routers/usersRoutes');
+const { usersRoutes, loginRoutes } = require('./routers/index');
 const { errorMiddleware } = require('./middlewares/index');
 
 const app = express();
@@ -13,6 +13,7 @@ app.get('/', (request, response) => {
 });
 
 app.use('/users', usersRoutes);
+app.use('/login', loginRoutes);
 
 app.use((err, _req, res, _next) => errorMiddleware(err, res));
 
