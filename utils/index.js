@@ -1,6 +1,6 @@
-const generateError = (status = 404, error) => ({
+const generateError = (status, error) => ({
   status,
-  payload: { err: { message: error.message } },
+  payload: { message: error.message },
 });
 
 module.exports = { generateError };
