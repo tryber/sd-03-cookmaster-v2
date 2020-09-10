@@ -20,13 +20,13 @@ const login = rescue(async (req, res) => {
   const user = await getUserByEmail(email);
 
   if (!user) {
-    throw new ErrorClass(401, 'Incorrect username or password', 'invalid_data')
+    throw new ErrorClass(401, 'Incorrect username or password', 'invalid_data');
   }
 
   const match = await bcrypt.compare(password, user.password); // Retorna true or false
 
   if (!match) {
-    throw new ErrorClass(401, 'Incorrect username or password', 'invalid_data')
+    throw new ErrorClass(401, 'Incorrect username or password', 'invalid_data');
   }
 
   const jwtConfig = {

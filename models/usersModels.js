@@ -6,7 +6,7 @@ const insertUser = async (user) => {
   return insertedUser.ops[0];
 };
 
-const getEmail = async (email) => {
+const getUserWithEmail = async (email) => {
   const db = await connect();
   const emailExists = await db.collection('users').findOne({ email });
   return emailExists;
@@ -14,5 +14,5 @@ const getEmail = async (email) => {
 
 module.exports = {
   insertUser,
-  getEmail,
+  getUserWithEmail,
 };
