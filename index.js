@@ -6,3 +6,5 @@ const app = express();
 app.get('/', (request, response) => {
   response.send();
 });
+
+app.listen(3000, () => console.log('iniciando Servidor !'));
