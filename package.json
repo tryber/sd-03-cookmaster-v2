@@ -6,14 +6,14 @@
   "scripts": {
     "test": "jest --runInBand",
     "start": "node index.js",
-    "start:watch": "nodemon index.js"
+    "debug": "nodemon index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tryber/sd-0x-cookmaster-v2.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "William Igor",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/tryber/sd-0x-cookmaster-v2/issues"
