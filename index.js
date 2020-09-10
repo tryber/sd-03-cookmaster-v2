@@ -20,7 +20,7 @@ app.use((err, _req, res, _next) => {
     const { statusCode, payload: { message } } = err.output;
     return res.status(statusCode).json({ message });
   }
-  console.error(err.message, err.stack);
+  console.error('inside error', err, err.message, err.stack);
   return res.status(500).json({ message: 'Internal Error' });
 })
 

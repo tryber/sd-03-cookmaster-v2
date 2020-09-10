@@ -26,7 +26,28 @@ const createRecipe = rescue(async (req, res) => {
   return res.status(201).json({ recipe });
 });
 
+const getAllRecipes = rescue(async (req, res) => {
+  const recipes = await recipesServices.getRecipes();
+  res.status(200).json(recipes);
+});
+
+const getRecipe = rescue(async (req, res, next) => {
+  const { id } = req.params;
+
+  if (id.length !== 24) return next(Boom.notFound('recipe not found'));
+
+  const recipe = await recipesServices.getRecipeById(id);
+
+  if (!recipe) return next(Boom.notFound('recipe not found'));
+
+  return res.status(200).json(recipe);
+})
+
 recipesRouter.route('/')
-  .post(auth, validateNewRecipe, createRecipe);
+  .post(auth, validateNewRecipe, createRecipe)
+  .get(getAllRecipes);
+
+recipesRouter.route('/:id')
+  .get(getRecipe)
 
 module.exports = recipesRouter;
