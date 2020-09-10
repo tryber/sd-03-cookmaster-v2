@@ -1,6 +1,6 @@
 const connection = require('./connect');
 
-const getAll = async () =>
+/* const getAll = async () =>
   connection()
     .then((db) => db.getTable('recipes').select(['id', 'user', 'name']).execute())
     .then((results) => results.fetchAll())
@@ -10,9 +10,9 @@ const getAll = async () =>
         user,
         name,
       })),
-    );
+    ); */
 
-const findRecipeById = async (id) =>
+/* const findRecipeById = async (id) =>
   connection()
     .then((db) =>
       db
@@ -30,8 +30,8 @@ const findRecipeById = async (id) =>
       name,
       ingredients,
       instructions,
-    }));
-
+    })); */
+/* 
 const findRecipesByQuery = async (search) =>
   connection()
     .then((db) =>
@@ -49,18 +49,23 @@ const findRecipesByQuery = async (search) =>
         user,
         name,
       })),
-    );
+    ); */
 
-const createNewRecipe = async (userId, user, name, ingredients, instructions) =>
+const createNewRecipe = async (name, ingredients, preparation, userId) =>
   connection().then((db) =>
     db
-      .getTable('recipes')
-      .insert(['user_id', 'user', 'name', 'ingredients', 'instructions'])
-      .values(userId, user, name, ingredients, instructions)
-      .execute(),
+      .collection('recipes')
+      .insertOne({ name, ingredients, preparation, userId })
+      .then(({ insertedId }) => ({
+        name,
+        ingredients,
+        preparation,
+        userId,
+        _id: insertedId,
+      })),
   );
 
-const editRecipe = async (recipeId, name, ingredients, instructions) =>
+/* const editRecipe = async (recipeId, name, ingredients, instructions) =>
   connection().then((db) =>
     db
       .getTable('recipes')
@@ -71,9 +76,9 @@ const editRecipe = async (recipeId, name, ingredients, instructions) =>
       .where('id = :id')
       .bind('id', recipeId)
       .execute(),
-  );
+  ); */
 
-const findRecipesByUserId = async (userId) =>
+/* const findRecipesByUserId = async (userId) =>
   connection()
     .then((db) =>
       db
@@ -91,8 +96,8 @@ const findRecipesByUserId = async (userId) =>
         name,
       })),
     );
-
-const deleteRecipe = async (id) =>
+ */
+/* const deleteRecipe = async (id) =>
   connection().then((db) =>
     db
       .getTable('recipes')
@@ -100,14 +105,8 @@ const deleteRecipe = async (id) =>
       .where('id = :id')
       .bind('id', id)
       .execute(),
-  );
+  ); */
 
 module.exports = {
-  getAll,
-  findRecipeById,
-  findRecipesByQuery,
   createNewRecipe,
-  editRecipe,
-  findRecipesByUserId,
-  deleteRecipe,
 };

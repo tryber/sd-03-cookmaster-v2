@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const users = require('./controllers/userController');
 const userLogin = require('./controllers/loginController');
+const recipes = require('./controllers/recipeController');
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -13,6 +15,7 @@ app.get('/', (request, response) => {
 
 app.use('/users', users);
 app.post('/login', userLogin);
+app.use('/recipes', recipes);
 
 const PORT = 3000;
 app.listen(PORT, () => {
