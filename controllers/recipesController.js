@@ -23,8 +23,8 @@ const register = async (req, res, next) => {
     return next({ status: 400, message: 'Invalid entries. Try again.' });
   }
   try {
-    const id = req.user['_id'];
-    const recipeRegistered = await recipesService.register(name, ingredients, preparation, id);
+    const { _id } = req.user;
+    const recipeRegistered = await recipesService.register(name, ingredients, preparation, _id);
     return res.status(201).json({ recipe: recipeRegistered });
   } catch (error) {
     return next({ status: 401, message: error.message });
