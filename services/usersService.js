@@ -1,13 +1,9 @@
 const usersModel = require('../models/usersModel');
 
-const findUserByEmail = async (email) => {
-  return await usersModel.findByEmail(email);
-};
+const findUserByEmail = (email) => usersModel.findByEmail(email);
 
-const register = async (name, email, password, role) => {
-  const response = await usersModel.insert({ name, email, password, role });
-  return response;
-};
+const register = (name, email, password, role) =>
+  usersModel.insert({ name, email, password, role });
 
 const login = async (email, password) => {
   const userData = await findUserByEmail(email);

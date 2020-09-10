@@ -16,11 +16,11 @@ app.get('/', (request, response) => {
 });
 
 app.use((error, _req, res, next) => {
-  console.log('error', error);
   const status = error.status || 500;
   const message = error.message || 'Error interno';
 
   res.status(status).json({ message });
+  if (!error) next();
 });
 
 app.listen(3000, () => console.log('App rodando na porta 3000'));

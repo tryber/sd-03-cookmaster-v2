@@ -27,8 +27,10 @@ const roleValidation = async (req, _res, next) => {
   const { user } = req;
   if (user.role !== 'admin') {
     const recipe = await recipesModel.getRecipeById(id);
-    if (recipe[0].userId !== user._id)
-      return next({ status: 401, message: "You haven't permission for update this recipe" });
+    const userId = user._id;
+    if (recipe[0].userId !== userId) {
+      return next({ status: 401, message: 'You have not permission for update this recipe' });
+    }
   }
   next();
 };

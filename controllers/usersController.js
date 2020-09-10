@@ -14,8 +14,9 @@ userRouter
       const errors = validationResult(req);
       if (!errors.isEmpty()) return next({ status: 400, message: 'Invalid entries. Try again.' });
       const { name, email, password } = req.body;
-      if (await usersService.findUserByEmail(email))
+      if (await usersService.findUserByEmail(email)) {
         return next({ status: 409, message: 'Email already registered' });
+      }
       try {
         const userCreated = await usersService.register(name, email, password, 'user');
         return res.status(201).json({ user: { ...userCreated } });
@@ -28,8 +29,9 @@ userRouter
 const insertAdmin = async (req, res) => {
   const { name, email, password } = req.body;
   const { user } = req;
-  if (user.role !== 'admin')
+  if (user.role !== 'admin') {
     return res.status(403).json({ message: 'Only admins can register new admins' });
+  }
   const newUser = await usersService.register(name, email, password, 'admin');
   return res.status(201).json({ user: newUser });
 };

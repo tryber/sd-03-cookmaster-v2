@@ -19,22 +19,19 @@ const recipesRouter = Router();
 
 const register = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
-  if (!name || !ingredients || !preparation)
+  if (!name || !ingredients || !preparation) {
     return next({ status: 400, message: 'Invalid entries. Try again.' });
+  }
   try {
-    const recipeRegistered = await recipesService.register(
-      name,
-      ingredients,
-      preparation,
-      req.user._id,
-    );
+    const id = req.user._id;
+    const recipeRegistered = await recipesService.register(name, ingredients, preparation, id);
     return res.status(201).json({ recipe: recipeRegistered });
   } catch (error) {
     return next({ status: 401, message: error.message });
   }
 };
 
-const getAllRecipes = async (req, res) => {
+const getAllRecipes = async (req, res, next) => {
   try {
     const recipes = await recipesService.getAll();
     res.status(200).json(recipes);
@@ -55,20 +52,21 @@ const getRecipesById = async (req, res, next) => {
 const updateRecipe = async (req, res, next) => {
   const { name, ingredients, preparation } = req.body;
   const { id } = req.params;
-  if (!name || !ingredients || !preparation)
+  if (!name || !ingredients || !preparation) {
     return next({ status: 400, message: 'Invalid entries. Try again.' });
+  }
 
   const recipeUpdated = await recipesService.update(id, { name, ingredients, preparation });
   return res.status(200).json(recipeUpdated[0]);
 };
 
-const deleteRecipe = async (req, res, next) => {
+const deleteRecipe = async (req, res) => {
   const { id } = req.params;
   await recipesService.deleteRecipe(id);
   return res.status(204).json();
 };
 
-const addImage = async (req, res, next) => {
+const addImage = async (req, res) => {
   const { id } = req.params;
   const image = `localhost:3000/images/${req.file.filename}.jpeg`;
   const recipeUpdated = await recipesService.update(id, { image });
