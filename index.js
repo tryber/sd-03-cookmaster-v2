@@ -1,5 +1,5 @@
 const express = require('express');
-const {loginController} = require('./controllers')
+const { loginController } = require('./controllers');
 
 const app = express();
 
@@ -12,5 +12,5 @@ app.get('/users', (req, res) => {
   res.send('enviado com sucesso');
 });
 
-app.use('/login', loginController)
+app.use('/login', loginController);
 app.listen(3000, () => console.log('iniciando Servidor !'));
