@@ -4,4 +4,8 @@ async function createRecipe(data) {
   return Recipes.createRecipe(data);
 }
 
-module.exports = { createRecipe };
+async function getAllRecipes() {
+  return Recipes.getAllRecipes();
+}
+
+module.exports = { createRecipe, getAllRecipes };

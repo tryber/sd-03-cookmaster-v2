@@ -13,4 +13,8 @@ async function createRecipe(data) {
   return recipe.save();
 }
 
-module.exports = { createRecipe };
+async function getAllRecipes() {
+  return Recipe.find();
+}
+
+module.exports = { createRecipe, getAllRecipes };

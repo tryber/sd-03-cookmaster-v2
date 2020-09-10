@@ -10,4 +10,13 @@ async function createRecipes(req, res, next) {
   }
 }
 
-module.exports = { createRecipes };
+async function listRecipes(req, res, next) {
+  try {
+    const recipes = await Recipes.getAllRecipes();
+    res.status(200).json(recipes);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { createRecipes, listRecipes };
