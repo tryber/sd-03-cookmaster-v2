@@ -6,7 +6,7 @@ const { ObjectId } = require('mongodb');
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
-    cb(null, '../uploads');
+    cb(null, '../uploads/');
   },
   filename: async (req, _file, cb) => {
     const id = ObjectId(req.params.id).toString();

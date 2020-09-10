@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --runInBand",
     "start": "node index.js",
-    "start:watch": "nodemon index.js"
+    "start:watch": "MONGO_DB_URL=mongodb://localhost:27017/Cookmaster nodemon index.js"
   },
   "repository": {
     "type": "git",
