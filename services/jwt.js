@@ -1,7 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 function getToken(data) {
-  return jwt.sign({ username: 'gabrei', password: 'lucas' }, 'gilgamesh');
+  return jwt.sign(data, 'gilgamesh');
 }
 
-module.exports = { getToken };
+function verifyToken(token) {
+  return jwt.verify(token, 'gilgamesh');
+}
+
+module.exports = { getToken, verifyToken };

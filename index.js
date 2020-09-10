@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const Controllers = require('./controllers/users');
+const Controllers = require('./controllers');
 const Middlewares = require('./middlewares');
 
 mongoose.connect('mongodb://localhost:27017/Cookmaster', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -13,8 +13,9 @@ app.use(bodyParser.json());
 app.get('/', (request, response) => {
   response.send();
 });
-app.post('/users', Middlewares.validade.user, Controllers.createUser);
-app.post('/login', Middlewares.validade.login, Controllers.loginUser);
+app.post('/users', Middlewares.validade.user, Controllers.users.createUser);
+app.post('/login', Middlewares.validade.login, Controllers.users.loginUser);
+app.post('/recipes', Middlewares.validade.recipes, Middlewares.validade.validateToken, Controllers.recipes.createRecipes);
 
 app.use(Middlewares.error);
 app.listen(3000, () => console.log('listen to port 3000'));

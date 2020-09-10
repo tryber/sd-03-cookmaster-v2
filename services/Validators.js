@@ -52,4 +52,13 @@ async function login(req, res, next) {
   return next();
 }
 
-module.exports = { user, login };
+async function recipes(req, res, next) {
+  const { name, ingredients, preparation } = req.body;
+
+  if (!name || !ingredients || !preparation) {
+    return next(err.invalidEntries);
+  }
+  next();
+}
+
+module.exports = { user, login, recipes };
