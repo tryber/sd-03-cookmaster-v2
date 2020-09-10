@@ -1,18 +1,23 @@
 const model = require('../model/model');
 
+const entriesVerify = (name, email, password) => {
+  let result;
+  if (!name) {
+    result = { message: 'Invalid entries. Try again.', status: 400 };
+  }
+  if (!email) {
+    result = { message: 'Invalid entries. Try again.', status: 400 };
+  }
+  if (!password) {
+    result = { message: 'Invalid entries. Try again.', status: 400 };
+  }
+  return result;
+};
+
 const createNewUser = async (name, email, password) => {
   // regras de negócio
   let verify;
-
-  if (!name) {
-    verify = { message: 'Invalid entries. Try again.', status: 400 };
-  }
-  if (!email) {
-    verify = { message: 'Invalid entries. Try again.', status: 400 };
-  }
-  if (!password) {
-    verify = { message: 'Invalid entries. Try again.', status: 400 };
-  }
+  verify = entriesVerify();
 
   const emailExistis = await model.getUserByEmail(email);
 
