@@ -1,7 +1,7 @@
 require('dotenv/config');
 const express = require('express');
 const bodyParser = require('body-parser');
-const { usersRouter, login } = require('./controllers');
+const { usersRouter, login, recipesRouter } = require('./controllers');
 const Boom = require('boom');
 
 const app = express();
@@ -13,6 +13,7 @@ app.get('/', (_request, response) => {
 
 app.use('/login', login);
 app.use('/users', usersRouter);
+app.use('/recipes', recipesRouter);
 
 app.use((err, _req, res, _next) => {
   if (Boom.isBoom(err)) {
