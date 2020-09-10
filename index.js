@@ -7,4 +7,7 @@ app.get('/', (request, response) => {
   response.send();
 });
 
+app.get('/users', (req, res) => {
+  res.send("enviado com sucesso")
+})
 app.listen(3000, () => console.log('iniciando Servidor !'));
