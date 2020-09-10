@@ -2,8 +2,9 @@ const connection = require('./connection');
 
 const createUser = async (name, email, password, role = 'user') => {
   try {
-    const connect = await connection.collection('users');
-    const userRegister = await connect.insertOne({ name, email, password, role });
+    const connect = await connection();
+    const dbCollection = connect.collection('users');
+    const userRegister = await dbCollection.insertOne({ name, email, password, role });
     const { insertedId: _id } = userRegister;
     return { _id, name, email, role };
   } catch (error) {
@@ -13,8 +14,9 @@ const createUser = async (name, email, password, role = 'user') => {
 
 const findUserByEmail = async (email) => {
   try {
-    const connect = await connection.collection('users');
-    const searchQuery = await connect.findOne({ email });
+    const connect = await connection();
+    const dbCollection = connect.collection('users');
+    const searchQuery = await dbCollection.findOne({ email });
 
     return searchQuery;
   } catch (error) {
