@@ -1,9 +1,5 @@
 const { userByEmail } = require('../models');
 
-/* Regex criado com orientação do instrutor Neto. Acrescimo do método .trim para
-permitir cadastro de string contendo espaços em branco */
-const validateName = (name = '') => name && /^[A-Z][a-z]{2,}$/i.test(name.trim());
-
 /* Regex obtido em
 https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address */
 const validateEmail = (email = '') =>
@@ -14,8 +10,9 @@ const validateEmail = (email = '') =>
 
 const getUser = async (userEmail) => {
   try {
-    const user = userEmail && (await userByEmail(userEmail));
-    return user.email;
+    const user = await userByEmail(userEmail);
+
+    return user ? user.email : null;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -31,11 +28,11 @@ async function ValidateUser(name, email, password) {
   switch (true) {
     case email === searchUser:
       return validationMessages.user;
-    case !validateEmail(email):
+    case !email || !validateEmail(email):
       return validationMessages.default;
     case password.length < 6:
       return validationMessages.default;
-    case !validateName(name):
+    case !name:
       return validationMessages.default;
     default:
       return null;
@@ -46,7 +43,6 @@ module.exports = async (name, email, password) => {
   let message;
   try {
     const dataValidation = await ValidateUser(name, email, password);
-
     message = dataValidation;
 
     return { message };
