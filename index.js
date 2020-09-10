@@ -17,13 +17,18 @@ app.use('/recipes', recipesRouter);
 
 app.use((err, _req, res, _next) => {
   if (Boom.isBoom(err)) {
-    const { statusCode, payload: { message } } = err.output;
+    const {
+      statusCode,
+      payload: { message },
+    } = err.output;
     return res.status(statusCode).json({ message });
   }
   console.error('inside error', err, err.message, err.stack);
   return res.status(500).json({ message: 'Internal Error' });
-})
+});
 
 const { PORT = 3000 } = process.env;
 
-app.listen(PORT, () => { console.log(`Ouvindo na porta ${3000}`)});
+app.listen(PORT, () => {
+  console.log(`Ouvindo na porta ${3000}`);
+});

@@ -5,7 +5,7 @@ const { usersServices } = require('../services');
 
 const usersRouter = express.Router();
 
-const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+const EMAIL_REGEX = /^[A-z0-9]+(\.?[A-z0-9]+)?@[A-z0-9]+(\.?[A-z0-9]+)?$/;
 const INVALID_ENTRIES = 'Invalid entries. Try again.';
 
 const validateNewUser = rescue(async (req, _res, next) => {
