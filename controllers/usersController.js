@@ -1,4 +1,5 @@
 const rescue = require('express-rescue');
+const bcrypt = require('bcrypt');
 const { ErrorClass } = require('../utils/ErrorClass');
 const {
   insertCommonUser,
@@ -22,7 +23,10 @@ const createUser = rescue(async (req, res) => {
 
   if (uniqueEmail) throw new ErrorClass(409, uniqueEmail, 'not_unique_email');
 
-  const user = await insertCommonUser({ name, email, password, role: 'user' });
+  const saltRounds = 10;
+  const hashPassword = await bcrypt.hash(password, saltRounds);
+
+  const user = await insertCommonUser({ name, email, password: hashPassword, role: 'user' });
 
   return res.status(201).json({ user });
 });
