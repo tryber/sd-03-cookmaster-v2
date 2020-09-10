@@ -6,3 +6,6 @@ const app = express();
 app.get('/', (request, response) => {
   response.send();
 });
+
+const { PORT = 3000 } = process.env;
+app.listen(PORT, () => { console.log(`Escutando na porta ${PORT}`); });
