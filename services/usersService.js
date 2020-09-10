@@ -8,7 +8,6 @@ const register = (name, email, password, role) =>
 const login = async (email, password) => {
   const userData = await findUserByEmail(email);
   if (userData && userData.password === password) return userData;
-  return;
 };
 
 module.exports = {
