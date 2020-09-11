@@ -512,7 +512,7 @@ O resultado retornado para excluir uma receita com sucesso deverá ser conforme 
 
 - O upload da imagem deverá ser feito utilizando o `Multer`.
 
-- O nome do arquivo deve ser o ID da receita, com extensão `jpeg` ( Caso o arquivo tenha outras extensões, a converta para `jpeg`). As imagens devem estar disponíveis através da rota `/images/<id-da-receita>.jpeg` na API.
+- O nome do arquivo deve ser o ID da receita, com extensão `jpeg` (caso o arquivo tenha outras extensões, a converta para `jpeg`). As imagens devem estar disponíveis através da rota `/images/<id-da-receita>.jpeg` na API.
 
 - A URL completa para acessar a imagem através da API deve ser gravada no banco de dados, junto com os dados da receita.
 
