@@ -7,4 +7,5 @@ module.exports = {
   userById: user.findUserById,
   createRecipe: recipes.createRecipe,
   allRecipes: recipes.getAllRecipes,
+  recipeById: recipes.getRecipeById,
 };

@@ -1,9 +1,13 @@
 const userRoutes = require('./usersRoutes');
 const recipesRoutes = require('./recipesRoutes');
 
+const { createUser, userLogin } = userRoutes;
+const { createRecipe, listRecipes, getRecipe } = recipesRoutes;
+
 module.exports = {
-  newUser: userRoutes.createUser,
-  login: userRoutes.userLogin,
-  newRecipe: recipesRoutes.createRecipe,
-  allRecipes: recipesRoutes.listRecipes,
+  newUser: createUser,
+  login: userLogin,
+  newRecipe: createRecipe,
+  allRecipes: listRecipes,
+  getRecipe,
 };
