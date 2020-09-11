@@ -16,4 +16,8 @@ async function updateRecipe(id, data) {
   return Recipes.updateRecipe(id, data);
 }
 
-module.exports = { createRecipe, getAllRecipes, getRecipe, updateRecipe };
+async function deleteRecipe(id) {
+  return Recipes.deleteRecipe(id);
+}
+
+module.exports = { createRecipe, getAllRecipes, getRecipe, updateRecipe, deleteRecipe };

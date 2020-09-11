@@ -46,4 +46,14 @@ async function updateRecipe(req, res, next) {
   }
 }
 
-module.exports = { createRecipes, listRecipes, getRecipe, updateRecipe };
+async function deleteRecipe(req, res, next) {
+  try {
+    const { id } = req.params;
+    const recipe = await Recipes.deleteRecipe(id);
+    return res.status(204).send(recipe);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+module.exports = { createRecipes, listRecipes, getRecipe, updateRecipe, deleteRecipe };

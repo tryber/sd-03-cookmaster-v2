@@ -18,6 +18,7 @@ app.post('/login', Middlewares.validade.login, Controllers.users.loginUser);
 app.post('/recipes', Middlewares.validade.recipes, Middlewares.validade.validateToken, Controllers.recipes.createRecipes);
 
 app.put('/recipes/:id', Middlewares.validade.recipes, Middlewares.validade.validateToken, Controllers.recipes.updateRecipe);
+app.delete('/recipes/:id', Middlewares.validade.validateToken, Controllers.recipes.deleteRecipe);
 
 app.get('/recipes', Controllers.recipes.listRecipes);
 app.get('/recipes/:id', Controllers.recipes.getRecipe);
