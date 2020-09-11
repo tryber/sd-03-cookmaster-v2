@@ -8,7 +8,6 @@ user.post(
   '/',
   rescue(async (req, res) => {
     const { name, email, password } = req.body;
-    console.log(req);
     const userCreated = await userService.createUserService(name, email, password);
     if (userCreated.code) {
       return res.status(400).json(userCreated);

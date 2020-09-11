@@ -10,7 +10,7 @@ const createUserModel = async ({ name, email, password }) => {
     email,
     password,
   });
-  const listUser = result.ops;
+  const listUser = result.ops[0];
   user = { user: listUser };
   return user;
 };
