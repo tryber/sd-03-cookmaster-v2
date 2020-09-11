@@ -1,5 +1,3 @@
-
-
 // criar novo usuário
 
 // {
@@ -12,18 +10,18 @@
 
 // logar usuário
 
-{
-  "email": "jafetguera@hotmail.com",
-  "password": "12346"
-}
+// {
+//   "email": "jafetguera@hotmail.com",
+//   "password": "12346"
+// }
 
 // -----------------------------
 
 // criar nova receita
 
-{
-  "name": "Pão de Queijo",
-  "ingredients": "Farinha de trigo, Queijo",
-  "preparation": "Forno 30 minutos"
-}
+// {
+//   "name": "Pão de Queijo",
+//   "ingredients": "Farinha de trigo, Queijo",
+//   "preparation": "Forno 30 minutos"
+// }
 // -----------------------------
