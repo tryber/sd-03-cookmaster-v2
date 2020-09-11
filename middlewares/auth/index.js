@@ -22,14 +22,11 @@ const validateTokenInfo = async (token) => {
 module.exports = (required = true) => async (req, _res, next) => {
   try {
     const { authorization } = req.headers;
-    const token = authorization;
-    const validateInfo = await validateTokenInfo(token);
+    const validateInfo = await validateTokenInfo(authorization);
 
-    if (!required && !token) next();
+    if (!required && !authorization) return next();
 
-    if (required && !token) throw new Error('invalid token');
-
-    if (!validateInfo) throw new Error('invalid token');
+    if ((required && !authorization) || !validateInfo) throw new Error('invalid token');
 
     req.user = validateInfo;
 
