@@ -1,5 +1,9 @@
+const path = require('path');
+const multer = require('multer');
 const { CreateRecipe, ListAll, GetRecipe, UpdateRecipe, DeleteRecipe } = require('../services');
 const { generateError, shallowComparation } = require('../utils');
+
+const upload = multer({ dest: path.join(__dirname, '../uploads') });
 
 const createRecipe = async (req, res, next) => {
   try {
@@ -36,6 +40,8 @@ const updateRecipe = async (req, res, next) => {
     return next(generateError(401, error));
   }
 };
+
+const uploadRecipeImage = async (req, res, next) => {};
 
 const deleteRecipe = async (req, res, next) => {
   const { params, user } = req;
@@ -77,4 +83,11 @@ const getRecipe = async (req, res, next) => {
   }
 };
 
-module.exports = { createRecipe, listRecipes, getRecipe, updateRecipe, deleteRecipe };
+module.exports = {
+  createRecipe,
+  listRecipes,
+  getRecipe,
+  updateRecipe,
+  deleteRecipe,
+  uploadRecipeImage,
+};
