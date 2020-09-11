@@ -10,6 +10,12 @@ const registerRecipes = rescue(async (req, res) => {
   return res.status(201).json(newRecipe);
 });
 
+const listRecipes = rescue(async (req, res) => {
+  const recipes = await recipesServices.listRecipes();
+  res.status(200).json(recipes);
+});
+
 module.exports = {
   registerRecipes,
+  listRecipes,
 };

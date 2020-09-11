@@ -12,6 +12,15 @@ const createRecipe = (name, ingredients, preparation, userId) =>
       process.exit(1);
     });
 
+const getAllRecipes = async () =>
+  connection()
+    .then((db) => db.collection('recipes').find({}).toArray())
+    .catch((err) => {
+      console.error(err);
+      process.exit(1);
+    });
+
 module.exports = {
   createRecipe,
+  getAllRecipes,
 };
