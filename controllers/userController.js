@@ -22,7 +22,7 @@ const userLogin = async (req, res) => {
   const secret = 'seusecretdetoken';
   const { email, password } = req.body;
 
-  if (!email || !password) return res.status(401).send({ message: 'All fields must be filled'});
+  if (!email || !password) return res.status(401).send({ message: 'All fields must be filled' });
 
   const user = await services.userServices.findUserByEmail(email);
 
@@ -34,13 +34,13 @@ const userLogin = async (req, res) => {
     algorithm: 'HS256',
   };
 
-  const token = jwt.sign({ data: [ user._id, user.email, user.role ] }, secret, jwtConfig);
+  const { _id: id, email: userEmail, role } = user;
+  const token = jwt.sign({ data: [id, userEmail, role] }, secret, jwtConfig);
 
-  res.status(200).json({ 
-    token, 
-    expires: jwtConfig.expiresIn
+  res.status(200).json({
+    token,
+    expires: jwtConfig.expiresIn,
   });
-
 };
 
 module.exports = {
