@@ -3,6 +3,7 @@ const rescue = require('express-rescue');
 const Boom = require('@hapi/boom');
 const validateJWT = require('../middlewares/validateJWT');
 const recipesService = require('./recipesService');
+const { verifyId } = require('../middlewares/errorHandler.js');
 const schemas = require('./schemas');
 
 const recipesRouter = Router();
@@ -21,6 +22,15 @@ const listRecipes = rescue(async (_req, res) => {
   return res.status(200).json(recipes);
 });
 
-recipesRouter.post('/', validateJWT, newRecipe).get('/', listRecipes);
+const getRecipeById = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const result = await recipesService.getRecipeById(id);
+  if (!result) return next(Boom.notFound('Sale not found', 'not_found'));
+  return res.status(200).json(result);
+});
+
+recipesRouter.route('/').post(validateJWT, newRecipe).get(listRecipes);
+
+recipesRouter.route('/:id').get(verifyId, getRecipeById);
 
 module.exports = recipesRouter;
