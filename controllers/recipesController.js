@@ -9,6 +9,10 @@ recipes
   .post(middlewares.auth(), routes.newRecipe)
   .get(middlewares.auth(false), routes.allRecipes);
 
-recipes.route('/:id').get(middlewares.auth(false), routes.getRecipe).put(middlewares.auth(), routes.modifyRecipe);
+recipes
+  .route('/:id')
+  .get(middlewares.auth(false), routes.getRecipe)
+  .put(middlewares.auth(), routes.modifyRecipe)
+  .delete(middlewares.auth());
 
 module.exports = recipes;
