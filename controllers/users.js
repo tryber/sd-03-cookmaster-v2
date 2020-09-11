@@ -1,25 +1,21 @@
 const userServices = require('../services/user');
 const jwt = require('../services/jwt');
 
-async function create(res, req, cb) {
-  const user = await cb(req.body);
-  res.status(201).send({ user });
+async function create(res, req, next, cb) {
+  try {
+    const user = await cb(req.body);
+    res.status(201).send({ user });
+  } catch (err) {
+    next(err);
+  }
 }
 
 async function createUser(req, res, next) {
-  try {
-    await create(res, req, userServices.createUser);
-  } catch (err) {
-    next(err);
-  }
+  await create(res, req, next, userServices.createUser);
 }
 
 async function createAdmin(req, res, next) {
-  try {
-    await create(res, req, userServices.createAdmin);
-  } catch (err) {
-    next(err);
-  }
+  await create(res, req, next, userServices.createAdmin);
 }
 
 async function loginUser(req, res, next) {
