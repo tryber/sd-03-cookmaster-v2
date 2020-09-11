@@ -1,4 +1,4 @@
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const mongo = require('./connection');
 
 const createUser = async (name, email, password) => mongo.connect()
@@ -28,9 +28,16 @@ const getAllRecipesFromDB = async () => mongo.connect()
   .toArray())
   .catch((error) => error);
 
+const getRecipeFromDB = async (id) => mongo.connect()
+  .then((db) => db.collection('recipes')
+    .findOne(ObjectId(id)),
+  )
+  .catch((error) => error);
+
 module.exports = {
   createUser,
   getUserByEmail,
   createRecipe,
   getAllRecipesFromDB,
+  getRecipeFromDB,
 };

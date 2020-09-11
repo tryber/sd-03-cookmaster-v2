@@ -1,6 +1,15 @@
 const services = require('../services');
 const jwt = require('jsonwebtoken');
 
+const validateId = (id) => {
+  const regex = new RegExp(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i);
+  const result = regex.test(id);
+  if (!result) {
+    return { err: { message: 'Wrong id format', code: 'invalid_data' } };
+  }
+  return null;
+};
+
 const createUser = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -46,4 +55,5 @@ const userLogin = async (req, res) => {
 module.exports = {
   createUser,
   userLogin,
+  validateId,
 };

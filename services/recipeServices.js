@@ -13,7 +13,10 @@ const createNewRecipe = async (name, ingredients, preparation, userId) => {
 
 const getAllRecipes = async () => model.getAllRecipesFromDB();
 
+const getRecipe = async (id) => model.getRecipeFromDB(id);
+
 module.exports = {
   createNewRecipe,
   getAllRecipes,
+  getRecipe,
 };
