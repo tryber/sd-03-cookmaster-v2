@@ -6,7 +6,7 @@ const Controllers = require('./controllers');
 const Middlewares = require('./middlewares');
 const storage = require('./config/multer');
 
-mongoose.connect('mongodb://localhost:27017/Cookmaster', {
+mongoose.connect('mongodb://mongodb:27017/Cookmaster', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
