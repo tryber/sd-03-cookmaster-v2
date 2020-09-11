@@ -28,7 +28,14 @@ const getUserByEmail = async (email) => {
   return user;
 };
 
+const getUserById = async (id) => {
+  const db = await connect();
+  const user = await db.collection('users').findOne({ id });
+  return user;
+};
+
 module.exports = {
   createUser,
   getUserByEmail,
+  getUserById,
 };

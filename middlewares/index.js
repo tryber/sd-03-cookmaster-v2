@@ -1,7 +1,11 @@
 const verifyUser = require('./verifyUser');
-const auth = require('./auth');
+const authLogin = require('./authLogin');
+const verifyRecipe = require('./verifyRecipe');
+const authToken = require('./authToken');
 
 module.exports = {
   verifyUser,
-  auth,
+  authLogin,
+  verifyRecipe,
+  authToken,
 };

@@ -23,7 +23,7 @@ const authLogin = async (req, res) => {
 
   const token = jwt.sign({ user }, secret, jwtConfig);
 
-  return res.status(200).json(token);
+  return res.status(200).json({ token });
 };
 
 module.exports = authLogin;
