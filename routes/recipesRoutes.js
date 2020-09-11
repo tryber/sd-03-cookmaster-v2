@@ -30,7 +30,7 @@ const updateRecipe = async (req, res, next) => {
       throw new Error('Unauthorized');
     }
     const modifyRecipe = await UpdateRecipe(id, name, ingredients, preparation);
-    console.log(modifyRecipe);
+
     return res.status(200).json({ ...modifyRecipe });
   } catch (error) {
     return next(generateError(401, error));
