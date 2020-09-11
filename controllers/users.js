@@ -21,4 +21,14 @@ async function loginUser(req, res, next) {
   }
 }
 
-module.exports = { createUser, loginUser };
+async function createAdmin(req, res, next) {
+  try {
+    const { body } = req;
+    const user = await userServices.createAdmin(body);
+    res.status(201).send({ user });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { createUser, loginUser, createAdmin };

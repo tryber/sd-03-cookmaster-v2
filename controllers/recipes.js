@@ -61,7 +61,6 @@ async function uploadImage(req, res, next) {
     const { id } = req.params;
     const { path, mimetype } = req.file;
     const [, extension] = mimetype.split('/');
-    console.log(req.file);
     const recipe = await Recipes.addImagePath(id, `${path}.${extension}`);
 
     return res.status(200).json(recipe);

@@ -26,9 +26,7 @@ async function getRecipe(data, field = 'id') {
   return Recipe.findOne({ [field]: data }).exec();
 }
 async function updateRecipe(id, data) {
-  console.log('data', data);
   const updated = await Recipe.findByIdAndUpdate(id, data, { new: true }).exec();
-  console.log('up', updated);
   return updated;
 }
 async function deleteRecipe(id) {
