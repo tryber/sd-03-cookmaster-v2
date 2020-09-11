@@ -8,4 +8,8 @@ async function getAllRecipes() {
   return Recipes.getAllRecipes();
 }
 
-module.exports = { createRecipe, getAllRecipes };
+async function getRecipe(data, field = 'id') {
+  return Recipes.getRecipe(data, field);
+}
+
+module.exports = { createRecipe, getAllRecipes, getRecipe };

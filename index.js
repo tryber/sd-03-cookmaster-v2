@@ -16,6 +16,9 @@ app.get('/', (request, response) => {
 app.post('/users', Middlewares.validade.user, Controllers.users.createUser);
 app.post('/login', Middlewares.validade.login, Controllers.users.loginUser);
 app.post('/recipes', Middlewares.validade.recipes, Middlewares.validade.validateToken, Controllers.recipes.createRecipes);
+
 app.get('/recipes', Controllers.recipes.listRecipes);
+app.get('/recipes/:id', Controllers.recipes.getRecipe);
+
 app.use(Middlewares.error);
 app.listen(3000, () => console.log('listen to port 3000'));

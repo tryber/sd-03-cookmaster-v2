@@ -17,4 +17,12 @@ async function getAllRecipes() {
   return Recipe.find();
 }
 
-module.exports = { createRecipe, getAllRecipes };
+async function getRecipe(data, field = 'id') {
+  if (field === 'id') {
+    const recipe = Recipe.findById(data);
+    return recipe;
+  }
+  return Recipe.findOne({ [field]: data }).exec();
+}
+
+module.exports = { createRecipe, getAllRecipes, getRecipe };

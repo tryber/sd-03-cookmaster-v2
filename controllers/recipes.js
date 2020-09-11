@@ -1,4 +1,7 @@
 const Recipes = require('../services/Recipe');
+const Err = require('../services/Error');
+
+const err = new Err();
 
 async function createRecipes(req, res, next) {
   try {
@@ -19,4 +22,17 @@ async function listRecipes(req, res, next) {
   }
 }
 
-module.exports = { createRecipes, listRecipes };
+async function getRecipe(req, res, next) {
+  try {
+    const { id } = req.params;
+    const recipe = await Recipes.getRecipe(id);
+    if (!recipe) {
+      return next(err.recipeNotFound);
+    }
+    res.status(200).json(recipe);
+  } catch (e) {
+    next(err.recipeNotFound);
+  }
+}
+
+module.exports = { createRecipes, listRecipes, getRecipe };
