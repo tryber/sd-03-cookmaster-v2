@@ -3,6 +3,7 @@ const messages = {
   2: 'Email already registered',
   3: 'All fields must be filled',
   4: 'Incorrect username or password',
+  5: 'jwt malformed',
 };
 
 const codes = {
@@ -31,9 +32,15 @@ const validateLogin = (email, password) => {
   return 'passou';
 };
 
+const validateRecipe = (name, ingredients, preparation) => {
+  if (!name || !ingredients || !preparation) return { code: codes[400], message: messages[1] };
+  return 'passou';
+};
+
 module.exports = {
   messages,
   codes,
   validateNewUser,
   validateLogin,
+  validateRecipe,
 };
