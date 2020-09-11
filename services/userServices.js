@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/userModel');
 const { INCORRECT_LOGIN, errMessage } = require('./errorsServices');
-const JWT_SECRET = require('./JWT');
+const JWT_SECRET = require('../JWT_SECRET');
 
 const createUser = async (name, email, password, role) => {
   const searchUser = await userModel.getUserByEmail(email);
