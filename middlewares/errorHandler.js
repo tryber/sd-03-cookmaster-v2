@@ -17,7 +17,12 @@ const errorHandler = (error, _req, res, _next) => {
 };
 
 const idSchema = Joi.object({
-  id: Joi.string().hex().min(24).max(24).required(),
+  id: Joi
+    .string()
+    .hex()
+    .min(24)
+    .max(24)
+    .required(),
 });
 
 const verifyId = (req, _res, next) => {
