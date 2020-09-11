@@ -16,7 +16,7 @@ const entriesVerify = (entrieOne, entrieTwo, entrieThree) => {
 
 const createNewUser = async (name, email, password) => {
   // regras de negócio
-  const verify = entriesVerify(name, email, password);
+  let verify = entriesVerify(name, email, password);
 
   const emailExistis = await model.getUserByEmail(email);
 
