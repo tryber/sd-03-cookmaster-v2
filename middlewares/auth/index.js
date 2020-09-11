@@ -11,7 +11,7 @@ const validateTokenInfo = async (token) => {
 
     const userData = await services.SearchUser(null, _id);
 
-    if (!userData) return null;
+    if (!userData) throw new Error('invalid token');
 
     return { ...userData };
   } catch (error) {
@@ -26,7 +26,7 @@ module.exports = (required = true) => async (req, _res, next) => {
 
     if (!required) return next();
 
-    if ((required && !authorization) || !validateInfo) throw new Error('invalid token');
+    if (required && !authorization) throw new Error('invalid token');
 
     req.user = validateInfo;
 
