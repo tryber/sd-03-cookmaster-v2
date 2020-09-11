@@ -16,6 +16,16 @@ const newRecipe = rescue(async (req, res) => {
   return res.status(201).json(result);
 });
 
+const showAllRecipes = rescue(async (_req, res) => {
+  try {
+    const result = await recipesService.listAllRecipes();
+    return res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
 module.exports = {
   newRecipe,
+  showAllRecipes,
 };

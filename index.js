@@ -21,3 +21,5 @@ app.post('/users', verifyUser, usersController.newUser);
 app.post('/login', authLogin);
 
 app.post('/recipes', verifyRecipe, authToken, recipesController.newRecipe);
+
+app.get('/recipes', recipesController.showAllRecipes);

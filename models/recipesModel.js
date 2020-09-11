@@ -24,7 +24,8 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
 
 const getAllRecipes = async () => {
   const db = await connect();
-  const recipes = await db.collection('recipes').find();
+  const recipes = await db.collection('recipes').find().toArray();
+  console.log(`retorno de getAllRecipes: ${recipes}`);
   return recipes;
 };
 
