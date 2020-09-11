@@ -6,7 +6,8 @@ const { RECIPE_NOT_FOUND, errMessage } = require('./errorsServices');
 const verifyOwner = async (userId, recipeId) => {
   const recipe = await recipeModel.getRecipeById(recipeId);
   const user = await userServices.getUserById(userId);
-  // if (user.role === 'user' && recipe.userId.toString() !== userId.toString()) return false;
+
+  if (!user) return false;
   if (user.role === 'user' && !util.isDeepStrictEqual(recipe.userId, userId)) return false;
   return true;
 };
@@ -42,10 +43,21 @@ const deleteRecipe = async (id, userId) => {
   await recipeModel.deleteRecipe(id);
   return true;
 };
+
+const updateRecipeImage = async (id, userIdAuth) => {
+  const { _id, name, ingredients, preparation, userId } = await recipeModel.getRecipeById(id);
+  if (!await verifyOwner(userIdAuth, id)) {
+    return { err: true, message: errMessage('Usuário não autorizado') };
+  }
+  const recipePath = await recipeModel.updateRecipeImage(id, 'localhost:3000/images/');
+  return { _id, name, ingredients, preparation, userId, image: recipePath };
+};
+
 module.exports = {
   createRecipe,
   listRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  updateRecipeImage,
 };

@@ -44,7 +44,7 @@ describe('6 - Permissões do usuário admin', () => {
   });
 });
 
-describe.skip('10 - Cadastramento de admin', () => {
+describe('10 - Cadastramento de admin', () => {
   let connection;
   let db;
 

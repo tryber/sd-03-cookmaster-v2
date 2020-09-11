@@ -11,6 +11,14 @@ const createUser = async (name, email, password, role) => {
   return { user: { name, email, role, _id } };
 };
 
+const createAdmin = async (name, email, password, userId, role) => {
+  const user = await userModel.getUserById(userId);
+  if (user.role !== 'admin') return { err: true, message: errMessage('Only admins can register new admins') };
+  const data = await userModel.createUser(name, email, password, role);
+  const { _id } = data;
+  return { user: { name, email, role, _id } };
+};
+
 const getUserByEmail = async (email) => userModel.getUserByEmail(email);
 const getUserById = async (id) => userModel.getUserById(id);
 
@@ -35,4 +43,5 @@ module.exports = {
   createUser,
   tryLoginToken,
   getUserById,
+  createAdmin,
 };

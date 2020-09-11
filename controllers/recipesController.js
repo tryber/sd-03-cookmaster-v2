@@ -39,10 +39,19 @@ const deleteRecipeById = rescue(async (req, res) => {
   res.status(204).json({ message: 'deleted recipe' });
 });
 
+const updateRecipeImageById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+  const updatedRecipe = await recipesServices.updateRecipeImage(id, userId);
+
+  res.status(200).json(updatedRecipe);
+});
+
 module.exports = {
   registerRecipes,
   listRecipes,
   recipeById,
   updateRecipeById,
   deleteRecipeById,
+  updateRecipeImageById,
 };

@@ -8,6 +8,14 @@ const registerUser = rescue(async (req, res) => {
   return res.status(201).json(newUser);
 });
 
+const registerAdmin = rescue(async (req, res) => {
+  const { name, email, password } = req.body;
+  const { _id: userId } = req.user;
+  const newAdmin = await userServices.createAdmin(name, email, password, userId, 'admin');
+  if (newAdmin.err) return res.status(403).json(newAdmin.message);
+  return res.status(201).json(newAdmin);
+});
+
 const loginUser = rescue(async (req, res) => {
   const { email, password } = req.body;
   const token = await userServices.tryLoginToken(email, password);
@@ -20,4 +28,5 @@ const loginUser = rescue(async (req, res) => {
 module.exports = {
   registerUser,
   loginUser,
+  registerAdmin,
 };
