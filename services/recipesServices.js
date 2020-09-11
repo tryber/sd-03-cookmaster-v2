@@ -15,12 +15,12 @@ const create = async (name, ingredients, preparation, userId) => {
 };
 
 const update = async (name, ingredients, preparation) => {
-  const validation = recipeValidation(name, ingredients, preparation);
+  const updateValidation = recipeValidation(name, ingredients, preparation);
 
-  const modifyRecipe = !validation.message
+  const modifyRecipe = !updateValidation.message
   && (await updateRecipe(name, ingredients, preparation));
 
-  return validation.message ? { message: validation.message } : { ...modifyRecipe };
+  return updateValidation.message ? { message: updateValidation.message } : { ...modifyRecipe };
 };
 
 const listRecipes = async () => {

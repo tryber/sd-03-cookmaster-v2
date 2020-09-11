@@ -1,4 +1,4 @@
-const { CreateRecipe, ListAll, GetRecipe } = require('../services');
+const { CreateRecipe, ListAll, GetRecipe, UpdateRecipe } = require('../services');
 const { generateError } = require('../utils');
 
 const createRecipe = async (req, res, next) => {
@@ -13,6 +13,24 @@ const createRecipe = async (req, res, next) => {
     return res.status(201).json({ recipe });
   } catch (error) {
     return next(generateError(400, error));
+  }
+};
+
+const updateRecipe = async (req, res, next) => {
+  const { body, params, user } = req;
+  const { name, ingredients, preparation } = body;
+  const { id } = params;
+  const { _id, role } = user;
+  try {
+    if (!user) throw new Error('missing auth token');
+    const recipeData = await GetRecipe(id);
+
+    if (recipeData.userId === _id || role === 'admin') {
+      const modifyRecipe = await UpdateRecipe(name, ingredients, preparation);
+      return res.status(200).json({ ...modifyRecipe });
+    }
+  } catch (error) {
+    return next(generateError(401, error));
   }
 };
 
@@ -37,4 +55,4 @@ const getRecipe = async (req, res, next) => {
   }
 };
 
-module.exports = { createRecipe, listRecipes, getRecipe };
+module.exports = { createRecipe, listRecipes, getRecipe, updateRecipe };

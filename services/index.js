@@ -3,12 +3,18 @@ const recipesServices = require('./recipesServices');
 
 const { create: CreateUser, getUser: SearchUser } = userServices;
 
-const { create: CreateRecipe, listRecipes: ListAll, listRecipe: GetRecipe } = recipesServices;
+const {
+  create: CreateRecipe,
+  update: UpdateRecipe,
+  listRecipes: ListAll,
+  listRecipe: GetRecipe,
+} = recipesServices;
 
 module.exports = {
   CreateUser,
   SearchUser,
   CreateRecipe,
+  UpdateRecipe,
   ListAll,
   GetRecipe,
 };
