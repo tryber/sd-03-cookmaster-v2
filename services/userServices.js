@@ -1,5 +1,5 @@
 const { createUser } = require('../models');
-const userValidation = require('./userValidation');
+const userValidation = require('./userRegisterValidation');
 
 const create = async ({ name, email, password }) => {
   try {
