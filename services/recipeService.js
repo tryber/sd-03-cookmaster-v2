@@ -14,6 +14,14 @@ const verifyFields = (name, ingredients, preparation) => {
   return null;
 };
 
+const verifyUser = async (uId, id, role) => {
+  const { userId } = await recipeModel.findById(id);
+  if (ObjectId(userId).toString() !== ObjectId(uId).toString() && role !== 'admin') {
+    return { status: 401, message: 'You do not own this recipe.' };
+  }
+  return null;
+};
+
 const add = async (name, ingredients, preparation, id) => {
   const verify = verifyFields(name, ingredients, preparation);
 
@@ -37,19 +45,17 @@ const findRecipe = async (id) => {
 };
 
 const updateRecipe = async (currentUserId, id, name, ingredients, preparation, role) => {
-  const { userId } = await recipeModel.findById(id);
-  if (ObjectId(userId).toString() !== ObjectId(currentUserId).toString() && role !== 'admin') {
-    return { status: 401, message: 'You do not own this recipe.' };
-  }
+  const validation = await verifyUser(currentUserId, id, role);
+
+  if(validation) return validation;
 
   return recipeModel.updateById(id, name, ingredients, preparation);
 };
 
-const remove = async (currentUserId, id, role) => {
-  const { userId } = await recipeModel.findById(id);
-  if (ObjectId(userId).toString() !== ObjectId(currentUserId).toString() && role !== 'admin') {
-    return { status: 401, message: 'You do not own this recipe.' };
-  }
+const remove = async (usrId, id, role) => {
+  const error = await verifyUser(usrId, id, role);
+
+  if(error) return error;
 
   return recipeModel.removeById(id);
 };
