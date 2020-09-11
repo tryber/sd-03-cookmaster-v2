@@ -6,8 +6,7 @@ const registerUsers = async (name, email, password, role) => connect()
   .catch((err) => err);
 
 const checkEmail = async (email) => connect()
-  .then((db) => db.collection('users').findOne({ email }))
-  .catch((err) => err);
+  .then((db) => db.collection('users').findOne({ email }));
 
 const checkPassowrd = async (password) => connect()
   .then((db) => db.collection('users').findOne({ password }))
