@@ -16,6 +16,11 @@ const newRecipe = rescue(async (req, res, next) => {
   res.status(201).json({ recipe });
 });
 
-recipesRouter.post('/', validateJWT, newRecipe);
+const listRecipes = rescue(async (_req, res) => {
+  const recipes = await recipesService.getAllRecipes();
+  return res.status(200).json(recipes);
+});
+
+recipesRouter.post('/', validateJWT, newRecipe).get('/', listRecipes);
 
 module.exports = recipesRouter;

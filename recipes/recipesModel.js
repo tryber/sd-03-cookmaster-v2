@@ -1,4 +1,4 @@
-const connection = require('../models/connection');
+const connection = require('../utils/connection');
 // const { ObjectID } = require('mongodb');
 
 const addRecipe = async (name, ingredients, preparation) => {
@@ -6,4 +6,7 @@ const addRecipe = async (name, ingredients, preparation) => {
   return db.collection('recipes').insertOne({ name, ingredients, preparation });
 };
 
-module.exports = { addRecipe };
+const getAllRecipes = async () =>
+  connection().then((db) => db.collection('recipes').find({}).toArray());
+
+module.exports = { addRecipe, getAllRecipes };

@@ -1,5 +1,5 @@
 const { ObjectID } = require('mongodb');
-const connection = require('../models/connection');
+const connection = require('../utils/connection');
 
 const addUser = async (name, email, password, role) => {
   const db = await connection();
