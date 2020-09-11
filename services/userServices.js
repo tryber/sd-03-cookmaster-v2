@@ -6,15 +6,16 @@ const JWT_SECRET = require('./JWT');
 const createUser = async (name, email, password, role) => {
   const searchUser = await userModel.getUserByEmail(email);
   if (searchUser) return { err: true, jsonMessage: { message: 'Email already registered' } };
-  const userCreated = await userModel.createUser(name, email, password, role);
-  return userCreated;
+  const data = await userModel.createUser(name, email, password, role);
+  const { _id } = data;
+  return { user: { name, email, role, _id } };
 };
 
 const getUserByEmail = async (email) => userModel.getUserByEmail(email);
 
 const tryLoginToken = async (email, password) => {
   const user = await getUserByEmail(email);
-  if (!user || user.password !== parseInt(password, 10)) {
+  if (!user || user.password !== password) {
     return { err: true, jsonMessage: { message: INCORRECT_LOGIN } };
   }
 

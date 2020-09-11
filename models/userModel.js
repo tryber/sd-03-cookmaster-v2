@@ -6,7 +6,7 @@ const createUser = async (name, email, password, role) =>
     .then((db) => db
       .collection('users')
       .insertOne({ name, email, password }))
-    .then(({ insertedId }) => ({ user: { name, email, role, _id: ObjectId(insertedId) } }))
+    .then(({ insertedId }) => ({ _id: ObjectId(insertedId), email, password, role }))
     .catch((error) => {
       console.error(error);
       process.exit(1);
