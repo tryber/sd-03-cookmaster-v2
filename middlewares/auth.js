@@ -8,23 +8,27 @@ const generateJwt = (data) => {
 };
 
 const validateJWT = async (req, res, next) => {
-  const token = req.headers['authorization'];
+  const token = req.headers.authorization;
 
-  if (!token) return res.status(401).json({ message: 'invalid token' });
+  if (!token) return res.status(401).json({ message: 'missing auth token' });
 
-  const {
-    data: { _id: id },
-  } = jwt.verify(token, secret);
+  try {
+    const decoded = jwt.verify(token, secret);
 
-  const user = await userModel.findUserById(id);
+    const user = await userModel.findUserById(decoded.data._id);
 
-  if (!user) {
-    return res.status(401).json({ message: 'invalid token' });
+    if (!user) {
+      return res.status(401).json({ message: 'invalid token' });
+    }
+
+    const { password, ...userData } = user;
+
+    req.user = userData;
+
+    return next();
+  } catch (err) {
+    return res.status(401).json({ message: 'jwt malformed' });
   }
-  const { password, ...userData } = user;
-  req.user = userData;
-
-  return next();
 };
 
 module.exports = {
