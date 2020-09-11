@@ -27,7 +27,9 @@ module.exports = (required = true) => async (req, _res, next) => {
 
     if (!required && !token) next();
 
-    if ((required && !token) || !validateInfo) throw new Error('invalid token');
+    if (required && !token) throw new Error('invalid token');
+
+    if (!validateInfo) throw new Error('invalid token');
 
     req.user = validateInfo;
 
