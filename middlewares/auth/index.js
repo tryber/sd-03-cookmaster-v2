@@ -26,10 +26,10 @@ const validateTokenInfo = async (token, required) => {
 module.exports = (required = true) => async (req, _res, next) => {
   try {
     const { authorization } = req.headers;
-    const validateInfo = await validateTokenInfo(authorization, required);
 
     if (!required) return next();
 
+    const validateInfo = await validateTokenInfo(authorization, required);
     req.user = validateInfo;
 
     return next();

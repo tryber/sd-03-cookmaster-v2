@@ -19,7 +19,7 @@ const createRecipe = async (req, res, next) => {
 const listRecipes = async (req, res, next) => {
   try {
     const recipesList = await ListAll();
-    return [...recipesList];
+    return res.status(200).json([...recipesList]);
   } catch (error) {
     return next(generateError(400, error));
   }
