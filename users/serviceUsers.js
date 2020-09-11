@@ -1,6 +1,7 @@
 const model = require('./modelUsers');
 const { validateEntries, checkEmailExist } = require('../validation/validation');
 
+
 const registerUsers = async (name, email, password, role) => {
   const validate = validateEntries(name, email, password);
   const checkEmail = await checkEmailExist(email);
@@ -9,6 +10,15 @@ const registerUsers = async (name, email, password, role) => {
   return model.registerUsers(name, email, password, role);
 };
 
+
+
+
+const checkLogin = async (name, password) => {
+  const a = await model.checkLogin(name, password);
+  return a;
+};
+
 module.exports = {
   registerUsers,
+  checkLogin,
 };
