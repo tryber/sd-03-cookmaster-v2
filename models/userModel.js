@@ -35,7 +35,18 @@ const getUserByEmail = async (email) =>
       process.exit(1);
     });
 
+const getUserById = async (id) =>
+  connection()
+    .then((db) => db
+      .collection('users')
+      .findOne(ObjectId(id)))
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
+    });
+
 module.exports = {
   createUser,
   getUserByEmail,
+  getUserById,
 };

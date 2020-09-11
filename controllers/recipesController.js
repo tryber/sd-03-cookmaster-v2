@@ -22,8 +22,27 @@ const recipeById = rescue(async (req, res) => {
   res.status(200).json(recipe);
 });
 
+const updateRecipeById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+  const newData = req.body;
+  const updatedRecipe = await recipesServices.updateRecipe(id, userId, newData);
+  if (updatedRecipe.err) return res.status(401).json(updatedRecipe.message);
+  res.status(200).json(updatedRecipe);
+});
+
+const deleteRecipeById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+  await recipesServices.deleteRecipe(id, userId);
+
+  res.status(204).json({ message: 'deleted recipe' });
+});
+
 module.exports = {
   registerRecipes,
   listRecipes,
   recipeById,
+  updateRecipeById,
+  deleteRecipeById,
 };

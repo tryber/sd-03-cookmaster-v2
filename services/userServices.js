@@ -12,6 +12,7 @@ const createUser = async (name, email, password, role) => {
 };
 
 const getUserByEmail = async (email) => userModel.getUserByEmail(email);
+const getUserById = async (id) => userModel.getUserById(id);
 
 const tryLoginToken = async (email, password) => {
   const user = await getUserByEmail(email);
@@ -33,4 +34,5 @@ const tryLoginToken = async (email, password) => {
 module.exports = {
   createUser,
   tryLoginToken,
+  getUserById,
 };
