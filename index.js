@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { userController, recipesController } = require('./controllers');
-const { userValidate, loginValidate, recipeValidate } = require('./middlewares/validateData');
+const { userValidate, loginValidate, recipeValidate, recipeIdValidate } = require('./middlewares/validateData');
 const authMiddleware = require('./middlewares/authentication');
 
 const app = express();
@@ -12,6 +12,7 @@ app.post('/users', userValidate, userController.registerUser);
 app.post('/login', loginValidate, userController.loginUser);
 
 app.post('/recipes', authMiddleware, recipeValidate, recipesController.registerRecipes);
+app.get('/recipes/:id', recipeIdValidate, recipesController.recipeById);
 app.get('/recipes', recipesController.listRecipes);
 
 // não remova esse endpoint, e para o avaliador funcionar

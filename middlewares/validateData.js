@@ -1,5 +1,6 @@
-const { body, validationResult } = require('express-validator');
+const { body, param, validationResult } = require('express-validator');
 const {
+  RECIPE_NOT_FOUND,
   INVALID_ENTRY,
   INVALID_LOGIN_DATA,
   errMessage,
@@ -33,6 +34,10 @@ const recipeValidationRules = [
   body('preparation', errMessage(INVALID_ENTRY)).exists(),
 ];
 
+const recipeIdValidationRules = [
+  param('id', errMessage(RECIPE_NOT_FOUND)).isMongoId(),
+];
+
 // const idValidationRules = [
 //   param('id', errMessage('invalid_data', WRONG_ID)).isMongoId(),
 // ];
@@ -53,4 +58,5 @@ module.exports = {
   userValidate: validate(userValidationRules, 400),
   loginValidate: validate(loginValidationRules, 401),
   recipeValidate: validate(recipeValidationRules, 400),
+  recipeIdValidate: validate(recipeIdValidationRules, 404),
 };

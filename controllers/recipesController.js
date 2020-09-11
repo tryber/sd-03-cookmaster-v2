@@ -15,7 +15,15 @@ const listRecipes = rescue(async (req, res) => {
   res.status(200).json(recipes);
 });
 
+const recipeById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const recipe = await recipesServices.getRecipeById(id);
+  if (recipe.err) return res.status(404).json(recipe.message);
+  res.status(200).json(recipe);
+});
+
 module.exports = {
   registerRecipes,
   listRecipes,
+  recipeById,
 };
