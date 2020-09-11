@@ -8,7 +8,9 @@ users.post(
   '/',
   rescue(async (req, res) => {
     const { name, email, password } = req.body;
+
     const registeredUser = await userService.registerUser(name, email, password);
+
     if (registeredUser.message && registeredUser.code === 'conflict') {
       return res.status(409).json({ message: registeredUser.message });
     }

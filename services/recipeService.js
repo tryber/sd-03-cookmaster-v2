@@ -1,4 +1,4 @@
-const recipeModel = require('../models/recipeModel');
+const { recipeModel } = require('../models');
 
 const createNewRecipe = async (name, ingredients, preparation, user) => {
   if (!name || !ingredients || !preparation || !user) {
@@ -20,13 +20,16 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
-const editRecipe = async (id, name, ingredients, preparation, user) => {
+const editRecipe = async (id, name, ingredients, preparation) => {
   const { userId } = await recipeModel.findRecipeById(id);
 
-  if (userId !== user._id && user.role === 'user') return { message: 'user not authorized' };
-
   const editRecipe = await recipeModel.editRecipe(id, name, ingredients, preparation, userId);
+
   return editRecipe;
 };
 
-module.exports = { getAll, getRecipeById, createNewRecipe, editRecipe };
+const deleteRecipe = async (id) => {
+  await recipeModel.deleteRecipe(id);
+};
+
+module.exports = { getAll, getRecipeById, createNewRecipe, editRecipe, deleteRecipe };

@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const users = require('./controllers/userController');
-const userLogin = require('./controllers/loginController');
-const recipes = require('./controllers/recipeController');
+const { loginController, recipeController, userController } = require('./controllers');
 
 const app = express();
+app.use(bodyParser.json());
+
+const PORT = 3000;
+
 app.use(bodyParser.json());
 
 // não remova esse endpoint, e para o avaliador funcionar
@@ -12,11 +14,10 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/users', users);
-app.post('/login', userLogin);
-app.use('/recipes', recipes);
+app.use('/users', userController);
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Escutando na porta ${PORT}`);
-});
+app.use('/recipes', recipeController);
+
+app.post('/login', loginController);
+
+app.listen(PORT, () => console.log(`Listen on ${PORT}`));
