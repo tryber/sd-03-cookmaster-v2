@@ -12,6 +12,7 @@ app.get('/', (request, response) => {
 });
 
 app.post('/users', controllers.userController.createUser);
+app.post('/login', controllers.userController.userLogin);
 
 const { PORT = 3000 } = process.env;
 app.listen(PORT, () => { console.log(`Escutando na porta ${PORT}`); });

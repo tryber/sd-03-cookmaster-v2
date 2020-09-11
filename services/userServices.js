@@ -32,9 +32,9 @@ const createNewUser = async (name, email, password) => {
   return model.createUser(name, email, password);
 };
 
-const findUserByemail = async (email) => model.getUserByEmail(email);
+const findUserByEmail = async (email) => model.getUserByEmail(email);
 
 module.exports = {
   createNewUser,
-  findUserByemail,
+  findUserByEmail,
 };

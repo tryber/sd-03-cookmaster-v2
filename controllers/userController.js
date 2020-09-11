@@ -1,4 +1,5 @@
 const services = require('../services');
+const jwt = require('jsonwebtoken');
 
 const createUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -17,6 +18,32 @@ const createUser = async (req, res) => {
   return res.status(201).send(result);
 };
 
+const userLogin = async (req, res) => {
+  const secret = 'seusecretdetoken';
+  const { email, password } = req.body;
+
+  if (!email || !password) return res.status(401).send({ message: 'All fields must be filled'});
+
+  const user = await services.userServices.findUserByEmail(email);
+
+  if (!user) return res.status(401).json({ message: 'Incorrect username or password' });
+  if (user.password !== password) return res.status(401).json({ message: 'Senha inválida' });
+
+  const jwtConfig = {
+    expiresIn: '7h',
+    algorithm: 'HS256',
+  };
+
+  const token = jwt.sign({ data: [ user._id, user.email, user.role ] }, secret, jwtConfig);
+
+  res.status(200).json({ 
+    token, 
+    expires: jwtConfig.expiresIn
+  });
+
+};
+
 module.exports = {
   createUser,
+  userLogin,
 };
