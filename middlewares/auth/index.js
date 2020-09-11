@@ -24,7 +24,7 @@ module.exports = (required = true) => async (req, _res, next) => {
     const { authorization } = req.headers;
     const validateInfo = await validateTokenInfo(authorization);
 
-    if (!required && !authorization) return next();
+    if (!required) return next();
 
     if ((required && !authorization) || !validateInfo) throw new Error('invalid token');
 
