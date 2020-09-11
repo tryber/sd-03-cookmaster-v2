@@ -8,6 +8,7 @@ const {
   update: UpdateRecipe,
   listRecipes: ListAll,
   listRecipe: GetRecipe,
+  deleteRecipeById: DeleteRecipe,
 } = recipesServices;
 
 module.exports = {
@@ -17,4 +18,5 @@ module.exports = {
   UpdateRecipe,
   ListAll,
   GetRecipe,
+  DeleteRecipe,
 };

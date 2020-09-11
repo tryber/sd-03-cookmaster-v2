@@ -23,7 +23,18 @@ const updateRecipe = async (id, name, ingredients, preparation) => {
 
     return updateQuery.value;
   } catch (error) {
-    throw new Error(' recipe not found');
+    throw new Error('recipe not found');
+  }
+};
+
+const deleteRecipe = async (id) => {
+  try {
+    const connect = await connection('recipes');
+    const deleteQuery = await connect.findOneAndDelete({ _id: ObjectID(id) });
+
+    return deleteQuery.value;
+  } catch (error) {
+    throw new Error('recipe not found');
   }
 };
 
@@ -48,4 +59,4 @@ const getRecipeById = async (id) => {
   }
 };
 
-module.exports = { createRecipe, updateRecipe, getAllRecipes, getRecipeById };
+module.exports = { createRecipe, updateRecipe, deleteRecipe, getAllRecipes, getRecipeById };

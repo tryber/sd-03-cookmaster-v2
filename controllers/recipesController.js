@@ -13,6 +13,6 @@ recipes
   .route('/:id')
   .get(middlewares.auth(false), routes.getRecipe)
   .put(middlewares.auth(), routes.modifyRecipe)
-  .delete(middlewares.auth());
+  .delete(middlewares.auth(), routes.deleteRecipe);
 
 module.exports = recipes;

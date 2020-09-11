@@ -1,4 +1,4 @@
-const { createRecipe, updateRecipe, allRecipes, recipeById } = require('../models');
+const { createRecipe, updateRecipe, deleteRecipe, allRecipes, recipeById } = require('../models');
 const recipeValidation = require('./recipeRegisterValidation');
 
 const create = async (name, ingredients, preparation, userId) => {
@@ -15,12 +15,26 @@ const create = async (name, ingredients, preparation, userId) => {
 };
 
 const update = async (id, name, ingredients, preparation) => {
-  const updateValidation = recipeValidation(name, ingredients, preparation);
+  try {
+    const updateValidation = recipeValidation(name, ingredients, preparation);
 
-  const modifyRecipe = !updateValidation.message
-  && (await updateRecipe(id, name, ingredients, preparation));
+    const modifyRecipe = !updateValidation.message
+    && (await updateRecipe(id, name, ingredients, preparation));
 
-  return updateValidation.message ? { message: updateValidation.message } : { ...modifyRecipe };
+    return updateValidation.message ? { message: updateValidation.message } : { ...modifyRecipe };
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const deleteRecipeById = async (id) => {
+  try {
+    const eraseRecipe = await deleteRecipe(id);
+
+    return eraseRecipe;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 const listRecipes = async () => {
@@ -43,4 +57,4 @@ const listRecipe = async (id) => {
   }
 };
 
-module.exports = { create, update, listRecipes, listRecipe };
+module.exports = { create, update, deleteRecipeById, listRecipes, listRecipe };

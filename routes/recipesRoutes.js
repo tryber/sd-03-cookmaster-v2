@@ -1,4 +1,4 @@
-const { CreateRecipe, ListAll, GetRecipe, UpdateRecipe } = require('../services');
+const { CreateRecipe, ListAll, GetRecipe, UpdateRecipe, DeleteRecipe } = require('../services');
 const { generateError, shallowComparation } = require('../utils');
 
 const createRecipe = async (req, res, next) => {
@@ -37,6 +37,25 @@ const updateRecipe = async (req, res, next) => {
   }
 };
 
+const deleteRecipe = async (req, res, next) => {
+  const { params, user } = req;
+  const { id } = params;
+  const { _id, role } = user;
+  try {
+    const recipeData = await GetRecipe(id);
+
+    if (shallowComparation(recipeData.userId, _id) && role !== 'admin') {
+      throw new Error('Unauthorized');
+    }
+
+    const deleteData = await DeleteRecipe(id);
+
+    return res.status(204).json({ deleteData });
+  } catch (error) {
+    return next(generateError(401, error));
+  }
+};
+
 const listRecipes = async (_req, res, next) => {
   try {
     const recipesList = await ListAll();
@@ -58,4 +77,4 @@ const getRecipe = async (req, res, next) => {
   }
 };
 
-module.exports = { createRecipe, listRecipes, getRecipe, updateRecipe };
+module.exports = { createRecipe, listRecipes, getRecipe, updateRecipe, deleteRecipe };
