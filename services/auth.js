@@ -11,22 +11,21 @@ const auth = async (req, res, next) => {
   }
 
   try {
-
-    const decoded = jwt.verify(token, secret)
+    const decoded = jwt.verify(token, secret);
 
     const { data: { _id } } = decoded;
 
     const user = await userModel.findById(_id);
 
     if (!user) {
-      return res.status(401).json({ message: 'User does not exists.'})
+      return res.status(401).json({ message: 'User does not exists.' });
     }
 
     req.user = user;
 
     next();
-  } catch(err) {
-    return res.status(401).json({ message: 'jwt malformed' })
+  } catch (err) {
+    return res.status(401).json({ message: 'jwt malformed' });
   }
 };
 

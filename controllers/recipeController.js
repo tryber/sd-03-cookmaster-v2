@@ -65,4 +65,4 @@ module.exports = {
   listById,
   update,
   removeRecipe,
-}
+};

@@ -8,7 +8,7 @@ const verifyFields = (name, email, password) => {
   if (!name) {
     return { status: 400, message: 'Invalid entries. Try again.' };
   }
-  if (!email || !email.match(emailTest))  {
+  if (!email || !email.match(emailTest)) {
     return { status: 400, message: 'Invalid entries. Try again.' };
   }
   if (!password) {
@@ -18,10 +18,10 @@ const verifyFields = (name, email, password) => {
 };
 
 const verifyLogin = (email, password) => {
-  if (!email)  {
+  if (!email) {
     return { status: 401, message: 'All fields must be filled' };
   }
-  if(!email.match(emailTest)) {
+  if (!email.match(emailTest)) {
     return { status: 401, message: 'Incorrect username or password' };
   }
   if (!password) {
@@ -36,7 +36,7 @@ const add = async (name, email, password) => {
   if (verify) return verify;
 
   if (await userModel.findByEmail(email)) {
-    return { status: 409,  message: 'Email already registered' };
+    return { status: 409, message: 'Email already registered' };
   }
 
   return userModel.add(name, email, password);
@@ -49,7 +49,7 @@ const login = async (email, reqPassword) => {
 
   const user = await userModel.findByEmail(email);
 
-  if(!user || user.password !== reqPassword) {
+  if (!user || user.password !== reqPassword) {
     return { status: 401, message: 'Incorrect username or password' };
   }
 
@@ -63,7 +63,7 @@ const login = async (email, reqPassword) => {
   const token = jwt.sign({ data }, secret, jwtConfig);
 
   return token;
-}
+};
 
 module.exports = {
   add,

@@ -6,10 +6,10 @@ const add = async (name, ingredients, preparation, id) => {
 
   const userId = ObjectId(id);
 
-  const { insertedId } = await db.collection('recipes').insertOne({ 
-    name, 
-    ingredients, 
-    preparation, 
+  const { insertedId } = await db.collection('recipes').insertOne({
+    name,
+    ingredients,
+    preparation,
     userId,
   });
 
@@ -36,9 +36,9 @@ const updateById = async (id, name, ingredients, preparation) => {
   const db = await connect();
 
   const updated = await db.collection('recipes').findOneAndUpdate(
-    { _id: ObjectId(id) }, 
-    { $set: { name, ingredients, preparation } }, 
-    { returnOriginal: false }
+    { _id: ObjectId(id) },
+    { $set: { name, ingredients, preparation } },
+    { returnOriginal: false },
   );
 
   return updated.value;
@@ -46,7 +46,7 @@ const updateById = async (id, name, ingredients, preparation) => {
 
 const removeById = async (id) => {
   const db = await connect();
-  return await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+  return db.collection('recipes').deleteOne({ _id: ObjectId(id) });
 };
 
 module.exports = {

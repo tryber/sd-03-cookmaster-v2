@@ -5,7 +5,7 @@ const verifyFields = (name, ingredients, preparation) => {
   if (!name) {
     return { status: 400, message: 'Invalid entries. Try again.' };
   }
-  if (!ingredients)  {
+  if (!ingredients) {
     return { status: 400, message: 'Invalid entries. Try again.' };
   }
   if (!preparation) {
@@ -47,7 +47,7 @@ const findRecipe = async (id) => {
 const updateRecipe = async (currentUserId, id, name, ingredients, preparation, role) => {
   const validation = await verifyUser(currentUserId, id, role);
 
-  if(validation) return validation;
+  if (validation) return validation;
 
   return recipeModel.updateById(id, name, ingredients, preparation);
 };
@@ -55,7 +55,7 @@ const updateRecipe = async (currentUserId, id, name, ingredients, preparation, r
 const remove = async (usrId, id, role) => {
   const error = await verifyUser(usrId, id, role);
 
-  if(error) return error;
+  if (error) return error;
 
   return recipeModel.removeById(id);
 };
@@ -65,4 +65,4 @@ module.exports = {
   findRecipe,
   updateRecipe,
   remove,
-}
+};

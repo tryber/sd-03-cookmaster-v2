@@ -1,6 +1,5 @@
 const rescue = require('express-rescue');
 const userService = require('../services/userService');
-const userModel = require('../models/userModel');
 
 const addUser = rescue(async (req, res) => {
   const { name, email, password } = req.body;
@@ -20,15 +19,15 @@ const loginUser = rescue(async (req, res) => {
 
   const token = await userService.login(email, password);
 
-  if(token.status) {
+  if (token.status) {
     const { status, message } = token;
     return res.status(status).json({ message });
   }
 
   res.status(200).json({ token });
-})
+});
 
 module.exports = {
   addUser,
-  loginUser
-}
+  loginUser,
+};
