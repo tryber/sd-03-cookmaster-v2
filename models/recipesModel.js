@@ -21,13 +21,26 @@ const getAllRecipes = async () =>
       process.exit(1);
     });
 
-const getRecipeById = async (id) =>
-  connection()
-    .then((db) => db.collection('recipes').findOne(ObjectId(id)))
-    .catch((err) => {
-      console.error(err);
-      process.exit(1);
-    });
+// const getRecipeById = async (id) =>
+//   connection()
+//     .then((db) => db.collection('recipes').findOne(ObjectId(id)))
+//     .catch((err) => {
+//       console.error(err);
+//       process.exit(1);
+//     });
+
+const getRecipeById = async (id) => {
+  const db = await connection();
+  try {
+    const response = await db
+      .collection('recipes')
+      .findOne(ObjectId(id));
+    return response;
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+};
 
 const updateRecipe = async (id, name, ingredients, preparation) =>
   connection()
