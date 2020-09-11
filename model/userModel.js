@@ -13,7 +13,13 @@ const createUser = async (name, email, password, role = 'user') =>
 const findEmail = async (email) =>
   connection().then((db) => db.collection('users').findOne({ email }));
 
+//* Localizar por e-mail e senha
+
+const emailPass = async (email, password) =>
+  connection().then((db) => db.collection('users').findOne({ email, password }));
+
 module.exports = {
   createUser,
   findEmail,
+  emailPass,
 };

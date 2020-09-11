@@ -1,11 +1,14 @@
 const messages = {
   1: 'Invalid entries. Try again.',
   2: 'Email already registered',
+  3: 'All fields must be filled',
+  4: 'Incorrect username or password',
 };
 
 const codes = {
   400: '400',
   409: '409',
+  401: '401',
 };
 
 const emailTest = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -22,8 +25,15 @@ const validateNewUser = (name, email, password) => {
   return 'passou';
 };
 
+const validateLogin = (email, password) => {
+  if (!email || !password) return { code: codes[401], message: messages[3] };
+
+  return 'passou';
+};
+
 module.exports = {
   messages,
   codes,
   validateNewUser,
+  validateLogin,
 };

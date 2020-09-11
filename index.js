@@ -6,7 +6,9 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/', userController.users);
+app.post('/users', userController.newUser);
+
+app.post('/login', userController.login);
 
 app.use((err, _req, res, _next) => {
   const { code, message } = err;
