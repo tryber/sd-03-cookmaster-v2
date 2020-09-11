@@ -5,4 +5,5 @@ module.exports = {
   newUser: userRoutes.createUser,
   login: userRoutes.userLogin,
   newRecipe: recipesRoutes.createRecipe,
+  allRecipes: recipesRoutes.listRecipes,
 };

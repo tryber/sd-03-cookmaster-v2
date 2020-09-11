@@ -1,4 +1,4 @@
-const { CreateRecipe } = require('../services');
+const { CreateRecipe, ListAll } = require('../services');
 const { generateError } = require('../utils');
 
 const createRecipe = async (req, res, next) => {
@@ -16,4 +16,13 @@ const createRecipe = async (req, res, next) => {
   }
 };
 
-module.exports = { createRecipe };
+const listRecipes = async (req, res, next) => {
+  try {
+    const recipesList = await ListAll();
+    return [...recipesList];
+  } catch (error) {
+    return next(generateError(400, error));
+  }
+};
+
+module.exports = { createRecipe, listRecipes };

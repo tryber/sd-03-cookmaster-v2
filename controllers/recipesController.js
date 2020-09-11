@@ -4,6 +4,9 @@ const middlewares = require('../middlewares');
 
 const recipes = Router();
 
-recipes.route('/').post(middlewares.auth(), routes.newRecipe);
+recipes
+  .route('/')
+  .post(middlewares.auth(), routes.newRecipe)
+  .get(middlewares.auth(false), routes.allRecipes);
 
 module.exports = recipes;

@@ -6,4 +6,5 @@ module.exports = {
   userByEmail: user.findUserByEmail,
   userById: user.findUserById,
   createRecipe: recipes.createRecipe,
+  allRecipes: recipes.getAllRecipes,
 };

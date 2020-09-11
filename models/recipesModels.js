@@ -11,4 +11,14 @@ const createRecipe = async (name, ingredients, preparation, userID) => {
   }
 };
 
-module.exports = { createRecipe };
+const getAllRecipes = async () => {
+  try {
+    const connect = await connection('recipes');
+    const recipes = await connect.find().toArray();
+    return recipes;
+  } catch (error) {
+    throw new Error('recipes search failed');
+  }
+};
+
+module.exports = { createRecipe, getAllRecipes };
