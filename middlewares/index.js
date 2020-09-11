@@ -1,7 +1,7 @@
 const login = require('./login');
-const authMiddleware = require('./auth');
+const auth = require('./auth');
 
 module.exports = {
   login,
-  auth: authMiddleware,
+  auth,
 };
