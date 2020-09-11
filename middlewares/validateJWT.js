@@ -5,11 +5,11 @@ const { getUserWithEmail } = require('../models/usersModels');
 
 const secret = 'meuSegredoCriptografado';
 
-module.exports = rescue(async (req, res, next) => {
+module.exports = (errorMessage) => rescue(async (req, res, next) => {
   const token = req.headers.authorization; // Como envio o token na header da requisicao?
 
   if (!token) {
-    throw new ErrorClass(401, 'invalid token', 'invalid_data');
+    throw new ErrorClass(401, errorMessage, 'invalid_data');
   }
 
   if (!token.includes('.')) {

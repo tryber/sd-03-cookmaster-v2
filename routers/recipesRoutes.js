@@ -5,8 +5,9 @@ const validateJWT = require('../middlewares/validateJWT');
 const recipesRoutes = express.Router();
 
 recipesRoutes
-  .post('/', validateJWT, controllers.recipesController.newRecipe)
+  .post('/', validateJWT('invalid token'), controllers.recipesController.newRecipe)
   .get('/:id', controllers.recipesController.getRecipeById)
+  .put('/:id', validateJWT('missing auth token'), controllers.recipesController.updateRecipe)
   .get('/', controllers.recipesController.getAllRecipes);
 
 module.exports = {
