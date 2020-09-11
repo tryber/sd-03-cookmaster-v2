@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const controllers = require('./controllers');
+const validateJWT = require('./auth/validateJWT');
 
 const app = express();
 app.use(bodyParser.json());
-const controllers = require('./controllers');
+
 
 
 // não remova esse endpoint, e para o avaliador funcionar
@@ -12,6 +14,7 @@ app.get('/', (request, response) => {
 });
 
 app.post('/users', controllers.userController.createUser);
+app.post('/recipes', validateJWT, controllers.recipeController.createRecipe);
 app.post('/login', controllers.userController.userLogin);
 
 const { PORT = 3000 } = process.env;

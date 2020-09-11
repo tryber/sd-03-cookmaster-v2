@@ -19,7 +19,7 @@ const createUser = async (req, res) => {
 };
 
 const userLogin = async (req, res) => {
-  const secret = 'seusecretdetoken';
+  const secret = 'cookmaster_v2';
   const { email, password } = req.body;
 
   if (!email || !password) return res.status(401).send({ message: 'All fields must be filled' });
