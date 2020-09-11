@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { usersController } = require('./controllers');
+const { verifyUser } = require('./middlewares');
 
 const app = express();
 
@@ -15,4 +16,4 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.post('/users', usersController.newUser);
+app.post('/users', verifyUser, usersController.newUser);
