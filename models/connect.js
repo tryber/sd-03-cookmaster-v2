@@ -1,7 +1,10 @@
 require('dotenv/config');
 const MongoClient = require('mongodb').MongoClient;
 
-const { MONGO_DB_URL, DB_NAME } = process.env;
+const {
+  MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster',
+  DB_NAME = 'Cookmaster',
+} = process.env;
 
 const connect = () =>
   MongoClient.connect(MONGO_DB_URL, {
@@ -16,9 +19,10 @@ const connect = () =>
 
 const connectTo = (coll) => connect().then((db) => db.collection(coll));
 
-const stdAdd = (coll) => async (instance) => connectTo(coll)
-  .then((table) => table.insertOne(instance))
-  .then(({ insertedId }) => ({ _id: insertedId, ...instance }));
+const stdAdd = (coll) => async (instance) =>
+  connectTo(coll)
+    .then((table) => table.insertOne(instance))
+    .then(({ insertedId }) => ({ _id: insertedId, ...instance }));
 
 module.exports = {
   connectTo,
