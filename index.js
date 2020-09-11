@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const { usersRoutes, loginRoutes } = require('./routers/index');
+const { usersRoutes, loginRoutes, recipesRoutes } = require('./routers/index');
 const { errorMiddleware } = require('./middlewares/index');
 
 const app = express();
@@ -14,8 +14,9 @@ app.get('/', (request, response) => {
 
 app.use('/users', usersRoutes);
 app.use('/login', loginRoutes);
+app.use('/recipes', recipesRoutes);
 
-app.use((err, _req, res, _next) => errorMiddleware(err, res));
+app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
