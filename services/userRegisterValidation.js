@@ -23,7 +23,7 @@ async function ValidateUser(name, email, password) {
       return validationMessages.user;
     case !email || !validateEmail(email):
       return validationMessages.default;
-    case password.length < 8:
+    case password.length < 5:
       return validationMessages.default;
     case !name:
       return validationMessages.default;

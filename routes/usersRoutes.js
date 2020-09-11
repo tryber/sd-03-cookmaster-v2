@@ -21,7 +21,7 @@ const userLogin = async (req, _res, next) => {
 
     if (!email || !password) throw new Error('All fields must be filled');
 
-    if (!validateEmail(email) || password.length < 8 || !user || user.email !== email || user.password !== password) throw new Error('Incorrect username or password');
+    if (!validateEmail(email) || password.length < 5 || !user || user.email !== email || user.password !== password) throw new Error('Incorrect username or password');
 
     req.data = user;
     return next();
