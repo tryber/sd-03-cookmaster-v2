@@ -6,4 +6,7 @@ const addUser = async (name, email, password, role) => {
   return db.collection('users').insertOne({ name, email, password, role });
 };
 
-module.exports = { addUser };
+const getUserByEmail = async (email) =>
+  connection().then((db) => db.collection('users').findOne({ email }));
+
+module.exports = { addUser, getUserByEmail };

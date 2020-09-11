@@ -5,4 +5,9 @@ const addUser = async (name, email, password, role) => {
   return { _id: user.insertedId, name, email, role };
 };
 
-module.exports = { addUser };
+const findUserByEmail = async (email) => {
+  const user = await usersModel.getUserByEmail(email);
+  return user;
+};
+
+module.exports = { addUser, findUserByEmail };
