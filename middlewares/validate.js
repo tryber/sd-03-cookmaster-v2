@@ -7,13 +7,14 @@ const err = new Err();
 function validateToken(req, res, next) {
   try {
     const { authorization } = req.headers;
+    if (!authorization) return next(err.noauth);
     const isValidToken = verifyToken(authorization);
     if (!isValidToken) {
       return next(err.invalidToken);
     }
-    next();
+    return next();
   } catch (e) {
-    next(err.invalidToken);
+    return next(err.invalidToken);
   }
 }
 

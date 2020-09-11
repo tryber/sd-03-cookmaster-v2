@@ -1,7 +1,11 @@
 const UserModel = require('../models/user');
 
-async function createUser(data, role = 'user') {
-  return UserModel.createUser({ ...data, role });
+async function createUser(data) {
+  return UserModel.createUser({ ...data, role: 'user' });
 }
 
-module.exports = { createUser };
+async function createAdmin(data) {
+  return UserModel.createUser({ ...data, role: 'admin' });
+}
+
+module.exports = { createUser, createAdmin };

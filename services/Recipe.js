@@ -12,4 +12,8 @@ async function getRecipe(data, field = 'id') {
   return Recipes.getRecipe(data, field);
 }
 
-module.exports = { createRecipe, getAllRecipes, getRecipe };
+async function updateRecipe(id, data) {
+  return Recipes.updateRecipe(id, data);
+}
+
+module.exports = { createRecipe, getAllRecipes, getRecipe, updateRecipe };

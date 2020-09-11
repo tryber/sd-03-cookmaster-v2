@@ -35,4 +35,15 @@ async function getRecipe(req, res, next) {
   }
 }
 
-module.exports = { createRecipes, listRecipes, getRecipe };
+async function updateRecipe(req, res, next) {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    const recipe = await Recipes.updateRecipe(id, data);
+    return res.status(200).send(recipe);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+module.exports = { createRecipes, listRecipes, getRecipe, updateRecipe };

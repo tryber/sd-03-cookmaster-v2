@@ -24,5 +24,8 @@ async function getRecipe(data, field = 'id') {
   }
   return Recipe.findOne({ [field]: data }).exec();
 }
+async function updateRecipe(id, data) {
+  return Recipe.findByIdAndUpdate(id, data, { new: true });
+}
 
-module.exports = { createRecipe, getAllRecipes, getRecipe };
+module.exports = { createRecipe, getAllRecipes, getRecipe, updateRecipe };
