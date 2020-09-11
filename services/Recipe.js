@@ -20,4 +20,13 @@ async function deleteRecipe(id) {
   return Recipes.deleteRecipe(id);
 }
 
-module.exports = { createRecipe, getAllRecipes, getRecipe, updateRecipe, deleteRecipe };
+async function addImagePath(id, path) {
+  return Recipes.updateRecipe(id, { image: `localhost:3000/${path}` });
+}
+
+module.exports = { createRecipe,
+  getAllRecipes,
+  getRecipe,
+  updateRecipe,
+  deleteRecipe,
+  addImagePath };

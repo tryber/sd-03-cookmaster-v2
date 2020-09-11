@@ -4,6 +4,7 @@ const recipeSchema = new mongoose.Schema({
   name: String,
   ingredients: String,
   preparation: String,
+  image: String,
 });
 
 const Recipe = mongoose.model('recipe', recipeSchema);
@@ -25,7 +26,10 @@ async function getRecipe(data, field = 'id') {
   return Recipe.findOne({ [field]: data }).exec();
 }
 async function updateRecipe(id, data) {
-  return Recipe.findByIdAndUpdate(id, data, { new: true });
+  console.log('data', data);
+  const updated = await Recipe.findByIdAndUpdate(id, data, { new: true }).exec();
+  console.log('up', updated);
+  return updated;
 }
 async function deleteRecipe(id) {
   return Recipe.findByIdAndDelete(id);

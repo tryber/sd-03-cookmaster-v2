@@ -56,4 +56,18 @@ async function deleteRecipe(req, res, next) {
   }
 }
 
-module.exports = { createRecipes, listRecipes, getRecipe, updateRecipe, deleteRecipe };
+async function uploadImage(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { path, mimetype } = req.file;
+    const [, extension] = mimetype.split('/');
+    console.log(req.file);
+    const recipe = await Recipes.addImagePath(id, `${path}.${extension}`);
+
+    return res.status(200).json(recipe);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+module.exports = { createRecipes, listRecipes, getRecipe, updateRecipe, deleteRecipe, uploadImage };
