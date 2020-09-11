@@ -22,8 +22,16 @@ const createRecipe = async (name, ingredients, preparation, userId) =>
   )
   .catch((error) => error);
 
+  const getAllRecipesFromDB = async () => mongo.connect()
+    .then((db) => db.collection('recipes')
+    .find({})
+    .toArray())
+    .catch((error) => error);
+
+
 module.exports = {
   createUser,
   getUserByEmail,
   createRecipe,
+  getAllRecipesFromDB,
 };

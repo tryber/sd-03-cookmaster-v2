@@ -18,6 +18,12 @@ const createRecipe = async (req, res) => {
   res.status(201).send(result);
 };
 
+const showAllRecipes = async (req, res) => {
+  const result = await services.recipeServices.getAllRecipes();
+  res.status(200).send(result);
+};
+
 module.exports = {
   createRecipe,
+  showAllRecipes,
 };
