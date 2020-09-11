@@ -16,7 +16,7 @@ const upload = multer({ storage });
 
 const app = express();
 app.use(bodyParser.json());
-// app.use(express.static(`${__dirname}./uploads`));
+
 app.post('/users/admin', authMiddleware, userController.registerAdmin);
 app.post('/users', userValidate, userController.registerUser);
 app.post('/login', loginValidate, userController.loginUser);
@@ -30,8 +30,8 @@ app.put('/recipes/:id/image',
   recipeIdValidate,
   upload.single('image'),
   recipesController.updateRecipeImageById);
-
 app.put('/recipes/:id', authMiddleware, recipeIdValidate, recipesController.updateRecipeById);
+
 app.delete('/recipes/:id', authMiddleware, recipeIdValidate, recipesController.deleteRecipeById);
 
 // não remova esse endpoint, e para o avaliador funcionar

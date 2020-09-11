@@ -6,17 +6,6 @@ const {
   errMessage,
 } = require('../services/errorsServices');
 
-const validate = (schemas, status) => async (req, res, next) => {
-  await Promise.all(schemas.map((schema) => schema.run(req)));
-
-  const result = validationResult(req);
-  if (result.isEmpty()) {
-    return next();
-  }
-  const errors = result.array();
-  return res.status(status).send(errors[0].msg);
-};
-
 const userValidationRules = [
   body('email', errMessage(INVALID_ENTRY)).notEmpty().isEmail(),
   body('name', errMessage(INVALID_ENTRY)).exists(),
@@ -37,6 +26,17 @@ const recipeValidationRules = [
 const recipeIdValidationRules = [
   param('id', errMessage(RECIPE_NOT_FOUND)).isMongoId(),
 ];
+
+const validate = (schemas, status) => async (req, res, next) => {
+  await Promise.all(schemas.map((schema) => schema.run(req)));
+
+  const result = validationResult(req);
+  if (result.isEmpty()) {
+    return next();
+  }
+  const errors = result.array();
+  return res.status(status).send(errors[0].msg);
+};
 
 module.exports = {
   userValidate: validate(userValidationRules, 400),
