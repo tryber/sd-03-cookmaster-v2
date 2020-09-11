@@ -1,5 +1,5 @@
-const { CreateUser } = require('../services');
-const { generateError } = require('../utils');
+const { CreateUser, SearchByEmail } = require('../services');
+const { generateError, validateEmail } = require('../utils');
 
 const createUser = async (req, res, next) => {
   try {
@@ -14,4 +14,22 @@ const createUser = async (req, res, next) => {
   }
 };
 
-module.exports = { createUser };
+const userLogin = async (req, _res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await SearchByEmail(email);
+
+    if (!email || !password) throw new Error('All fields must be filled');
+
+    if (!validateEmail(email) || password.length < 8) throw new Error('Incorrect username or password');
+
+    if (!user || user.email !== email || user.password !== password) throw new Error('Incorrect username or password');
+
+    req.data = user;
+    return next();
+  } catch (error) {
+    return next(generateError(401, error));
+  }
+};
+
+module.exports = { createUser, userLogin };

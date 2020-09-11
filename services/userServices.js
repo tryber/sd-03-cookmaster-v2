@@ -1,4 +1,4 @@
-const { createUser } = require('../models');
+const { createUser, userByEmail } = require('../models');
 const userValidation = require('./userRegisterValidation');
 
 const create = async ({ name, email, password }) => {
@@ -13,4 +13,13 @@ const create = async ({ name, email, password }) => {
   }
 };
 
-module.exports = { create };
+const getUserByEmail = async (email) => {
+  try {
+    const userData = await userByEmail(email);
+    return userData;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+module.exports = { create, getUserByEmail };
