@@ -48,9 +48,9 @@ const deleteRecipe = async (req, res, next) => {
       throw new Error('Unauthorized');
     }
 
-    const deleteData = await DeleteRecipe(id);
+    await DeleteRecipe(id);
 
-    return res.status(204).json({ deleteData });
+    return res.status(204).json(null);
   } catch (error) {
     return next(generateError(401, error));
   }
