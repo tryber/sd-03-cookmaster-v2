@@ -3,7 +3,7 @@ const { MongoClient } = require('mongodb');
 const fs = require('fs');
 const path = require('path');
 
-const mongoDbUrl = 'mongodb://localhost:27017/Cookmaster';
+const mongoDbUrl = 'mongodb://root:root@localhost:27017/?authMechanism=DEFAULT';
 const url = 'http://localhost:3000';
 
 describe('3 - Crie um endpoint para o cadastro de receitas', () => {
