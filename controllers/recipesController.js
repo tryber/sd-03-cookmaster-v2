@@ -6,6 +6,7 @@ const {
   getRecipes,
   getRecipeWithId,
   updateRecipeById,
+  deleteRecipeById,
 } = require('../services/recipesService');
 
 const newRecipe = rescue(async (req, res) => {
@@ -44,7 +45,7 @@ const getRecipeById = rescue(async (req, res) => {
 const updateRecipe = rescue(async (req, res) => {
   const { _id, role } = req.user;
   const { id } = req.params;
-  // console.log(req.user);
+
   if (!ObjectId.isValidObjectId(id)) {
     throw new ErrorClass(404, 'recipe not found', 'not_found');
   }
@@ -56,7 +57,6 @@ const updateRecipe = rescue(async (req, res) => {
   }
 
   if (!recipe.userId.equals(_id)) {
-    console.log('passou aqui');
     if (role !== 'admin') {
       throw new ErrorClass(404, 'not owner or admin', 'without_authorization');
     }
@@ -68,9 +68,30 @@ const updateRecipe = rescue(async (req, res) => {
   return res.status(200).json(updatedRecipe);
 });
 
+const deleteRecipe = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { _id, role } = req.user;
+
+  if (!ObjectId.isValidObjectId(id)) {
+    throw new ErrorClass(404, 'recipe not found', 'not_found');
+  }
+
+  const recipe = await getRecipeWithId(id);
+
+  if (!recipe.userId.equals(_id)) {
+    if (role !== 'admin') {
+      throw new ErrorClass(404, 'not owner or admin', 'without_authorization');
+    }
+  }
+
+  const deletedRecipe = await deleteRecipeById(id);
+  return res.status(204).json(deletedRecipe);
+});
+
 module.exports = {
   newRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };

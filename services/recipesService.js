@@ -3,6 +3,7 @@ const {
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 } = require('../models/recipesModel');
 
 const insertNewRecipe = async (recipeObj) => {
@@ -25,9 +26,15 @@ const updateRecipeById = async (id, newData) => {
   return updatedRecipe;
 };
 
+const deleteRecipeById = async (id) => {
+  const recipe = await deleteRecipe(id);
+  return recipe;
+};
+
 module.exports = {
   insertNewRecipe,
   getRecipes,
   getRecipeWithId,
   updateRecipeById,
+  deleteRecipeById,
 };
