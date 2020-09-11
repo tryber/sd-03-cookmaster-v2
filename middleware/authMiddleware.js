@@ -21,12 +21,3 @@ const authMiddleware = async (req, res, next) => {
 module.exports = {
   authMiddleware,
 };
-
-/* {
-  _id: '5f5bdc508c42631879a3a298',
-  name: 'Willy',
-  email: 'wscatao@gmail.com',
-  role: 'user',
-  iat: 1599855734,
-  exp: 1600028534
-} */

@@ -1,5 +1,5 @@
 const recipeModel = require('../model/recipeModel');
-const { validateRecipe, messages, codes } = require('./error');
+const { validateRecipe } = require('./error');
 
 const newRecipe = async(name, ingredients, preparation, userId) => {
   //* Validações

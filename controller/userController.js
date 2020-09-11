@@ -3,7 +3,6 @@ const rescue = require('express-rescue');
 const userService = require('../service/userService');
 const loginService = require('../service/loginService');
 
-
 const newUser = rescue(async (req, res, next) => {
   const { name, email, password } = req.body;
 
