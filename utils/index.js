@@ -6,9 +6,24 @@ const validateEmail = (email = '') =>
     email,
   );
 
-const generateError = (status, error) => ({
-  status,
-  payload: { message: error.message },
-});
+/* Função de comparação de Objetos, fonte:
+https://dmitripavlutin.com/how-to-compare-objects-in-javascript/  */
+const shallowComparation = (object1, object2) => {
+  const keys1 = Object.keys(object1);
+  const keys2 = Object.keys(object2);
 
-module.exports = { generateError, validateEmail };
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  return keys1.forEach((key) => object1[key] === object2[key]);
+};
+
+function generateError(status, error) {
+  return {
+    status,
+    payload: { message: error.message },
+  };
+}
+
+module.exports = { generateError, validateEmail, shallowComparation };

@@ -6,16 +6,16 @@ const { generateError } = require('../../utils');
 
 const validateTokenInfo = async (token, required) => {
   try {
+    if (!required) return;
+
+    if (required && !token) throw new Error('missing auth token');
+
     const decodedInfo = jwt.verify(token, tokenKey);
     const { _id } = decodedInfo.data;
 
     const userData = await services.SearchUser(null, _id);
 
-    if (!required) return;
-
     if (!userData) throw new Error('invalid token');
-
-    if (required && !token) throw new Error('missing auth token');
 
     return { ...userData };
   } catch (error) {

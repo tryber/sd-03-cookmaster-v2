@@ -14,11 +14,11 @@ const create = async (name, ingredients, preparation, userId) => {
   }
 };
 
-const update = async (name, ingredients, preparation) => {
+const update = async (id, name, ingredients, preparation) => {
   const updateValidation = recipeValidation(name, ingredients, preparation);
 
   const modifyRecipe = !updateValidation.message
-  && (await updateRecipe(name, ingredients, preparation));
+  && (await updateRecipe(id, name, ingredients, preparation));
 
   return updateValidation.message ? { message: updateValidation.message } : { ...modifyRecipe };
 };

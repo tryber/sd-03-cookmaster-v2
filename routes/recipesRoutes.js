@@ -1,5 +1,5 @@
 const { CreateRecipe, ListAll, GetRecipe, UpdateRecipe } = require('../services');
-const { generateError } = require('../utils');
+const { generateError, shallowComparation } = require('../utils');
 
 const createRecipe = async (req, res, next) => {
   try {
@@ -22,13 +22,16 @@ const updateRecipe = async (req, res, next) => {
   const { id } = params;
   const { _id, role } = user;
   try {
-    if (!user) throw new Error('missing auth token');
     const recipeData = await GetRecipe(id);
 
-    if (recipeData.userId === _id || role === 'admin') {
-      const modifyRecipe = await UpdateRecipe(name, ingredients, preparation);
-      return res.status(200).json({ ...modifyRecipe });
+    /* userId e _id são ObjectID do MongoDB, para
+    compará-los usei uma função de comparação de objetos */
+    if (shallowComparation(recipeData.userId, _id) && role !== 'admin') {
+      throw new Error('Unauthorized');
     }
+    const modifyRecipe = await UpdateRecipe(id, name, ingredients, preparation);
+    console.log(modifyRecipe);
+    return res.status(200).json({ ...modifyRecipe });
   } catch (error) {
     return next(generateError(401, error));
   }
