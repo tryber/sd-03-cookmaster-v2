@@ -66,4 +66,9 @@ recipes.delete(
     return res.status(204).end();
   }),
 );
+
+recipes.post('/:id/image', upload.single('file'), (_req, res) =>
+  res.send().status(200)
+);
+
 module.exports = recipes;
