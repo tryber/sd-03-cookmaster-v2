@@ -4,7 +4,7 @@ const model = require('../model/model');
 const segredo = 'cookmaster_v2';
 
 module.exports = async (req, res, next) => {
-  const token = req.headers['authorization'];
+  const token = req.headers.authorization;
 
   if (!token) {
     return res.status(400).json({ error: 'Token não encontrado ou informado' });

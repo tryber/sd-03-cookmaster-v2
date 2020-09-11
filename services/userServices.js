@@ -1,14 +1,14 @@
 const model = require('../model/model');
 
-const entriesVerify = (name, email, password) => {
+const entriesVerify = (entrieOne, entrieTwo, entrieThree) => {
   let result;
-  if (!name) {
+  if (!entrieOne) {
     result = { message: 'Invalid entries. Try again.', status: 400 };
   }
-  if (!email) {
+  if (!entrieTwo) {
     result = { message: 'Invalid entries. Try again.', status: 400 };
   }
-  if (!password) {
+  if (!entrieThree) {
     result = { message: 'Invalid entries. Try again.', status: 400 };
   }
   return result;
@@ -37,4 +37,5 @@ const findUserByEmail = async (email) => model.getUserByEmail(email);
 module.exports = {
   createNewUser,
   findUserByEmail,
+  entriesVerify,
 };
