@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const services = require('../../services');
-const tokenKey = require('../login/loginConfig');
+const { tokenKey } = require('../login/loginConfig');
 const { generateError } = require('../../utils');
 
 const validateTokenInfo = async (token) => {

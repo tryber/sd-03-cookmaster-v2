@@ -1,8 +1,8 @@
-const validationMessage = { default: 'Invalid entries. try again.' };
+const validationMessage = { default: 'Invalid entries. Try again.' };
 
 function ValidateRecipeData(name, ingredients, preparation) {
   switch (true) {
-    case !name || !ingredients || preparation:
+    case !name || !ingredients || !preparation:
       return validationMessage.default;
     default:
       return null;
