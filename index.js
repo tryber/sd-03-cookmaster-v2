@@ -1,13 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const controllerUser = require('./users/controllerUsers');
+const usersController = require('./users/controllerUsers');
+const recipesController = require('./recipes/controllerRecipes');
+const { userAuth } = require('./middlewares/userAuthentication');
 
 const app = express();
 app.use(bodyParser.json());
 
 app.get('/', (request, response) => response.send());
 
-app.post('/users', controllerUser);
-app.post('/login', controllerUser);
+app.post('/users', usersController);
+app.post('/login', usersController);
+
+app.post('/recipes', userAuth, recipesController);
 
 app.listen(3000, () => console.log('Welcome 3000'));
