@@ -5,9 +5,7 @@ const { getUserWithEmail } = require('../models/usersModels');
 
 const secret = 'meuSegredoCriptografado';
 
-module.exports = (errorMessage) => rescue(async (req, res, next) => {
-  const token = req.headers.authorization; // Como envio o token na header da requisicao?
-
+const validateToken = (token, errorMessage) => {
   if (!token) {
     throw new ErrorClass(401, errorMessage, 'invalid_data');
   }
@@ -15,6 +13,12 @@ module.exports = (errorMessage) => rescue(async (req, res, next) => {
   if (!token.includes('.')) {
     throw new ErrorClass(401, 'jwt malformed', 'invalid_data');
   }
+};
+
+module.exports = (errorMessage) => rescue(async (req, res, next) => {
+  const token = req.headers.authorization; // Como envio o token na header da requisicao?
+
+  validateToken(token, errorMessage);
 
   const decoded = jwt.verify(token, secret);
 
