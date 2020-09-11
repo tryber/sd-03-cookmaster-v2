@@ -10,6 +10,10 @@ const getUsersById = async (id) =>
 const getUserByEmail = async (email) =>
   connect().then((db) => db.collection('users').findOne({ email }));
 
+const validateUserAndEmail = async (email, password) =>
+  connect()
+    .then((db) => db.collection('users').findOne({ $and: [{ email }, { password }] }));
+
 const add = ({ name, email, password, role }) =>
   connect()
     .then((db) => db.collection('users').insertOne({ name, email, password, role }))
@@ -19,5 +23,6 @@ module.exports = {
   getAll,
   getUsersById,
   getUserByEmail,
+  validateUserAndEmail,
   add,
 };

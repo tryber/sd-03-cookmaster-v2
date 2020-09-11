@@ -22,6 +22,23 @@ const addUser = async ({ name, email, password }) => {
   return result;
 };
 
+const userLogin = async (emailT, password) => {
+  if (!emailT || !password) {
+    return ({ error: true, message: 'All fields must be filled' });
+  }
+
+  const user = await userModel.validateUserAndEmail(emailT, password);
+
+  if (!user) {
+    return ({ error: true, message: 'Incorrect username or password' });
+  }
+
+  const { _id, email, role } = user;
+
+  return ({ _id, email, role });
+};
+
 module.exports = {
   addUser,
+  userLogin,
 };
