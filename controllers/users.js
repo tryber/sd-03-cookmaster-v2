@@ -3,8 +3,7 @@ const jwt = require('../services/jwt');
 
 async function createUser(req, res, next) {
   try {
-    const { body } = req;
-    const user = await userServices.createUser(body);
+    const user = await userServices.createUser(req.sbody);
     res.status(201).send({ user });
   } catch (err) {
     next(err);
@@ -23,8 +22,7 @@ async function loginUser(req, res, next) {
 
 async function createAdmin(req, res, next) {
   try {
-    const { body } = req;
-    const user = await userServices.createAdmin(body);
+    const user = await userServices.createAdmin(req.body);
     res.status(201).send({ user });
   } catch (err) {
     next(err);
