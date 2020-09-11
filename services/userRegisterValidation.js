@@ -33,12 +33,10 @@ async function ValidateUser(name, email, password) {
 }
 
 module.exports = async (name, email, password) => {
-  let message;
   try {
     const dataValidation = await ValidateUser(name, email, password);
-    message = dataValidation;
 
-    return { message };
+    return { message: dataValidation };
   } catch (error) {
     throw new Error(error.message);
   }

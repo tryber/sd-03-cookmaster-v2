@@ -1,4 +1,5 @@
 const userServices = require('./userServices');
+const recipesServices = require('./recipesServices');
 
 const {
   create: CreateUser,
@@ -6,8 +7,11 @@ const {
   getUserById: SearchUserByID,
 } = userServices;
 
+const { create: CreateRecipe } = recipesServices;
+
 module.exports = {
   CreateUser,
   SearchByEmail,
   SearchUserByID,
+  CreateRecipe,
 };

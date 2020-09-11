@@ -13,7 +13,7 @@ const validateTokenInfo = async (token) => {
 
     if (!userData) return null;
 
-    return userData;
+    return { ...userData };
   } catch (error) {
     throw new Error(error.message);
   }
