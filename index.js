@@ -6,8 +6,6 @@ const validateJWT = require('./auth/validateJWT');
 const app = express();
 app.use(bodyParser.json());
 
-
-
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
