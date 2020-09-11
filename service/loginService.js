@@ -4,9 +4,7 @@ const { secret } = require('./secret');
 const userModel = require('../model/userModel');
 const error = require('./error');
 
-const login = async (payload) => {
-  const { email, password } = payload;
-
+const login = async (email, password) => {
   //* Validações
   const valid = error.validateLogin(email, password);
   if (valid.code) return valid;

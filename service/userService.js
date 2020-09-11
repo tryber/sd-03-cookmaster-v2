@@ -1,8 +1,7 @@
 const userModel = require('../model/userModel');
 const { validateNewUser, messages, codes } = require('./error');
 
-const newUser = async (payload) => {
-  const { name, email, password } = payload;
+const newUser = async (name, email, password) => {
   //* Validações
   const valid = validateNewUser(name, email, password);
   if (valid.code) return valid;

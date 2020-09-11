@@ -4,9 +4,9 @@ const userService = require('../service/userService');
 const loginService = require('../service/loginService');
 
 const newUser = rescue(async (req, res, next) => {
-  const payload = req.body;
+  const { name, email, password } = req.body;
 
-  const user = await userService.newUser(payload);
+  const user = await userService.newUser(name, email, password);
 
   if (user.code) return next(user);
 
@@ -15,9 +15,9 @@ const newUser = rescue(async (req, res, next) => {
 });
 
 const login = rescue(async (req, res, next) => {
-  const payload = req.body;
+  const { email, password } = req.body;
 
-  const token = await loginService.login(payload);
+  const token = await loginService.login(email, password);
 
   if (token.code) return next(token);
 
