@@ -38,22 +38,6 @@ const recipeIdValidationRules = [
   param('id', errMessage(RECIPE_NOT_FOUND)).isMongoId(),
 ];
 
-// const idValidationRules = [
-//   param('id', errMessage('invalid_data', WRONG_ID)).isMongoId(),
-// ];
-
-// const idSaleRules = [
-//   param('id', errMessage('invalid_data', WRONG_SALE_ID)).isMongoId(),
-// ];
-
-// const addSaleValidationRules = [
-//   body().isArray(),
-//   body('*.productId', errMessage('invalid_data', INVALID_ID_OR_QUANTITY)).isMongoId(),
-//   body('*.quantity', errMessage('invalid_data', INVALID_ID_OR_QUANTITY)).isNumeric(),
-//   body('*.quantity',
-// errMessage('invalid_data', INVALID_ID_OR_QUANTITY)).custom((value) => value > 0),
-// ];
-
 module.exports = {
   userValidate: validate(userValidationRules, 400),
   loginValidate: validate(loginValidationRules, 401),
