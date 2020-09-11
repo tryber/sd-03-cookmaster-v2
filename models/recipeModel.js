@@ -1,36 +1,10 @@
+const { ObjectId } = require('mongodb');
 const connection = require('./connect');
 
-/* const getAll = async () =>
-  connection()
-    .then((db) => db.getTable('recipes').select(['id', 'user', 'name']).execute())
-    .then((results) => results.fetchAll())
-    .then((recipes) =>
-      recipes.map(([id, user, name]) => ({
-        id,
-        user,
-        name,
-      })),
-    ); */
+const getAll = async () => connection().then((db) => db.collection('recipes').find({}).toArray());
 
-/* const findRecipeById = async (id) =>
-  connection()
-    .then((db) =>
-      db
-        .getTable('recipes')
-        .select(['id', 'user_id', 'user', 'name', 'ingredients', 'instructions'])
-        .where('id = :id')
-        .bind('id', id)
-        .execute(),
-    )
-    .then((result) => result.fetchAll()[0])
-    .then(([recipeId, userId, user, name, ingredients, instructions]) => ({
-      recipeId,
-      userId,
-      user,
-      name,
-      ingredients,
-      instructions,
-    })); */
+const findRecipeById = async (id) =>
+  connection().then((db) => db.collection('recipes').findOne(ObjectId(id)));
 /* 
 const findRecipesByQuery = async (search) =>
   connection()
@@ -65,18 +39,20 @@ const createNewRecipe = async (name, ingredients, preparation, userId) =>
       })),
   );
 
-/* const editRecipe = async (recipeId, name, ingredients, instructions) =>
-  connection().then((db) =>
-    db
-      .getTable('recipes')
-      .update()
-      .set('name', name)
-      .set('ingredients', ingredients)
-      .set('instructions', instructions)
-      .where('id = :id')
-      .bind('id', recipeId)
-      .execute(),
-  ); */
+const editRecipe = async (id, name, ingredients, preparation, userId) =>
+  connection()
+    .then((db) =>
+      db
+        .collection('recipes')
+        .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }),
+    )
+    .then(() => ({
+      _id: id,
+      name,
+      ingredients,
+      preparation,
+      userId,
+    }));
 
 /* const findRecipesByUserId = async (userId) =>
   connection()
@@ -108,5 +84,8 @@ const createNewRecipe = async (name, ingredients, preparation, userId) =>
   ); */
 
 module.exports = {
+  getAll,
+  findRecipeById,
   createNewRecipe,
+  editRecipe,
 };

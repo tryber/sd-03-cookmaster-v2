@@ -4,7 +4,6 @@ const users = require('./controllers/userController');
 const userLogin = require('./controllers/loginController');
 const recipes = require('./controllers/recipeController');
 
-
 const app = express();
 app.use(bodyParser.json());
 
