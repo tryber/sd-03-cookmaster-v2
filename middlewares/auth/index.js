@@ -19,7 +19,7 @@ const validateTokenInfo = async (token) => {
   }
 };
 
-module.exports = (required = true) => async (req, _res, next) => {
+const authMiddleware = (required = true) => async (req, _res, next) => {
   try {
     const { authorization } = req.headers;
     const validateInfo = await validateTokenInfo(authorization);
@@ -35,3 +35,5 @@ module.exports = (required = true) => async (req, _res, next) => {
     return next(generateError(401, error));
   }
 };
+
+module.exports = authMiddleware;
