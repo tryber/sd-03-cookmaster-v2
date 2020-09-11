@@ -3,16 +3,11 @@ const userModel = require('../models/userModel');
 
 const secret = 'cookmastersecret';
 
-const auth = (required = true) => async (req, res, next) => {
-  
+const auth = async (req, res, next) => {
   const token = req.headers.authorization;
 
-  if (!token && required) {
+  if (!token) {
     return res.status(401).json({ message: 'missing auth token' });
-  }
-
-  if (!token && !required) {
-    return next();
   }
 
   try {
@@ -33,6 +28,6 @@ const auth = (required = true) => async (req, res, next) => {
   } catch(err) {
     return res.status(401).json({ message: 'jwt malformed' })
   }
-}
+};
 
 module.exports = auth;

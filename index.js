@@ -15,11 +15,11 @@ app.get('/', (request, response) => {
 app.post('/users', controllers.userController.addUser);
 app.post('/login', controllers.userController.loginUser);
 
-app.get('/recipes', auth(false), controllers.recipeController.listRecipes);
-app.post('/recipes', auth(), controllers.recipeController.addRecipe);
+app.get('/recipes', controllers.recipeController.listRecipes);
+app.post('/recipes', auth, controllers.recipeController.addRecipe);
 
-app.get('/recipes/:id', auth(false), controllers.recipeController.listById);
-app.put('/recipes/:id', auth(), controllers.recipeController.update);
-app.delete('/recipes/:id', auth(), controllers.recipeController.removeRecipe);
+app.get('/recipes/:id', controllers.recipeController.listById);
+app.put('/recipes/:id', auth, controllers.recipeController.update);
+app.delete('/recipes/:id', auth, controllers.recipeController.removeRecipe);
 
 app.listen(3000, () => console.log('Listening on 3000'));
