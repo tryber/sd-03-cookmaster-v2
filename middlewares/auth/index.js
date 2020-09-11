@@ -9,7 +9,7 @@ const validateTokenInfo = async (token) => {
     const decodedInfo = jwt.verify(token, tokenKey);
     const { _id } = decodedInfo.data;
 
-    const userData = await services.SearchUserByID(_id);
+    const userData = await services.SearchUser(null, _id);
 
     if (!userData) return null;
 

@@ -1,4 +1,4 @@
-const { CreateUser, SearchByEmail } = require('../services');
+const { CreateUser, SearchUser } = require('../services');
 const { generateError, validateEmail } = require('../utils');
 
 const createUser = async (req, res, next) => {
@@ -17,7 +17,7 @@ const createUser = async (req, res, next) => {
 const userLogin = async (req, _res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await SearchByEmail(email);
+    const user = await SearchUser(email, null);
 
     if (!email || !password) throw new Error('All fields must be filled');
 

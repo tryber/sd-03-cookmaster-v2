@@ -13,22 +13,17 @@ const create = async ({ name, email, password }) => {
   }
 };
 
-const getUserByEmail = async (email) => {
+const getUser = async (email = null, id = null) => {
+  let userData;
   try {
-    const userData = await userByEmail(email);
+    if (email) userData = await userByEmail(email);
+
+    if (id) userData = await userById(id);
+
     return userData;
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-const getUserById = async (id) => {
-  try {
-    const userData = await userById(id);
-    return userData;
-  } catch (error) {
-    throw new Error(error.message);
-  }
-};
-
-module.exports = { create, getUserByEmail, getUserById };
+module.exports = { create, getUser };
