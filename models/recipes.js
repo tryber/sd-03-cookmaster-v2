@@ -1,10 +1,7 @@
-const connectTo = require('./connect');
+const { connectTo, stdAdd } = require('./connect');
 const { ObjectID } = require('mongodb');
 
-const createRecipe = async ({ name, ingredients, preparation, userId }) =>
-  connectTo('recipes')
-    .then((table) => table.insertOne({ name, ingredients, preparation, userId }))
-    .then(({ insertedId }) => ({ _id: insertedId, name, ingredients, preparation, userId }));
+const createRecipe = stdAdd('recipes');
 
 const getAllRecipes = async () => connectTo('recipes').then((table) => table.find().toArray());
 

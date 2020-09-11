@@ -16,4 +16,11 @@ const connect = () =>
 
 const connectTo = (coll) => connect().then((db) => db.collection(coll));
 
-module.exports = connectTo;
+const stdAdd = (coll) => async (instance) => connectTo(coll)
+  .then((table) => table.insertOne(instance))
+  .then(({ insertedId }) => ({ _id: insertedId, ...instance }));
+
+module.exports = {
+  connectTo,
+  stdAdd,
+};
