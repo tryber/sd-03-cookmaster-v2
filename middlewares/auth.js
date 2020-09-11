@@ -8,7 +8,7 @@ const { SECRET } = process.env;
 module.exports = rescue(async (req, _res, next) => {
   const { authorization: token } = req.headers || {};
 
-  if (!token) return next(Boom.unauthorized('Invalid token'));
+  if (!token) return next(Boom.unauthorized('missing auth token'));
 
   try {
     const data = jwt.verify(token, SECRET);

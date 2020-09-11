@@ -1,6 +1,8 @@
 const express = require('express');
 const rescue = require('express-rescue');
 const Boom = require('boom');
+const multer = require('multer');
+const path = require('path');
 
 const { recipesServices } = require('../services');
 const { auth } = require('../middlewares');
@@ -21,7 +23,10 @@ const validateNewRecipe = (req, _res, next) => {
 };
 
 const createRecipe = rescue(async (req, res) => {
-  const { user: { _id: id }, body: { name, ingredients, preparation } = {} } = req;
+  const {
+    user: { _id: id },
+    body: { name, ingredients, preparation } = {},
+  } = req;
   const recipe = await recipesServices.addRecipe(id, { name, ingredients, preparation });
   return res.status(201).json({ recipe });
 });
@@ -43,11 +48,67 @@ const getRecipe = rescue(async (req, res, next) => {
   return res.status(200).json(recipe);
 });
 
-recipesRouter.route('/')
-  .post(auth, validateNewRecipe, createRecipe)
-  .get(getAllRecipes);
+const evaluatePermission = rescue(async (req, res, next) => {
+  const {
+    params: { id },
+    user: { _id: userId, role },
+  } = req || {};
 
-recipesRouter.route('/:id')
-  .get(getRecipe);
+  if (role === 'admin') {
+    req.permission = true;
+    return next();
+  }
+
+  const permission = await recipesServices.validateOwnerShip(userId, id);
+
+  if (permission.error) return next(Boom.unauthorized(permission.message));
+
+  res.permission = permission;
+
+  next();
+});
+
+const updateRecipe = rescue(async (req, res) => {
+  const {
+    params: { id },
+    body: { name, ingredients, preparation },
+  } = req || {};
+
+  const newRecipe = await recipesServices.updateRecipe(id, name, ingredients, preparation);
+
+  res.status(200).json(newRecipe);
+});
+
+const deleteRecipe = rescue(async (req, res) =>
+  recipesServices.deleteRecipe(req.params.id).then(() => res.status(204).end()),
+);
+
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, 'images'),
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  }
+});
+
+const upload = multer({ storage });
+
+const putImage = rescue(async (req, res, next) => {
+  const { params: { id }, file: { filename } = {} } = req;
+  const recipe = await recipesServices.putImageOnRecipe(id, `localhost:3000/images/${filename}`);
+
+  return res.status(200).json(recipe);
+});
+
+recipesRouter.route('/').post(auth, validateNewRecipe, createRecipe).get(getAllRecipes);
+
+recipesRouter
+  .route('/:id')
+  .get(getRecipe)
+  .put(auth, evaluatePermission, validateNewRecipe, updateRecipe)
+  .delete(auth, evaluatePermission, deleteRecipe);
+
+recipesRouter.route('/:id/image')
+  .put(auth, evaluatePermission, upload.single('image'), putImage);
 
 module.exports = recipesRouter;
