@@ -23,8 +23,8 @@ async function validateAdmin(req, res, next) {
   try {
     const { authorization } = req.headers;
     const token = verifyToken(authorization);
-    const [user] = await User.getUser(token.email, 'email');
-    if (user.role !== 'admin') {
+    const [userInDb] = await User.getUser(token.email, 'email');
+    if (userInDb.role !== 'admin') {
       return next(err.noAdmin);
     }
     return next();

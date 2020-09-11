@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { getUser } = require('../models/user');
 const Err = require('./Error');
 
