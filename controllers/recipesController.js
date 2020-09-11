@@ -1,6 +1,6 @@
 const rescue = require('express-rescue');
 const { ErrorClass } = require('../utils/ErrorClass');
-const { insertNewRecipe } = require('../services/recipesService');
+const { insertNewRecipe, getRecipes } = require('../services/recipesService');
 
 const newRecipe = rescue(async (req, res) => {
   const { _id } = req.user;
@@ -13,6 +13,12 @@ const newRecipe = rescue(async (req, res) => {
   return res.status(201).json(recipe);
 });
 
+const getAllRecipes = rescue(async (_req, res) => {
+  const allRecipes = await getRecipes();
+  return res.status(200).json(allRecipes);
+});
+
 module.exports = {
   newRecipe,
+  getAllRecipes,
 };

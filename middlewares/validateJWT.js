@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const rescue = require('express-rescue')
+const rescue = require('express-rescue');
 const { ErrorClass } = require('../utils/ErrorClass');
 const { getUserWithEmail } = require('../models/usersModels');
 

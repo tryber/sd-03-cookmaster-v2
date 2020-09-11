@@ -2,11 +2,11 @@
 
 // criar novo usuário
 
-{
-  "name": "Jafet",
-  "email": "jafetguera@hotmail.com",
-  "password": "12346"
-}
+// {
+//   "name": "Jafet",
+//   "email": "jafetguera@hotmail.com",
+//   "password": "12346"
+// }
 
 // -----------------------------
 
