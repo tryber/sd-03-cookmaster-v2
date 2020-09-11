@@ -1,11 +1,15 @@
 const user = require('./userModels');
 const recipes = require('./recipesModels');
 
+const { createUser, findUserByEmail, findUserById } = user;
+const { createRecipe, updateRecipe, getAllRecipes, getRecipeById } = recipes;
+
 module.exports = {
-  createUser: user.createUser,
-  userByEmail: user.findUserByEmail,
-  userById: user.findUserById,
-  createRecipe: recipes.createRecipe,
-  allRecipes: recipes.getAllRecipes,
-  recipeById: recipes.getRecipeById,
+  createUser,
+  userByEmail: findUserByEmail,
+  userById: findUserById,
+  createRecipe,
+  updateRecipe,
+  allRecipes: getAllRecipes,
+  recipeById: getRecipeById,
 };

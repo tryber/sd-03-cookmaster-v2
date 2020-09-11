@@ -12,6 +12,21 @@ const createRecipe = async (name, ingredients, preparation, userID) => {
   }
 };
 
+const updateRecipe = async (id, name, ingredients, preparation) => {
+  try {
+    const connect = await connection('recipes');
+    const updateQuery = await connect.findOneAndUpdate(
+      { _id: ObjectID(id) },
+      { $set: { name, ingredients, preparation } },
+      { returnOriginal: false },
+    );
+
+    return updateQuery.value;
+  } catch (error) {
+    throw new Error(' recipe not found');
+  }
+};
+
 const getAllRecipes = async () => {
   try {
     const connect = await connection('recipes');
@@ -33,4 +48,4 @@ const getRecipeById = async (id) => {
   }
 };
 
-module.exports = { createRecipe, getAllRecipes, getRecipeById };
+module.exports = { createRecipe, updateRecipe, getAllRecipes, getRecipeById };
