@@ -3,7 +3,7 @@ const userModel = require('../models/userModel');
 
 const secret = 'cookmastersecret';
 
-module.exports = (required = true) => async (req, res, next) => {
+const auth = (required = true) => async (req, res, next) => {
   
   const token = req.headers.authorization;
 
@@ -33,4 +33,6 @@ module.exports = (required = true) => async (req, res, next) => {
   } catch(err) {
     return res.status(401).json({ message: 'jwt malformed' })
   }
-};
+}
+
+module.exports = auth;
