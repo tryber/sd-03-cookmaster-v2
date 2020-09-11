@@ -88,12 +88,12 @@ const storage = multer.diskStorage({
   filename: (req, file, callback) => {
     const { id } = req.params;
     callback(null, `${id}.jpeg`);
-  }
+  },
 });
 
 const upload = multer({ storage });
 
-const putImage = rescue(async (req, res, next) => {
+const putImage = rescue(async (req, res) => {
   const { params: { id }, file: { filename } = {} } = req;
   const recipe = await recipesServices.putImageOnRecipe(id, `localhost:3000/images/${filename}`);
 

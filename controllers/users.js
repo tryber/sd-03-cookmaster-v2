@@ -4,6 +4,7 @@ const Boom = require('boom');
 
 const { usersServices } = require('../services');
 const { auth } = require('../middlewares');
+
 const usersRouter = express.Router();
 
 const EMAIL_REGEX = /^[A-z0-9]+(\.?[A-z0-9]+)?@[A-z0-9]+(\.?[A-z0-9]+)?$/;
@@ -29,7 +30,7 @@ const createUser = rescue(async (req, res) => {
 
 const createAdmin = rescue(async (req, res, next) => {
   const { user: { role }, body: { name, email, password } } = req;
-  if (role !== 'admin')  return next(Boom.forbidden('Only admins can register new admins'));
+  if (role !== 'admin') return next(Boom.forbidden('Only admins can register new admins'));
 
   const user = await usersServices.createUser('admin', { name, email, password });
   return res.status(201).json({ user });
