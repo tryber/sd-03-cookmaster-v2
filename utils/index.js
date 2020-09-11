@@ -16,7 +16,7 @@ const shallowComparation = (object1, object2) => {
     return false;
   }
 
-  return keys1.forEach((key) => object1[key] === object2[key]);
+  return !keys1.some((key) => object1[key] !== object2[key]);
 };
 
 function generateError(status, error) {
