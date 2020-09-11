@@ -3,7 +3,7 @@ require('dotenv/config');
 const rescue = require('express-rescue');
 const Boom = require('boom');
 
-const { SECRET } = process.env;
+const { SECRET = 'preguica de criar um segredo' } = process.env;
 
 module.exports = rescue(async (req, _res, next) => {
   const { authorization: token } = req.headers || {};

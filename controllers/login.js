@@ -7,7 +7,7 @@ const Boom = require('boom');
 const { usersServices } = require('../services');
 
 const loginRouter = express.Router();
-const { SECRET } = process.env;
+const { SECRET = 'preguica de criar um segredo' } = process.env;
 const tokenConfig = {
   expiresIn: '8d',
   algorithm: 'HS256',
