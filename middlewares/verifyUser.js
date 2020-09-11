@@ -2,10 +2,14 @@ const { getUserByEmail } = require('../models/usersModel');
 
 const verifyEmail = (email) => {
   if (typeof email !== 'string') return false;
+
   //  regex found at https://www.w3resource.com/javascript/form/email-validation.php
   const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
   const validation = regex.test(email);
+
   if (!validation) return false;
+
   return true;
 };
 
