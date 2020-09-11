@@ -9,6 +9,15 @@ const invalidEntries = {
   },
 };
 
+const invalidLogin = {
+  noEmail: {
+    message: 'All fields must be filled',
+  },
+  emailInvalid: {
+    message: 'Incorrect username or password',
+  },
+};
+
 const regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const validateEntries = (name, email, password) => {
@@ -21,7 +30,18 @@ const checkEmailExist = async (email) => {
   if (result) return invalidEntries.errEmail;
 };
 
+const validateLogin = (email) => {
+  if (!email) return invalidLogin.noEmail;
+  if (!regexEmail.test(email)) return invalidLogin.emailInvalid;
+};
+
+const validadePassword = (password) => {
+  if (!password) return invalidLogin.noEmail;
+};
+
 module.exports = {
   validateEntries,
   checkEmailExist,
+  validateLogin,
+  validadePassword,
 };

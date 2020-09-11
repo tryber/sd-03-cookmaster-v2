@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const jwt = require('jsonwebtoken');
 const service = require('./serviceUsers');
+const { validadePassword } = require('../validation/validation');
 
 const users = Router();
 
@@ -18,24 +19,22 @@ users.post('/users', async (req, res) => {
   return res.status(201).json({ user: result });
 });
 
-const jwtConfig = { expiresIn: '1d', algorithm: 'HS256' };
-const secret = 'secret'; // jwt = {payload} + segredo + jwtConfig;
-const token = jwt.sign({ id: _id, name, admin: false }, secret, jwtConfig);
+const secret = 'secret';
 
-// res.status(200).json({
-//   token : token,
-//   expires: expires
-// })
+users.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const userEmail = await service.checkEmail(email);
+  const userPassword = await service.checkPassword(password);
 
-users.get('/login', async (req, res) => {
-  const { name, password } = req.body;
+  if (validadePassword(password)) return res.status(401).json({ message: 'All fields must be filled' });
+  if (!userEmail) return res.status(401).json({ message: 'Incorrect username or password' });
+  if (!userPassword) return res.status(401).json({ message: 'All fields must be filled' });
 
-  if (!name || !password) return res.status(401).json({ mess: 'sem name || password' });
+  const { _id, email: emailPayload, role } = userEmail;
+  const jwtConfig = { algorithm: 'HS256', expiresIn: '15' };
+  const token = jwt.sign({ _id, emailPayload, role }, secret, jwtConfig);
 
-  const result = await service.checkLogin(name);
-
-  if (result) return res.status(200).json({ message: 'exist' });
-  return res.status(401).json({ message: 'não existe' });
+  return res.status(200).json({ token });
 });
 
 module.exports = users;

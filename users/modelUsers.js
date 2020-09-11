@@ -9,13 +9,12 @@ const checkEmail = async (email) => connect()
   .then((db) => db.collection('users').findOne({ email }))
   .catch((err) => err);
 
-const checkLogin = async (name) => connect()
-  .then((db) => db.collection('users').find({ name }))
-  // .then(() => ({ name, password }))
+const checkPassowrd = async (password) => connect()
+  .then((db) => db.collection('users').findOne({ password }))
   .catch((err) => err);
 
 module.exports = {
   registerUsers,
   checkEmail,
-  checkLogin,
+  checkPassowrd,
 };

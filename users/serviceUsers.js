@@ -1,6 +1,5 @@
 const model = require('./modelUsers');
-const { validateEntries, checkEmailExist } = require('../validation/validation');
-
+const { validateEntries, checkEmailExist, validateLogin, validadePassword } = require('../validation/validation');
 
 const registerUsers = async (name, email, password, role) => {
   const validate = validateEntries(name, email, password);
@@ -10,15 +9,20 @@ const registerUsers = async (name, email, password, role) => {
   return model.registerUsers(name, email, password, role);
 };
 
+const checkEmail = async (email) => {
+  const validate = validateLogin(email);
+  if (validate) return { validate };
+  return model.checkEmail(email);
+};
 
-
-
-const checkLogin = async (name, password) => {
-  const a = await model.checkLogin(name, password);
-  return a;
+const checkPassword = async (password) => {
+  const validate = validadePassword(password);
+  if (validate) return { validate };
+  return model.checkPassowrd(password);
 };
 
 module.exports = {
   registerUsers,
-  checkLogin,
+  checkEmail,
+  checkPassword,
 };
