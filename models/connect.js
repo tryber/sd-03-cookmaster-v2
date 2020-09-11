@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const { MONGO_DB_URL, DB_NAME =  } = process.env;
 
 const connect = () =>
-  MongoClient.connect(MONGO_URL, {
+  MongoClient.connect(MONGO_DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
