@@ -6,6 +6,7 @@ const { create: CreateUser, getUser: SearchUser } = userServices;
 const {
   create: CreateRecipe,
   update: UpdateRecipe,
+  uploadImageData: UploadImage,
   listRecipes: ListAll,
   listRecipe: GetRecipe,
   deleteRecipeById: DeleteRecipe,
@@ -16,6 +17,7 @@ module.exports = {
   SearchUser,
   CreateRecipe,
   UpdateRecipe,
+  UploadImage,
   ListAll,
   GetRecipe,
   DeleteRecipe,

@@ -1,4 +1,11 @@
-const { createRecipe, updateRecipe, deleteRecipe, allRecipes, recipeById } = require('../models');
+const {
+  createRecipe,
+  updateRecipe,
+  uploadImage,
+  deleteRecipe,
+  allRecipes,
+  recipeById,
+} = require('../models');
 const recipeValidation = require('./recipeRegisterValidation');
 
 const create = async (name, ingredients, preparation, userId) => {
@@ -22,6 +29,16 @@ const update = async (id, name, ingredients, preparation) => {
     && (await updateRecipe(id, name, ingredients, preparation));
 
     return updateValidation.message ? { message: updateValidation.message } : { ...modifyRecipe };
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+const uploadImageData = async (id, image) => {
+  try {
+    const upload = await uploadImage(id, image);
+
+    return upload;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -57,4 +74,4 @@ const listRecipe = async (id) => {
   }
 };
 
-module.exports = { create, update, deleteRecipeById, listRecipes, listRecipe };
+module.exports = { create, update, uploadImageData, deleteRecipeById, listRecipes, listRecipe };

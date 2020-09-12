@@ -12,12 +12,27 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
   }
 };
 
-const updateRecipe = async (id, name, ingredients, preparation, image = null) => {
+const updateRecipe = async (id, name, ingredients, preparation) => {
   try {
     const connect = await connection('recipes');
     const updateQuery = await connect.findOneAndUpdate(
       { _id: ObjectID(id) },
-      { $set: { name, ingredients, preparation, image } },
+      { $set: { name, ingredients, preparation } },
+      { returnOriginal: false },
+    );
+
+    return updateQuery.value;
+  } catch (error) {
+    throw new Error('recipe not found');
+  }
+};
+
+const updateRecipeImage = async (id, image) => {
+  try {
+    const connect = await connection('recipes');
+    const updateQuery = await connect.findOneAndUpdate(
+      { _id: ObjectID(id) },
+      { $set: { image } },
       { returnOriginal: false },
     );
 
@@ -59,4 +74,11 @@ const getRecipeById = async (id) => {
   }
 };
 
-module.exports = { createRecipe, updateRecipe, deleteRecipe, getAllRecipes, getRecipeById };
+module.exports = {
+  createRecipe,
+  updateRecipe,
+  updateRecipeImage,
+  deleteRecipe,
+  getAllRecipes,
+  getRecipeById,
+};
