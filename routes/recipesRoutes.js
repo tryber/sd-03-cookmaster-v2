@@ -1,4 +1,12 @@
-const { CreateRecipe, ListAll, GetRecipe, UpdateRecipe, DeleteRecipe } = require('../services');
+const {
+  CreateRecipe,
+  ListAll,
+  GetRecipe,
+  UpdateRecipe,
+  UploadImage,
+  DeleteRecipe,
+} = require('../services');
+
 const { generateError, shallowComparation } = require('../utils');
 
 const createRecipe = async (req, res, next) => {
@@ -37,7 +45,26 @@ const updateRecipe = async (req, res, next) => {
   }
 };
 
-const uploadRecipeImage = async (req, res, next) => {};
+const uploadRecipeImage = async (req, res, next) => {
+  const { params, file, user } = req;
+  const { filename } = file;
+  const { id } = params;
+  const { _id, role } = user;
+  try {
+    const recipeData = await GetRecipe(id);
+
+    if (shallowComparation(recipeData.userId, _id) && role !== 'admin') {
+      throw new Error('Unauthorized');
+    }
+
+    const image = `localhost:3000/images/${filename}`;
+    const imageUpload = await UploadImage(id, image);
+
+    return res.status(200).json({ ...imageUpload });
+  } catch (error) {
+    return next(generateError(401, error));
+  }
+};
 
 const deleteRecipe = async (req, res, next) => {
   const { params, user } = req;
