@@ -5,15 +5,12 @@ const isValidEmail = (email) => {
   return re.test(String(email).toLowerCase());
 };
 
-const createUserService = async (name, email, password) => {
-  const userInfo = { name, email, password };
-
+const validateData = async ({ name, email, password }) => {
   if (name === undefined) {
     return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
   }
 
   const emailExists = await userModel.searchByEmail(email);
-  console.log(emailExists);
 
   if (emailExists !== null) {
     return { code: 'email_Exists', message: 'Email already registered' };
@@ -28,7 +25,17 @@ const createUserService = async (name, email, password) => {
   if (!isEMailValid) {
     return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
   }
-  
+  return null;
+}
+
+const createUserService = async (name, email, password) => {
+  const userInfo = { name, email, password };
+
+  const validateINfo = await validateData(userInfo);
+  if(validateINfo !== null ) {
+    return validateINfo;
+  }
+
   const createUser = await userModel.createUserModel(userInfo);
   return createUser;
 };
