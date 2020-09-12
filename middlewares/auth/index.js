@@ -17,7 +17,9 @@ const validateTokenInfo = async (token, required) => {
 
     if (!userData) throw new Error('invalid token');
 
-    return { ...userData };
+    const { password, ...user } = userData;
+
+    return { ...user };
   } catch (error) {
     throw new Error(error.message);
   }
