@@ -1,16 +1,5 @@
-const path = require('path');
-const multer = require('multer');
 const { CreateRecipe, ListAll, GetRecipe, UpdateRecipe, DeleteRecipe } = require('../services');
 const { generateError, shallowComparation } = require('../utils');
-
-const storage = multer.diskStorage({
-  destination: (_req, _file, callback) => callback(null, path.join(__dirname, '../uploads')),
-  filename: (req, _file, callback) => {
-    const { id } = req.params;
-    return callback(null, id);
-  },
-});
-const upload = multer({ storage });
 
 const createRecipe = async (req, res, next) => {
   try {

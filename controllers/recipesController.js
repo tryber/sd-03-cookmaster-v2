@@ -15,6 +15,6 @@ recipes
   .put(middlewares.auth(), routes.modifyRecipe)
   .delete(middlewares.auth(), routes.deleteRecipe);
 
-recipes.route('/:id/image').put(middlewares.auth(), routes.uploadImage);
+recipes.route('/:id/image').put(middlewares.auth(), middlewares.upload);
 
 module.exports = recipes;
