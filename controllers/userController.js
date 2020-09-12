@@ -27,7 +27,21 @@ const loginUser = rescue(async (req, res) => {
   res.status(200).json({ token });
 });
 
+const addAdmin = rescue(async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const newAdmin = await userService.addAdmin(name, email, password, req.user.role);
+
+  if (newAdmin.status) {
+    const { status, message } = newAdmin;
+    return res.status(status).json({ message });
+  }
+
+  return res.status(201).json(newAdmin);
+});
+
 module.exports = {
   addUser,
   loginUser,
+  addAdmin,
 };

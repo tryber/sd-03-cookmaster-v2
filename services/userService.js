@@ -65,7 +65,24 @@ const login = async (email, reqPassword) => {
   return token;
 };
 
+const addAdmin = async (name, email, password, role) => {
+  if(role !== 'admin') {
+    return { status: 403, message: 'Only admins can register new admins' };
+  }
+
+  const verify = verifyFields(name, email, password);
+
+  if (verify) return verify;
+
+  if (await userModel.findByEmail(email)) {
+    return { status: 409, message: 'Email already registered' };
+  }
+
+  return userModel.add(name, email, password, 'admin');
+};
+
 module.exports = {
   add,
   login,
+  addAdmin,
 };

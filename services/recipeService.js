@@ -60,9 +60,18 @@ const remove = async (usrId, id, role) => {
   return recipeModel.removeById(id);
 };
 
+const updateImage = async (usrId, id, role, image) => {
+  const authentication = await verifyUser(usrId, id, role);
+
+  if (authentication) return authentication;
+
+  return recipeModel.updateImageById(id, `localhost:3000/images/${image}`);
+};
+
 module.exports = {
   add,
   findRecipe,
   updateRecipe,
   remove,
+  updateImage,
 };

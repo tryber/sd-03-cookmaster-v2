@@ -59,10 +59,23 @@ const removeRecipe = rescue(async (req, res) => {
   return res.status(204).send();
 });
 
+const updateRcpImg = rescue(async (req, res) => {
+  const { _id, role } = req.user;
+  const recipe = await recipeService.updateImage(_id, req.params.id, role, req.file.filename);
+
+  if (recipe.status) {
+    const { status, message } = recipe;
+    return res.status(status).json({ message });
+  }
+
+  return res.status(200).json(recipe);
+});
+
 module.exports = {
   addRecipe,
   listRecipes,
   listById,
   update,
   removeRecipe,
+  updateRcpImg,
 };
