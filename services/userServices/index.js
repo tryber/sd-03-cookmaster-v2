@@ -13,6 +13,18 @@ const create = async ({ name, email, password }) => {
   }
 };
 
+const createAdmin = async ({ name, email, password }) => {
+  try {
+    const validation = await userValidation(name, email, password);
+
+    const newAdmin = !validation.message && (await createUser(name, email, password, 'admin'));
+
+    return validation.message ? { message: validation.message } : { ...newAdmin };
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 const getUser = async (email = null, id = null) => {
   let userData;
   try {
@@ -26,4 +38,4 @@ const getUser = async (email = null, id = null) => {
   }
 };
 
-module.exports = { create, getUser };
+module.exports = { create, createAdmin, getUser };

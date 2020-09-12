@@ -1,7 +1,7 @@
 const userRoutes = require('./usersRoutes');
 const recipesRoutes = require('./recipesRoutes');
 
-const { createUser, userLogin } = userRoutes;
+const { createUser, createAdmin, userLogin } = userRoutes;
 const {
   createRecipe,
   updateRecipe,
@@ -13,6 +13,7 @@ const {
 
 module.exports = {
   newUser: createUser,
+  newAdmin: createAdmin,
   login: userLogin,
   newRecipe: createRecipe,
   modifyRecipe: updateRecipe,

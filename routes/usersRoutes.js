@@ -1,4 +1,4 @@
-const { CreateUser, SearchUser } = require('../services');
+const { CreateUser, CreateAdmin, SearchUser } = require('../services');
 const { generateError, validateEmail } = require('../utils');
 
 const createUser = async (req, res, next) => {
@@ -14,6 +14,21 @@ const createUser = async (req, res, next) => {
   }
 };
 
+const createAdmin = async (req, res, next) => {
+  const { user, body } = req;
+  const { role } = user;
+  try {
+    if (role !== 'admin') throw new Error('Only admins can register new admins');
+
+    const admin = await CreateAdmin(body);
+
+    if (admin.message) throw new Error(admin.message);
+  } catch (error) {
+    if (error.message !== 'Only admins can register new admins') return next(generateError(400, error));
+    return next(generateError(403, error));
+  }
+};
+
 const userLogin = async (req, _res, next) => {
   try {
     const { email, password } = req.body;
@@ -21,7 +36,13 @@ const userLogin = async (req, _res, next) => {
 
     if (!email || !password) throw new Error('All fields must be filled');
 
-    if (!validateEmail(email) || password.length < 5 || !user || user.email !== email || user.password !== password) throw new Error('Incorrect username or password');
+    if (
+      !validateEmail(email)
+      || password.length < 5
+      || !user
+      || user.email !== email
+      || user.password !== password
+    ) throw new Error('Incorrect username or password');
 
     req.data = user;
     return next();
@@ -30,4 +51,4 @@ const userLogin = async (req, _res, next) => {
   }
 };
 
-module.exports = { createUser, userLogin };
+module.exports = { createUser, createAdmin, userLogin };
