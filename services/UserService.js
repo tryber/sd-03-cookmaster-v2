@@ -23,14 +23,14 @@ const validateData = async ({ name, email, password }) => {
   if (!isEMailValid) {
     return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
   }
-  return null;
 }
 
 const createUserService = async (name, email, password) => {
   const userInfo = { name, email, password };
 
   const validateINfo = await validateData(userInfo);
-  if(validateINfo !== null ) {
+  console.log(validateINfo);
+  if(validateINfo !== undefined ) {
     return validateINfo;
   }
   if (password === undefined) {
