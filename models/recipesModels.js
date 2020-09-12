@@ -12,12 +12,12 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
   }
 };
 
-const updateRecipe = async (id, name, ingredients, preparation) => {
+const updateRecipe = async (id, name, ingredients, preparation, image = null) => {
   try {
     const connect = await connection('recipes');
     const updateQuery = await connect.findOneAndUpdate(
       { _id: ObjectID(id) },
-      { $set: { name, ingredients, preparation } },
+      { $set: { name, ingredients, preparation, image } },
       { returnOriginal: false },
     );
 
