@@ -66,7 +66,7 @@ const login = async (email, reqPassword) => {
 };
 
 const addAdmin = async (name, email, password, role) => {
-  if(role !== 'admin') {
+  if (role !== 'admin') {
     return { status: 403, message: 'Only admins can register new admins' };
   }
 

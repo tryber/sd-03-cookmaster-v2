@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
-const fs = require('fs').promises;
 const path = require('path');
 const controllers = require('./controllers');
 const auth = require('./services/auth');
@@ -14,11 +13,11 @@ app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/')
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, `${req.params.id}.jpeg`)
-  }
+    cb(null, `${req.params.id}.jpeg`);
+  },
 });
 
 const upload = multer({ storage });
