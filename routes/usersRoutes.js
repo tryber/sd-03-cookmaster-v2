@@ -23,6 +23,8 @@ const createAdmin = async (req, res, next) => {
     const admin = await CreateAdmin(body);
 
     if (admin.message) throw new Error(admin.message);
+
+    return res.status(201).json({ user: admin });
   } catch (error) {
     if (error.message !== 'Only admins can register new admins') return next(generateError(400, error));
     return next(generateError(403, error));
