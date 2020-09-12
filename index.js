@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // const path = require('path');
 const routeUsers = require('./routes/routeUsers');
+const routeLogin = require('./routes/routeLogin');
 
 // const middlewares = require('./middlewares');
 // const controllers = require('./controllers');
@@ -9,6 +10,7 @@ const routeUsers = require('./routes/routeUsers');
 const app = express();
 app.use(bodyParser.json());
 app.use('/users', routeUsers);
+app.use('/login', routeLogin);
 
 app.get('/', (request, response) => {
   response.send();
