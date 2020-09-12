@@ -1,11 +1,11 @@
 const userModel = require('../models/UserModel');
 
 const isValidEmail = (email) => {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 };
 
-const validateData = async ({ name, email, password }) => {
+const validateData = async ({ name, email }) => {
   if (name === undefined) {
     return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
   }
@@ -23,14 +23,14 @@ const validateData = async ({ name, email, password }) => {
   if (!isEMailValid) {
     return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
   }
-}
+};
 
 const createUserService = async (name, email, password) => {
   const userInfo = { name, email, password };
 
   const validateINfo = await validateData(userInfo);
   console.log(validateINfo);
-  if(validateINfo !== undefined ) {
+  if (validateINfo !== undefined) {
     return validateINfo;
   }
   if (password === undefined) {
