@@ -18,7 +18,7 @@ const createUserModel = async ({ name, email, password }) => {
 
 const searchByEmail = async (email) => {
   const db = await connect();
-  result = await db.collection('users').findOne({ email: email });
+  const result = await db.collection('users').findOne({ email: email });
   return result;
 };
 

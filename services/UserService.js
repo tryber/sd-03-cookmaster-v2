@@ -18,9 +18,7 @@ const validateData = async ({ name, email, password }) => {
   if (!email) {
     return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
   }
-  if (password === undefined) {
-    return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
-  }
+
   const isEMailValid = isValidEmail(email);
   if (!isEMailValid) {
     return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
@@ -34,6 +32,9 @@ const createUserService = async (name, email, password) => {
   const validateINfo = await validateData(userInfo);
   if(validateINfo !== null ) {
     return validateINfo;
+  }
+  if (password === undefined) {
+    return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
   }
 
   const createUser = await userModel.createUserModel(userInfo);
