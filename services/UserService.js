@@ -28,19 +28,7 @@ const createUserService = async (name, email, password) => {
   if (!isEMailValid) {
     return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
   }
-  /**
-   *  const isEMailValid = isValidEmail(email);
-  if (!isEMailValid) {
-    return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
-  }
-  if (!email) {
-    return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
-  }
-
-  if (password === undefined) {
-    return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
-  }  
-   */
+  
   const createUser = await userModel.createUserModel(userInfo);
   return createUser;
 };
