@@ -7,7 +7,8 @@ const setNewUser = async (name, email, password) =>
 
 const findUserByEmail = async (email) =>
   connect()
-    .then((db) => db.collection('users').findOne({ 'user.email': email }));
+    .then((db) => db.collection('users').findOne({ 'user.email': email }))
+    .then(({ user }) => ({ user }));
 
 module.exports = {
   setNewUser,
