@@ -3,8 +3,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: (_req, _file, callback) => callback(null, path.join(__dirname, '../../uploads')),
-  filename: (req, file, callback) => {
-    // concatenando id da receita com extensão original do arquivo recebido
+  filename: (req, _file, callback) => {
     const { id } = req.params;
     return callback(null, `${id}.jpeg`);
   },

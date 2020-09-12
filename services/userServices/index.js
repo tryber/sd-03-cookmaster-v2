@@ -1,4 +1,4 @@
-const { createUser, userByEmail, userById } = require('../models');
+const { createUser, userByEmail, userById } = require('../../models');
 const userValidation = require('./userRegisterValidation');
 
 const create = async ({ name, email, password }) => {

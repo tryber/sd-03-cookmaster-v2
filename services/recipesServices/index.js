@@ -5,7 +5,7 @@ const {
   deleteRecipe,
   allRecipes,
   recipeById,
-} = require('../models');
+} = require('../../models');
 const recipeValidation = require('./recipeRegisterValidation');
 
 const create = async (name, ingredients, preparation, userId) => {

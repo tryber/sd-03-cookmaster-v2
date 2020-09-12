@@ -1,5 +1,5 @@
-const { userByEmail } = require('../models');
-const { validateEmail } = require('../utils');
+const { userByEmail } = require('../../models');
+const { validateEmail } = require('../../utils');
 
 const getUser = async (userEmail) => {
   try {
