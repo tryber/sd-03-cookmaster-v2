@@ -1,27 +1,26 @@
 const { connect } = require('./DbConnection');
 
-
 const createUserModel = async ({ name, email, password }) => {
   let result = '';
   let user = '';
   const db = await connect();
 
-  result = await db.collection('user').insertOne({
+  result = await db.collection('users').insertOne({
     name,
     email,
     password,
-    role:'user',
+    role: 'user',
   });
   const listUser = result.ops[0];
   user = { user: listUser };
   return user;
 };
 
-const searchByEmail =  async (email) => {
+const searchByEmail = async (email) => {
   const db = await connect();
-  result = await db.collection('user').findOne({email:email});
-  return result.email;
-}
+  result = await db.collection('users').findOne({ email: email });
+  return result;
+};
 
 module.exports = {
   createUserModel,
