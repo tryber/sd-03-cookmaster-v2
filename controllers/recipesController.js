@@ -10,7 +10,7 @@ const setNewRecipe = async (req, res, next) => {
 
 const findAllRecipes = async (_req, res) => {
   const recipe = await recipesService.findAllRecipes();
-  return res.status(201).json(recipe);
+  return res.status(200).json(recipe);
 };
 
 module.exports = {
