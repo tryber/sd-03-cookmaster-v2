@@ -12,7 +12,16 @@ const getUserWithEmail = async (email) => {
   return emailExists;
 };
 
+const insertAdmin = async ({ name, email, password, newUserRole }) => {
+  const db = await connect();
+  const newUser = await db.collection('users')
+    .insertOne({ name, email, password, role: newUserRole });
+
+  return { user: newUser.ops[0] };
+};
+
 module.exports = {
   insertUser,
   getUserWithEmail,
+  insertAdmin,
 };

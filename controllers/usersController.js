@@ -7,6 +7,7 @@ const {
   validatePassword,
   validateUserEmail,
   validateUniqueEmail,
+  createNewAdmin,
 } = require('../services/userServices');
 
 const createUser = rescue(async (req, res) => {
@@ -31,6 +32,20 @@ const createUser = rescue(async (req, res) => {
   return res.status(201).json({ user });
 });
 
+const createAdmin = rescue(async (req, res) => {
+  const { role } = req.user;
+  const { name, email, password } = req.body;
+
+  if (role !== 'admin') {
+    throw new ErrorClass(403, 'Only admins can register new admins', 'not_admin');
+  }
+
+  const createAdminUser = await createNewAdmin({ name, email, password, newUserRole: 'admin' });
+  console.log(createAdminUser)
+  return res.status(201).json(createAdminUser);
+});
+
 module.exports = {
   createUser,
+  createAdmin,
 };

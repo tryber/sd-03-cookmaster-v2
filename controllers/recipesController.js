@@ -106,9 +106,6 @@ const recipeForm = rescue(async (req, res) => {
 
   const updatedRecipe = await updateRecipeIMG(id, serverPath);
 
-  console.log(req.body);
-  console.log(req.file);
-  console.log(updatedRecipe)
   return res.status(200).json(updatedRecipe);
 });
 
