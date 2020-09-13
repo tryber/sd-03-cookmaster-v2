@@ -4,7 +4,7 @@ const users = require('../models/users');
 
 const authMiddleware = async (req, _res, next) => {
   const { name, ingredients, preparation } = req.body;
-  if (!name || !ingredients || !preparation) return next(badRequest('Invalid entries. Try again.'));
+  if (!name || !ingredients || !preparation) return next(unauthorized('Invalid entries. Try again.'));
   const token = req.headers.authorization;
   if (!token) return next(unauthorized('invalid token'));
   try {
