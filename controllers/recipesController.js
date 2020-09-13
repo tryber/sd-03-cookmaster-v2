@@ -13,9 +13,10 @@ const findAllRecipes = async (_req, res) => {
   return res.status(200).json(recipe);
 };
 
-const findRecipesById = async (req, res) => {
+const findRecipesById = async (req, res, next) => {
   const { id } = req.params;
   const recipe = await recipesService.findRecipesById(id);
+  if (recipe.error) return next(recipe);
   return res.status(200).json(recipe);
 };
 
