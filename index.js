@@ -3,14 +3,13 @@ const bodyParser = require('body-parser');
 // const path = require('path');
 const routeUsers = require('./routes/routeUsers');
 const routeLogin = require('./routes/routeLogin');
-
-// const middlewares = require('./middlewares');
-// const controllers = require('./controllers');
+const routeRecipes = require('./routes/routeRecipes');
 
 const app = express();
 app.use(bodyParser.json());
 app.use('/users', routeUsers);
 app.use('/login', routeLogin);
+app.use('/recipes', routeRecipes);
 
 app.get('/', (request, response) => {
   response.send();

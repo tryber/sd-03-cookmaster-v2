@@ -13,16 +13,17 @@ const setNewUser = async (name, email, password) => {
   return infos;
 };
 
-const findUser = async (email, password) => {
-  if (!email || !password) return unauthorized('All fields must be filled');
+const findUser = async (email, passwordValue) => {
+  if (!email || !passwordValue) return unauthorized('All fields must be filled');
   const user = await users.findUserByEmail(email);
   if (user === null) return unauthorized('Incorrect username or password');
-  if (user.user.password !== password) return unauthorized('Incorrect username or password');
+  if (user.user.password !== passwordValue) return unauthorized('Incorrect username or password');
+  const { user: { password, ...rest } } = user;
   const jwtConfig = {
-    expiresIn: '1m',
+    expiresIn: '15m',
     algorithm: 'HS256',
   };
-  const token = jwt.sign({ data: user }, secret, jwtConfig);
+  const token = jwt.sign({ data: rest }, secret, jwtConfig);
   return token;
 };
 
