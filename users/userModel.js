@@ -1,26 +1,33 @@
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: { type: String, require: true, min: 5 },
   password: { type: String, require: true },
-  email: { type: String, unique: true },
+  email: { type: String/* , unique: true */ },
   role: {
     type: String,
     default: 'user',
   },
 });
-const User = mongoose.model('User', UserSchema);
+
+const User = mongoose.model('User', userSchema);
 
 const createUser = async (data) => {
-  console.log('data:', data);
   const user = new User(data);
-  console.log('user:', user);
-  return user.save();
-};
-
-const findUser = async (data, field = 'id') => {
-  const user = User.find({ [field]: data });
+  console.log('passei errado ');
+  user.save();
   return user;
 };
 
+const findUser = async (value, field) =>
+  User.findOne({ [field]: value }).exec();
+
 module.exports = { createUser, findUser };
+
+// const userSchema = new mongoose.Schema({
+//   name: String,
+//   email: String,
+//   password: String,
+//   role: String,
+
+// });

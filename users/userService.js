@@ -1,7 +1,14 @@
+const jwt = require('jsonwebtoken');
 const Model = require('./userModel');
 
 const createUser = async (data) => {
-  await Model.createUser(data);
-  console.log(data);
+  const user = await Model.createUser(data);
+  return user;
 };
-module.exports = { createUser };
+
+const createToken = async (data) => {
+  const token = jwt.sign(data, 'htop');
+  return token;
+};
+
+module.exports = { createUser, createToken };

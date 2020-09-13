@@ -1,24 +1,41 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const middlewares = require('./middlewares/index');
 const UserRouter = require('./routes/users');
+const userController = require('./users/userController');
+require('dotenv').config();
+
+const MONGO_DB_URL = process.env.MONGO_DB_URL || 'mongodb://mongodb:27017/Cookmaster';
+
+mongoose.connect(MONGO_DB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const port = process.env.PORT || 3000;
-
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
 });
-app.use((req, _res, next) => {
-  console.log(`${req.method} ${req.path}`);
-  console.log(`${JSON.stringify(req.body)} ${''}`);
+app.use((req, res, next) => {
+  console.log(`==================== requestito ====================
+  ${req.method} ${req.path}`);
+  console.log(`${JSON.stringify(req.body)}
+  ==================== requestito ====================`);
 
   next();
 });
 app.use('/users', UserRouter);
 
-app.listen(port);
-console.log(`conectado na porta ${port}`);
+app.post('/login', middlewares.validadeLogin, userController.login);
+
+app.use(middlewares.errorHandler);
+
+const { PORT = 3000 } = process.env;
+
+app.listen(PORT);
+console.log(`conectado na porta ${PORT}`);
