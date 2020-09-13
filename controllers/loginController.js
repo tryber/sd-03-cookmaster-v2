@@ -3,9 +3,25 @@ const rescue = require('express-rescue');
 const jwt = require('jsonwebtoken');
 const loginService = require('../services/loginService');
 
+let token;
 const login = Router();
+function jwtDecodification(tokenP) {
+  const secret = 'seusecretdetoken';
+  return jwt.verify(tokenP, secret);
+}
+function jwtGenerator(email, res) {
+  const secret = 'seusecretdetoken';
+  const jwtConfig = {
+    expiresIn: '7d',
+    algorithm: 'HS256',
+  };
 
-const secret = 'seusecretdetoken';
+  token = jwt.sign({ data: email }, secret, jwtConfig);
+  return res.status(200).json({
+    token,
+    expires: jwtConfig.expiresIn,
+  });
+}
 login.post(
   '/',
   rescue(async (req, res) => {
@@ -14,17 +30,8 @@ login.post(
     if (checkLogin.code !== 'valid') {
       return res.status(401).json(checkLogin);
     }
-    const jwtConfig = {
-      expiresIn: '7d',
-      algorithm: 'HS256',
-    };
-
-    const token = jwt.sign({ data: email }, secret, jwtConfig);
-    return res.status(200).json({
-      token,
-      expires: jwtConfig.expiresIn,
-    });
+    return jwtGenerator(email, res);
   }),
 );
 
-module.exports = login;
+module.exports = { login, jwtDecodification };

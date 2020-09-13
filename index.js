@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { loginController, userController } = require('./controllers');
+const login = require('./controllers');
+const { userController, recipesController } = require('./controllers');
 
 const app = express();
 app.use(bodyParser({ extended: true }));
@@ -9,8 +10,10 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/login', loginController);
+app.use('/login', login.login.login);
 
 app.use('/users', userController);
+
+app.use('/recipes', recipesController);
 
 app.listen(3000, () => console.log('iniciando Servidor !'));

@@ -21,7 +21,7 @@ const loginCheck = async (email, password) => {
   }
   const confirmLogin = await userModel.searchByEmail(email);
   if (confirmLogin && confirmLogin.email === email && confirmLogin.password === password) {
-    return { code: 'valid', message: 'Alright' };
+    return { code: 'valid', user: confirmLogin };
   }
   return { code: 'invalid', message: 'Incorrect username or password' };
 };
