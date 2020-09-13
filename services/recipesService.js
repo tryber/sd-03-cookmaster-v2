@@ -29,6 +29,12 @@ const createRecipeService = async (recipesData, userData, token) => {
   return createRecipe;
 };
 
+const listRecipesService = async () => {
+  const recipes = await recipesModel.listRecipesModel();
+  return recipes;
+};
+
 module.exports = {
   createRecipeService,
+  listRecipesService,
 };
