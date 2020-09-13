@@ -7,6 +7,12 @@ const setNewRecipe = async (name, ingredients, preparation, userId) => {
   return recipeSeted;
 };
 
+const findAllRecipes = async () => {
+  const allRecipes = await recipes.findAllRecipes();
+  return allRecipes;
+};
+
 module.exports = {
   setNewRecipe,
+  findAllRecipes,
 };
