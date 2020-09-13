@@ -19,7 +19,7 @@ users.post('/users', async (req, res) => {
   return res.status(201).json({ user: result });
 });
 
-const secret = 'secret';
+const SECRET = 'secret';
 
 users.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -32,7 +32,7 @@ users.post('/login', async (req, res) => {
 
   const { _id, email: emailPayload, role } = userEmail;
   const jwtConfig = { algorithm: 'HS256', expiresIn: '15' };
-  const token = jwt.sign({ _id, emailPayload, role }, secret, jwtConfig);
+  const token = jwt.sign({ user: { _id, emailPayload, role } }, SECRET, jwtConfig);
 
   return res.status(200).json({ token });
 });
