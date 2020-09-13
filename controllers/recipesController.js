@@ -7,6 +7,7 @@ const {
   getRecipeWithId,
   updateRecipeById,
   deleteRecipeById,
+  updateRecipeIMG,
 } = require('../services/recipesService');
 
 const newRecipe = rescue(async (req, res) => {
@@ -88,10 +89,34 @@ const deleteRecipe = rescue(async (req, res) => {
   return res.status(204).json(deletedRecipe);
 });
 
+const recipeForm = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { _id, role } = req.user;
+
+  const recipe = await getRecipeWithId(id);
+
+  if (!recipe.userId.equals(_id)) {
+    if (role !== 'admin') {
+      throw new ErrorClass(404, 'not owner or admin', 'without_authorization');
+    }
+  }
+
+  const { path } = req.file;
+  const serverPath = `localhost:3000/${path}`;
+
+  const updatedRecipe = await updateRecipeIMG(id, serverPath);
+
+  console.log(req.body);
+  console.log(req.file);
+  console.log(updatedRecipe)
+  return res.status(200).json(updatedRecipe);
+});
+
 module.exports = {
   newRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  recipeForm,
 };

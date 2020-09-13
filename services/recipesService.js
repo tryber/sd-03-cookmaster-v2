@@ -4,6 +4,7 @@ const {
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  updateRecipeImage,
 } = require('../models/recipesModel');
 
 const insertNewRecipe = async (recipeObj) => {
@@ -31,10 +32,16 @@ const deleteRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipeIMG = async (id, path) => {
+  const recipe = await updateRecipeImage(id, path);
+  return recipe;
+};
+
 module.exports = {
   insertNewRecipe,
   getRecipes,
   getRecipeWithId,
   updateRecipeById,
   deleteRecipeById,
+  updateRecipeIMG,
 };

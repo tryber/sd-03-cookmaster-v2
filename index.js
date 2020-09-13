@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path')
 const express = require('express');
 const bodyParser = require('body-parser');
 const { usersRoutes, loginRoutes, recipesRoutes } = require('./routers/index');
@@ -6,6 +7,8 @@ const { errorMiddleware } = require('./middlewares/index');
 
 const app = express();
 app.use(bodyParser.json());
+
+app.use(express.static(path.join(__dirname, '/image')));
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
