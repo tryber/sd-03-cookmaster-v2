@@ -41,7 +41,6 @@ const createAdmin = rescue(async (req, res) => {
   }
 
   const createAdminUser = await createNewAdmin({ name, email, password, newUserRole: 'admin' });
-  console.log(createAdminUser)
   return res.status(201).json(createAdminUser);
 });
 
