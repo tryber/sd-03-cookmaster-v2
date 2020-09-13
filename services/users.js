@@ -17,8 +17,8 @@ const findUser = async (email, passwordValue) => {
   if (!email || !passwordValue) return unauthorized('All fields must be filled');
   const user = await users.findUserByEmail(email);
   if (user === null) return unauthorized('Incorrect username or password');
-  if (user.user.password !== passwordValue) return unauthorized('Incorrect username or password');
-  const { user: { password, ...rest } } = user;
+  if (user.password !== passwordValue) return unauthorized('Incorrect username or password');
+  const { password, ...rest } = user;
   const jwtConfig = {
     expiresIn: '15m',
     algorithm: 'HS256',
