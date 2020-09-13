@@ -1,5 +1,5 @@
 const recipes = require('../models/recipes');
-const { badRequest } = require('../MyErrors');
+const { badRequest, notFound } = require('../MyErrors');
 
 const setNewRecipe = async (name, ingredients, preparation, userId) => {
   if (!name || !ingredients || !preparation) return badRequest('Invalid entries. Try again.');
@@ -12,7 +12,14 @@ const findAllRecipes = async () => {
   return allRecipes;
 };
 
+const findRecipesById = async (id) => {
+  const recipe = await recipes.findRecipesById(id);
+  if (recipe === null) return notFound('recipe not found');
+  return recipe;
+};
+
 module.exports = {
   setNewRecipe,
   findAllRecipes,
+  findRecipesById,
 };
