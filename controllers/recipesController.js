@@ -6,19 +6,14 @@ const { jwtDecodification } = require('./loginController');
 const recipes = Router();
 
 recipes.post('/', rescue(async (req, res) => {
-  let userInfo;
-  let tokenStatus = 'valid_token';
-  if (req.headers.authorization === null) {
-    tokenStatus = 'invalid_token';
-  }
-  if (tokenStatus === 'valid_token') {
-    userInfo = await jwtDecodification(req.headers.authorization);
-  }
-  const result = await recipesServices.createRecipeService(req.body, userInfo.data, tokenStatus);
+  const userInfo = await jwtDecodification(req.headers.authorization);
+  const result = await recipesServices.createRecipeService(req.body, userInfo, req.headers.authorization);
   if (result.code) {
+    if (result.code === 'invalid_token') return res.status(401).json(result);
+
     return res.status(400).json(result);
   }
-  return res.status(200).json('sucess');
+  return res.status(201).json(result);
 }));
 
 module.exports = recipes;
