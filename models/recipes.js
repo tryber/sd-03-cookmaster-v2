@@ -9,7 +9,8 @@ const setNewRecipe = async (name, ingredients, preparation, userId) =>
 
 const findAllRecipes = async () =>
   connect()
-    .then((db) => db.collection('recipes').find({}).toArray());
+    .then((db) => db.collection('recipes').find({})
+      .toArray());
 
 module.exports = {
   setNewRecipe,
