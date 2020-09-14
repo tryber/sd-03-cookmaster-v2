@@ -30,8 +30,7 @@ const getRecipeById = rescue(async (req, res) => {
 const editRecipe = rescue(async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
-  const { user } = req;
-  const result = await recipeService.editRecipe({ id, name, ingredients, preparation, user });
+  const result = await recipeService.editRecipe({ id, name, ingredients, preparation });
 
   if (result.error) return res.status(401).json({ message: result.message });
 

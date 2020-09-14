@@ -28,7 +28,7 @@ const getRecipeById = async (id) => {
   }
 };
 
-const editRecipe = async ({ id, name, ingredients, preparation, user }) => {
+const editRecipe = async ({ id, name, ingredients, preparation }) => {
   const recipe = await getRecipeById(id);
 
   if (recipe.error) {
