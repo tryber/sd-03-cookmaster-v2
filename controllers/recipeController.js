@@ -46,11 +46,12 @@ const updateRecipe = async (req, res) => {
   const token = req.headers.authorization;
   // const segredo = 'cookmaster_v2';
   const decoded = jwt.verify(token, 'cookmaster_v2');
-  const userLoggedId = decoded.data[0], userLoggedRole = decoded.data[2];
+  const userLoggedId = decoded.data[0];
+  const userLoggedRole = decoded.data[2];
   const { name, ingredients, preparation } = req.body;
-  const idValidation = userController.validateId(id);
+  // const idValidation = userController.validateId(id);
 
-  if (idValidation) {
+  if (userController.validateId(id)) {
     return res.status(404).send({ message: 'recipe not found' });
   }
 
