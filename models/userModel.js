@@ -9,8 +9,8 @@ const getUserByEmail = async (email) => {
 
 const registerNewUser = async ({ name, email, password, role }) => {
   const db = await connection();
-  const newUser = db.collection('users').insertOne({ name, email, password, role });
-  return (await newUser).ops[0];
+  const newUser = await db.collection('users').insertOne({ name, email, password, role });
+  return newUser.ops[0];
 };
 
 const getUserById = (id) =>

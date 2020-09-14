@@ -1,10 +1,12 @@
 require('dotenv/config');
 const MongoClient = require('mongodb').MongoClient;
 
-const { MONGO_URL, DB_NAME } = process.env;
+const MONGO_URL = process.env.MONGO_URL
+const DB_NAME=process.env.DB_NAME;
 
-const connect = () =>
-  MongoClient.connect(MONGO_URL, {
+const connection = () => {
+  console.log("PRECISAMOS ACHAR ISSO NO TERMINAL", MONGO_URL)
+  return MongoClient.connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -13,7 +15,6 @@ const connect = () =>
       console.error(err.message, err.stack);
       process.exit(1);
     });
-
-const connection = (coll) => connect().then((db) => db.collection(coll));
+}
 
 module.exports = connection;
