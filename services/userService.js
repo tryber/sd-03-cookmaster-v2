@@ -19,6 +19,14 @@ const createUser = async (name, email, password, role) => {
   return registerUser;
 };
 
+const registerAdmin = async (name, email, password, role, userId) => {
+  const user = await userModel.finUserById(userId);
+  if (user.role !== 'admin') return errMessage('Only admins can register new admins');
+  const adminUser = await userModel.createUser(name, email, password, role);
+  const { _id } = adminUser;
+  return { user: { name, email, role, _id } };
+};
+
 const verifyLoginTonken = async (emailUser, password) => {
   const userEmail = await userModel.findUserByEmail(emailUser);
 
@@ -28,14 +36,14 @@ const verifyLoginTonken = async (emailUser, password) => {
   }
 
   const { _id, email, role } = userEmail;
-
+  
   const sing = {
     algorithm: 'HS256',
-    expiresIn: '15m',
+    expiresIn: '20m',
   };
 
   const token = jwt.sign({ _id, email, role }, SECRET, sing);
   return { token };
 };
 
-module.exports = { createUser, verifyLoginTonken };
+module.exports = { createUser, verifyLoginTonken, registerAdmin };

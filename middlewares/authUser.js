@@ -32,15 +32,13 @@ const recipeValidationRules = [
   body('name', errMessage(INVALID_ENTRIES_TRY_AGAIN)).exists(),
   body('ingredients', errMessage(INVALID_ENTRIES_TRY_AGAIN)).exists(),
   body('preparation', errMessage(INVALID_ENTRIES_TRY_AGAIN)).exists(),
-]
+];
 
-const recipeIdValidation = [
-  param('id', errMessage(RECIPE_NO_FOUND)).isMongoId(),
-]
+const recipeIdValidationRules = [param('id', errMessage(RECIPE_NO_FOUND)).isMongoId()];
 
 module.exports = {
   userValidate: validate(dataValidationRules, 400),
   loginValidate: validate(loginValidationRules, 401),
   recipeValidation: validate(recipeValidationRules, 400),
-  recipeIdValidation: validate(recipeIdValidation, 404)
+  recipeIdValidation: validate(recipeIdValidationRules, 404),
 };
