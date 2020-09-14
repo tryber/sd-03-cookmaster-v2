@@ -42,4 +42,15 @@ recipes.put('/:id', rescue(async (req, res) => {
 
   return res.status(200).json(recipesResult);
 }));
+
+recipes.delete('/:id', rescue(async (req, res) => {
+  const { id } = req.body;
+  const { authorization } = req.headers;
+  const deletedRecipe = await recipesServices.RecipeDeleteService(id, authorization);
+  if (deletedRecipe.code) {
+    return res.status(401).json(deletedRecipe);
+  }
+  return res.status(204).json(deletedRecipe);
+}));
+
 module.exports = recipes;

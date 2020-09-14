@@ -57,9 +57,21 @@ const RecipeEditService = async (id, token, name, ingredients, preparation, user
   return recipes;
 };
 
+const RecipeDeleteService = async (id, token) => {
+  if (token === undefined) {
+    return { code: 'not_logged', message: 'missing auth token' };
+  }
+  if (token.length < 160) {
+    return { code: 'invalid_token', message: 'jwt malformed' };
+  }
+  const recipes = await recipesModel.RecipeEditModel(id);
+  return recipes;
+};
+
 module.exports = {
   createRecipeService,
   listRecipesService,
   RecipeByIdService,
   RecipeEditService,
+  RecipeDeleteService,
 };

@@ -26,9 +26,15 @@ const RecipeEditModel = async (id, name, ingredients, preparation, userId) => co
     db.collection('recipes').updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId } }))
   .then(() => ({ name, ingredients, preparation, userId }));
 
+const RecipeExcludeModel = async (id) => connect()
+  .then((db) =>
+    db.collection('recipes').deleteOne({ _id: ObjectId(id) }))
+  .then((excluded) => excluded);
+
 module.exports = {
   createRecipeModel,
   listRecipesModel,
   RecipeByIdModel,
   RecipeEditModel,
+  RecipeExcludeModel,
 };
