@@ -6,8 +6,8 @@ const {
   RECIPE_NO_FOUND,
 } = require('./errosMessage');
 
-const validate = (schema, status) => async (req, res, next) => {
-  await Promise.all(schema.map((schema) => schema.run(req)));
+const validate = (schemas, status) => async (req, res, next) => {
+  await Promise.all(schemas.map((schema) => schema.run(req)));
 
   const result = validationResult(req);
   if (result.isEmpty()) {

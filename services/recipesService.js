@@ -20,7 +20,7 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
   return { recipe: { name, ingredients, preparation, userId, _id } };
 };
 
-const findAllRecipes = async () => await recipesModel.findAllRecipes();
+const findAllRecipes = async () => recipesModel.findAllRecipes();
 
 const findRecipeById = async (id) => {
   const verifyRecipeById = await recipeModel.findRecipeById(id);
