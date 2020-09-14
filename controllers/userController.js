@@ -22,7 +22,7 @@ const userLogin = rescue(async (req, res) => {
 
   const signOptions = {
     algorithm: 'HS256',
-    expiresIn: '15m',
+    expiresIn: '2d',
   };
 
   const token = jwt.sign(result, JWT_SECRET, signOptions);
