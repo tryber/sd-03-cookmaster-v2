@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
     callback(null, `${id}.jpeg`);
   },
 });
-  
+
 const upload = multer({ storage });
 
 module.exports = [
@@ -39,13 +39,15 @@ module.exports = [
 
     // regras de negócio
     if (userLoggedRole === 'admin') {
-      await model.updateRecipe(recipe._id, recipe.name, recipe.ingredients, recipe.preparation, image);
+      await model
+        .updateRecipe(recipe['_id'], recipe.name, recipe.ingredients, recipe.preparation, image);
       return res.status(200).json({ ...recipe, image });
     }
     if (userLoggedId !== userIdRecipe) {
       return { message: 'Usuário não pode editar essa receita', status: 415 };
     }
-    await model.updateRecipe(recipe._id, recipe.name, recipe.ingredients, recipe.preparation, image);
+    await model
+      .updateRecipe(recipe['_id'], recipe.name, recipe.ingredients, recipe.preparation, image);
     return res.status(200).json({ ...recipe, image });
   },
 ];
