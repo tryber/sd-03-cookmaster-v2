@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
 
 const userController = require('./controllers/userController');
 
@@ -20,7 +19,6 @@ app.post(
 );
 
 app.all('*', (error, _req, res, _next) => res.json(error).status(500));
-
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
