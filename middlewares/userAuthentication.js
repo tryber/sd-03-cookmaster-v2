@@ -4,7 +4,7 @@ const model = require('../users/modelUsers');
 const SECRET = 'secret';
 
 const userAuth = async (req, res, next) => {
-  const { authorization: token } = req.headers || {};
+  const { authorization: token } = req.headers;
 
   if (!token) {
     return res.status(401).json({ message: 'missing auth token' });
@@ -16,8 +16,7 @@ const userAuth = async (req, res, next) => {
     const user = await model.checkEmail(emailPayload);
 
     if (!user) {
-      res.status(401).json({ message: 'user not found' });
-      return next();
+      return res.status(401).json({ message: 'user not found' });
     }
 
     req.user = user;

@@ -1,9 +1,10 @@
 const { Router } = require('express');
 const service = require('./serviceRecipes');
+const { userAuth } = require('../middlewares/userAuthentication');
 
 const recipes = Router();
 
-recipes.post('/recipes', async (req, res) => {
+recipes.post('/', userAuth, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
 
@@ -14,12 +15,12 @@ recipes.post('/recipes', async (req, res) => {
   return res.status(201).json({ recipe: result });
 });
 
-recipes.get('/recipes', async (req, res) => {
+recipes.get('/', async (req, res) => {
   const result = await service.getRecipes();
   return res.status(200).json(result);
 });
 
-recipes.get('/recipes/:id', async (req, res) => {
+recipes.get('/:id', async (req, res) => {
   const { id } = req.params;
 
   const recipe = await service.getRecipesById(id);
