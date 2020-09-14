@@ -14,6 +14,7 @@ app.post('/login', userController.userLogin);
 app.post('/recipes', authMiddleware, recipeController.addRecipe);
 app.get('/recipes', recipeController.getRecipes);
 app.get('/recipes/:id', recipeController.getRecipeById);
+app.delete('/recipes/:id', authMiddleware, recipeController.deleteRecipe);
 app.put('/recipes/:id', authMiddleware, recipeController.editRecipe);
 
 // não remova esse endpoint, e para o avaliador funcionar

@@ -17,9 +17,14 @@ const update = (id, name, ingredients, preparation) =>
     .then((db) => db.collection('recipes').updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }))
     .then(() => ({ _id: id, name, ingredients, preparation }));
 
+const deleteById = (id) =>
+  connect()
+    .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id) }));
+
 module.exports = {
   getAll,
   getRecipeById,
   add,
   update,
+  deleteById,
 };
