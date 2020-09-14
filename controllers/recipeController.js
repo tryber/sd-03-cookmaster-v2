@@ -44,10 +44,9 @@ const showRecipe = async (req, res) => {
 const updateRecipe = async (req, res) => {
   const { id } = req.params;
   const token = req.headers.authorization;
-  const segredo = 'cookmaster_v2';
-  const decoded = jwt.verify(token, segredo);
-  const userLoggedId = decoded.data[0];
-  const userLoggedRole = decoded.data[2];
+  // const segredo = 'cookmaster_v2';
+  const decoded = jwt.verify(token, 'cookmaster_v2');
+  const userLoggedId = decoded.data[0], userLoggedRole = decoded.data[2];
   const { name, ingredients, preparation } = req.body;
   const idValidation = userController.validateId(id);
 
