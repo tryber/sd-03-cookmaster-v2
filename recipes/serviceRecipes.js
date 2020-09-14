@@ -40,9 +40,16 @@ async function updateRecipes(idRecipe, id, recipe) {
   return { _id: idRecipe, name, ingredients, preparation, id };
 }
 
+async function deleteRecipe(id, idRecipe) {
+  const verifyAdministrator = await verifyAdmin(id, idRecipe);
+  if (verifyAdministrator) return { message: 'err' };
+  return model.deleteRecipe(idRecipe);
+}
+
 module.exports = {
   createRecipes,
   getRecipes,
   getRecipesById,
   updateRecipes,
+  deleteRecipe,
 };

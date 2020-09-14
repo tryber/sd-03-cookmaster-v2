@@ -41,9 +41,11 @@ recipes.put('/:id', userAuth, async (req, res) => {
   return res.status(200).json(update);
 });
 
-// recipes.delete('/:id', userAuth, async (req, res) => {
-
-
-// });
+recipes.delete('/:id', userAuth, async (req, res) => {
+  const { id: idRecipe } = req.params;
+  const { _id: id } = req.user;
+  await service.deleteRecipe(id, idRecipe);
+  return res.status(204).end();
+});
 
 module.exports = recipes;
