@@ -9,9 +9,9 @@ function validateNewUserData({ email, name, password }) {
   return true;
 }
 const login = async (req, res) => {
-  const JWT_SECRET = 'segredo';
   const { email, password } = req.body;
   if (!email || !password) return res.status(401).json({ message: 'All fields must be filled' });
+  const JWT_SECRET = 'segredo';
   const token = await userService.login({ email, password, JWT_SECRET });
   if (token.error) return res.status(token.code).json({ message: token.message });
   if (!token) return res.status(500).json({ message: 'Error when generating token' });
