@@ -84,7 +84,7 @@ recipe
     authentication,
     rescue(async (req, res) => {
       const { id } = req.params;
-      const userId = req.user._id;
+      const { _id: userId } = req.user;
 
       await recipesService.deleteRecipe(id, userId);
       return res.status(204).end();
