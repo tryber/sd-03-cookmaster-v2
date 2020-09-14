@@ -20,7 +20,7 @@ const createUser = async (name, email, password, role) => {
 };
 
 const registerAdmin = async (name, email, password, role, userId) => {
-  const user = await userModel.finUserById(userId);
+  const user = await userModel.findUserById(userId);
   if (user.role !== 'admin') return errMessage('Only admins can register new admins');
   const adminUser = await userModel.createUser(name, email, password, role);
   const { _id } = adminUser;
@@ -36,7 +36,7 @@ const verifyLoginTonken = async (emailUser, password) => {
   }
 
   const { _id, email, role } = userEmail;
-  
+
   const sing = {
     algorithm: 'HS256',
     expiresIn: '20m',

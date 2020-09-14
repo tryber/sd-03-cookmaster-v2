@@ -10,7 +10,7 @@ const createUser = async (name, email, password, role) =>
 const findUserByEmail = async (email) =>
   connect().then((db) => db.collection('users').findOne({ email }));
 
-const finUserById = async (id) =>
+const findUserById = async (id) =>
   connect().then((db) => db.collection('users').findOne(ObjectId(id)));
 
-module.exports = { createUser, findUserByEmail, finUserById };
+module.exports = { createUser, findUserByEmail, findUserById };

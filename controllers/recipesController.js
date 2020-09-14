@@ -81,10 +81,10 @@ recipe
   )
   .delete(
     '/:id',
-    authentication,
     recipeIdValidation,
+    authentication,
     rescue(async (req, res) => {
-      const { id } = rq.params;
+      const { id } = req.params;
       const { _id: userId } = req.user;
 
       await recipesService.deleteRecipe(id, userId);

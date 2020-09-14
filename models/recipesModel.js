@@ -1,6 +1,5 @@
 const connect = require('./connection');
 const { ObjectId } = require('mongodb');
-const recipe = require('../controllers/recipesController');
 
 const createRecipe = async (name, ingredients, preparation, userId) =>
   connect()

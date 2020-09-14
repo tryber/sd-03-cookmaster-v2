@@ -13,7 +13,7 @@ users
     rescue(async (req, res) => {
       const { name, email, password } = req.body;
       const { _id: userId } = req.user;
-      userAdmin = await userService.createUser(name, email, password, 'admin', userId);
+      const userAdmin = await userService.createUser(name, email, password, 'admin', userId);
       if (userAdmin.message) return res.status(403).json(userAdmin);
       return res.status(201).json(userAdmin);
     }),

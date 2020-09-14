@@ -5,7 +5,7 @@ const util = require('util');
 const userModel = require('../models/userModel');
 
 const checkingAdministrator = async (userId, recipeId) => {
-  const user = await userModel.finUserById(userId);
+  const user = await userModel.findUserById(userId);
   const recipe = await recipeModel.findRecipeById(recipeId);
 
   if (!user) return false;
@@ -15,8 +15,9 @@ const checkingAdministrator = async (userId, recipeId) => {
 
 const createRecipe = async (name, ingredients, preparation, userId) => {
   const recipe = await recipeModel.createRecipe(name, ingredients, preparation, userId);
+  const { _id } = recipe;
 
-  return { recipe: { name, ingredients, preparation, userId } };
+  return { recipe: { name, ingredients, preparation, userId, _id } };
 };
 
 const findAllRecipes = async () => await recipesModel.findAllRecipes();
@@ -49,8 +50,8 @@ const deleteRecipe = async (id, userId) => {
 
 const updateRecipeImage = async (id, user) => {
   const { _id, name, ingredients, preparation, userId } = await recipeModel.findRecipeById(id);
-  if (!await checkingAdministrator(user, id)) {
-    return errMessage('Não autorizado') ;
+  if (!(await checkingAdministrator(user, id))) {
+    return errMessage('Não autorizado');
   }
   const recipePath = await recipeModel.updateRecipeImage(id, 'localhost:3000/images/');
   return { _id, name, ingredients, preparation, userId, image: recipePath };
