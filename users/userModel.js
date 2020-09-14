@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, require: true, min: 5 },
+  name: { type: String, require: true },
   password: { type: String, require: true },
-  email: { type: String/* , unique: true */ },
+  email: { type: String/* , unique: true */, required: true },
   role: {
     type: String,
     default: 'user',
@@ -14,7 +14,6 @@ const User = mongoose.model('User', userSchema);
 
 const createUser = async (data) => {
   const user = new User(data);
-  console.log('passei errado ');
   user.save();
   return user;
 };

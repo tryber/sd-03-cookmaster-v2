@@ -1,4 +1,5 @@
 const service = require('./userService');
+const Model = require('./userModel');
 
 const registerUser = async (req, res, next) => {
   try {
@@ -14,7 +15,8 @@ const registerUser = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { body } = req;
-    const token = await service.createToken(body);
+    const user = await Model.findUser(body.email, 'email');
+    const token = await service.createToken(JSON.stringify(user));
     return res.status(200).json({ token });
   } catch (err) {
     console.log('register error', err);

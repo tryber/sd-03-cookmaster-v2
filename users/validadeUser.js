@@ -7,8 +7,6 @@ const validadeUser = (req, res, next) => {
     next();
   }
   if (validate.errors.Errors) {
-    console.log(validate.errors);
-
     return res.json(validate.errors).status(201);
   }
 };

@@ -20,7 +20,7 @@ const validateUserSingup = async (req, _res, next) => {
   }
 };
 
-const validadeLogin = async (req, _res, next) => {
+const validateLogin = async (req, _res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -41,4 +41,4 @@ const validadeLogin = async (req, _res, next) => {
   }
 };
 
-module.exports = { validateUserSingup, validadeLogin };
+module.exports = { validateUserSingup, validateLogin };

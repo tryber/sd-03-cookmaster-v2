@@ -3,8 +3,9 @@ const rescue = require('express-rescue');
 
 const router = express.Router();
 const { registerUser } = require('../users/userController');
-const { validateUserSingup } = require('../middlewares/validade/validateUser');
+const validate = require('../middlewares/validate/index');
 
-router.post('/', validateUserSingup, rescue(registerUser));
+router.post('/', validate.user.validateUserSingup,
+  rescue(registerUser));
 
 module.exports = router;

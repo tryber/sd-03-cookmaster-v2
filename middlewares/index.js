@@ -1,4 +1,5 @@
 const errorHandler = require('./errorHandler');
-const { validadeLogin } = require('./validade/validateUser');
+const { validateLogin } = require('./validate/validateUser');
+const { validateRecipe } = require('./validate/recipe');
 
-module.exports = { errorHandler, validadeLogin };
+module.exports = { errorHandler, validateLogin, validateRecipe };

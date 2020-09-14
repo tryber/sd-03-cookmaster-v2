@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const middlewares = require('./middlewares/index');
 const UserRouter = require('./routes/users');
+const RecipeRouter = require('./routes/recipes');
 const userController = require('./users/userController');
 require('dotenv').config();
 
@@ -21,17 +22,18 @@ app.use(bodyParser.json());
 app.get('/', (request, response) => {
   response.send();
 });
-app.use((req, res, next) => {
-  console.log(`==================== requestito ====================
-  ${req.method} ${req.path}`);
-  console.log(`${JSON.stringify(req.body)}
-  ==================== requestito ====================`);
+// app.use((req, res, next) => {
+//   console.log(`==================== requestito ====================
+//   ${req.method} ${req.path}`);
+//   console.log(`${JSON.stringify(req.body)}
+//   ==================== requestito ====================`);
 
-  next();
-});
+//   next();
+// });
 app.use('/users', UserRouter);
+app.use('/recipes', RecipeRouter);
 
-app.post('/login', middlewares.validadeLogin, userController.login);
+app.post('/login', middlewares.validateLogin, userController.login);
 
 app.use(middlewares.errorHandler);
 
