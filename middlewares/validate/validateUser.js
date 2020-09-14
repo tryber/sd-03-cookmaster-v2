@@ -32,7 +32,7 @@ const validateLogin = async (req, _res, next) => {
 
     const user = await findUser(email, 'email');
     if (!user
-       || user.password !== password) next('incorrect_login');
+        || user.password !== password) next('incorrect_login');
 
     next();
   } catch (e) {
