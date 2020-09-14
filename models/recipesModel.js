@@ -21,8 +21,14 @@ const RecipeByIdModel = async (id) => {
   return result;
 };
 
+const RecipeEditModel = async (id, name, ingredients, preparation, userId) => connect()
+  .then((db) =>
+    db.collection('recipes').updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation, userId } }))
+  .then(() => ({ name, ingredients, preparation, userId }));
+
 module.exports = {
   createRecipeModel,
   listRecipesModel,
   RecipeByIdModel,
+  RecipeEditModel,
 };

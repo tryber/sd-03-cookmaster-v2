@@ -27,4 +27,17 @@ recipes.get('/:id', rescue(async (req, res) => {
   if (recipesResult && recipesResult.code === 'not_found') return res.status(404).json(recipesResult);
   return res.status(200).json(recipesResult);
 }));
+
+recipes.put('/:id', rescue(async (req, res) => {
+  const { authorization } = req.headers;
+  const userInfo = await jwtDecodification(authorization);
+  const { id } = req.params;
+  const {name, ingredients, preparation} = req.body;
+  const recipesResult = await recipesServices.RecipeEditService(id, authorization, userInfo, name, ingredients, preparation);
+  if (recipesResult && recipesResult.code === 'not_logged') return res.status(401).json(recipesResult);
+
+  if (recipesResult && recipesResult.code === 'invalid_token') return res.status(401).json(recipesResult);
+
+  return res.status(200).json(recipesResult);
+}));
 module.exports = recipes;
