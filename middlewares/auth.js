@@ -10,12 +10,11 @@ const authMiddleware = async (req, res, next) => {
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-
+    const JWT_SECRET = 'segredo';
+    const payload = jwt.verify(token, JWT_SECRET);
     const user = await userModel.getUserByEmail(payload.data.email);
-
     if (!user) {
-      return res.status(401).json({ message: 'user not found' });
+      return res.status(404).json({ message: 'user not found' });
     }
 
     const { password, ...userInfo } = user;
