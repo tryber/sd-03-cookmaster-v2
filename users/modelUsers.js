@@ -12,6 +12,8 @@ const checkPassowrd = async (password) => connect()
   .then((db) => db.collection('users').findOne({ password }))
   .catch((err) => err);
 
+// const getUsers = async () =>
+
 module.exports = {
   registerUsers,
   checkEmail,

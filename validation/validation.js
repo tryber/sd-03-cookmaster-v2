@@ -18,6 +18,12 @@ const invalidLogin = {
   },
 };
 
+const invalidId = {
+  mongo: {
+    message: 'recipe not found',
+  },
+};
+
 const regexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const validateEntries = (name, email, password) => {
@@ -39,9 +45,15 @@ const validadePassword = (password) => {
   if (!password) return invalidLogin.noEmail;
 };
 
+const validateId = (id) => {
+  const regex = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
+  if (!regex.test(id)) return invalidId.mongo;
+};
+
 module.exports = {
   validateEntries,
   checkEmailExist,
   validateLogin,
   validadePassword,
+  validateId,
 };

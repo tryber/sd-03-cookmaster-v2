@@ -5,23 +5,26 @@ const SECRET = 'secret';
 
 const userAuth = async (req, res, next) => {
   const { authorization: token } = req.headers || {};
+
   if (!token) {
     return res.status(401).json({ message: 'missing auth token' });
   }
-  const payload = jwt.verify(token, SECRET);
-  const { emailPayload } = payload;
+  try {
+    const payload = jwt.verify(token, SECRET);
+    const { emailPayload } = payload;
 
-  const user = await model.checkEmail(emailPayload);
-  console.log(user)
-  
-  if (emailPayload) {
-    res.status(201).json({ message: 'jwt' });
-    return next();
+    const user = await model.checkEmail(emailPayload);
+
+    if (!user) {
+      res.status(401).json({ message: 'user not found' });
+      return next();
+    }
+
+    req.user = user;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: 'jwt malformed' });
   }
-  req.user = user;
-
-  res.status(401).json({ message: 'jwt malformed' });
-  return next();
 };
 
 module.exports = {
