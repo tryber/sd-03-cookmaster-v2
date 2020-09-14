@@ -25,6 +25,7 @@ const editRecipe = async (req, res, next) => {
   const { name, ingredients, preparation } = req.recipe;
   const { _id: userId, role } = req.user;
   const recipe = await recipesService.editRecipe(id, name, ingredients, preparation, userId, role);
+  console.log(recipe)
   if (recipe.error) return next(recipe);
   return res.status(200).json(recipe);
 };
