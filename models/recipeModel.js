@@ -12,8 +12,14 @@ const add = ({ name, ingredients, preparation, userId }) =>
     .then((db) => db.collection('recipes').insertOne({ name, ingredients, preparation, userId }))
     .then(({ insertedId }) => ({ name, ingredients, preparation, userId, _id: insertedId }));
 
+const update = (id, name, ingredients, preparation) =>
+  connect()
+    .then((db) => db.collection('recipes').updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }))
+    .then(() => ({ _id: id, name, ingredients, preparation }));
+
 module.exports = {
   getAll,
   getRecipeById,
   add,
+  update,
 };
