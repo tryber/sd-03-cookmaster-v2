@@ -31,5 +31,5 @@ module.exports = {
   findAllRecipes,
   findRecipesById,
   editRecipe,
-  deleteRecipe
+  deleteRecipe,
 };
