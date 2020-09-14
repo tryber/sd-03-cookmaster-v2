@@ -34,7 +34,7 @@ const deleteRecipe = async (req, res, next) => {
   const { _id: userId, role } = req.user;
   const recipe = await recipesService.deleteRecipe(id, userId, role);
   if (recipe.error) return next(recipe);
-  return res.status(201).json();
+  return res.status(204).json();
 };
 
 module.exports = {
