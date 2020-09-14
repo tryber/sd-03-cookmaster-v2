@@ -3,6 +3,7 @@ exclude_patterns:
   - '**/*.test.js'
   - 'seed.js'
   - 'seed.sql'
+  - 'node_modules'
 checks:
   argument-count:
     config:
