@@ -40,7 +40,6 @@ recipe
     rescue(async (req, res) => {
       const { id } = req.params;
       const recipeId = await recipesService.findRecipeById(id);
-      console.log(recipeId);
       if (!recipeId) return res.status(404).json(recipeId);
       return res.status(200).json(recipeId);
     }),
@@ -85,10 +84,10 @@ recipe
     authentication,
     rescue(async (req, res) => {
       const { id } = req.params;
-      const { _id: userId } = req.user;
+      const userId = req.user._id;
 
       await recipesService.deleteRecipe(id, userId);
-      return res.status(204);
+      return res.status(204).end();
     }),
   );
 
