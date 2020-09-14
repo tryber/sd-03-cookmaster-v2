@@ -12,17 +12,16 @@ const getAllRecipes = async () =>
 const getRecipeById = async (id) =>
   connection().then((db) => db.collection('recipes').findOne(ObjectID(id)));
 
-const editRecipe = async (id, name, ingredients, preparation) => {
+const editRecipe = async (id, recipeData) => {
   const db = await connection();
   return db
     .collection('recipes')
-    .updateOne({ _id: ObjectID(id) }, { $set: { name, ingredients, preparation } });
+    .updateOne({ _id: ObjectID(id) }, { $set: recipeData });
 };
 
 const deleteRecipe = async (id) => {
   const db = await connection();
-  const { value } = await db.collection('recipes').findOneAndDelete({ _id: ObjectID(id) });
-  return value;
+  return db.collection('recipes').deleteOne({ _id: ObjectID(id) });
 };
 
 module.exports = { addRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe };

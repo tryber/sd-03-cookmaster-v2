@@ -10,10 +10,15 @@ const getAllRecipes = async () => recipesModel.getAllRecipes();
 const getRecipeById = async (id) => recipesModel.getRecipeById(id);
 
 const editRecipe = async (id, name, ingredients, preparation) => {
-  await recipesModel.editRecipe(id, name, ingredients, preparation);
+  await recipesModel.editRecipe(id, { name, ingredients, preparation });
   return { _id: id, name, ingredients, preparation };
 };
 
 const deleteRecipe = (id) => recipesModel.deleteRecipe(id);
 
-module.exports = { addRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe };
+const uploadImage = async (id, image) => {
+  await recipesModel.editRecipe(id, { image });
+  return image;
+};
+
+module.exports = { addRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe, uploadImage };
