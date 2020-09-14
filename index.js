@@ -13,6 +13,7 @@ app.get('/', (request, response) => {
 
 app.post('/users', controllers.userController.createUser);
 app.get('/recipes/:id', controllers.recipeController.showRecipe);
+app.put('/recipes/:id', validateJWT, controllers.recipeController.updateRecipe);
 app.post('/recipes', validateJWT, controllers.recipeController.createRecipe);
 app.get('/recipes', controllers.recipeController.showAllRecipes);
 app.post('/login', controllers.userController.userLogin);

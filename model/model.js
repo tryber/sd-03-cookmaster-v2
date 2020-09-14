@@ -34,10 +34,20 @@ const getRecipeFromDB = async (id) => mongo.connect()
   )
   .catch((error) => error);
 
+const updateRecipe = async (id, name, ingredients, preparation) =>
+  mongo.connect()
+  .then((db) => db.collection('recipes')
+  .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } })
+  )
+  .then(() => ({ name, ingredients, preparation }))
+  .catch((error) => error);
+
+
 module.exports = {
   createUser,
   getUserByEmail,
   createRecipe,
   getAllRecipesFromDB,
   getRecipeFromDB,
+  updateRecipe,
 };
