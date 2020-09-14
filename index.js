@@ -27,3 +27,5 @@ app.get('/recipes', recipesController.showAllRecipes);
 app.get('/recipes/:id', recipesController.showRecipeById);
 
 app.put('/recipes/:id', authToken, recipesController.editRecipe);
+
+app.delete('/recipes/:id', authToken, recipesController.deleteRecipe);

@@ -39,9 +39,17 @@ const editRecipe = rescue(async (req, res) => {
   return res.status(200).json(result);
 });
 
+const deleteRecipe = rescue(async (req, res) => {
+  const { id } = req.params;
+  await recipesService.deleteRecipe(id);
+
+  res.status(204).json();
+});
+
 module.exports = {
   newRecipe,
   showAllRecipes,
   showRecipeById,
   editRecipe,
+  deleteRecipe,
 };
