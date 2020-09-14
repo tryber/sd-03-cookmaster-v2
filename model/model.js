@@ -42,6 +42,10 @@ const updateRecipe = async (id, name, ingredients, preparation) =>
   .then(() => ({ name, ingredients, preparation }))
   .catch((error) => error);
 
+const deleteRecipetById = async (id) => mongo.connect()
+  .then((db) => db.collection('recipes')
+    .deleteOne({ _id: ObjectId(id) }))
+  .catch((error) => error);
 
 module.exports = {
   createUser,
@@ -50,4 +54,5 @@ module.exports = {
   getAllRecipesFromDB,
   getRecipeFromDB,
   updateRecipe,
+  deleteRecipetById,
 };

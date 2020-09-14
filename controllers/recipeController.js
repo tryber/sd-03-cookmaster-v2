@@ -56,12 +56,11 @@ const updateRecipe = async (req, res) => {
   }
 
   const result = await services.recipeServices.getRecipe(id);
-  const userIdRecipe = result.userId;
 
   if (!result) {
     return res.status(404).send({ message: 'recipe not found' });
   }
-
+  const userIdRecipe = result.userId;
   const response = await services.recipeServices
     .updateRecipeService(
       id,
@@ -76,9 +75,41 @@ const updateRecipe = async (req, res) => {
   res.status(200).send(response);
 };
 
+const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+  const token = req.headers.authorization;
+  const segredo = 'cookmaster_v2';
+  const decoded = jwt.verify(token, segredo);
+  const userLoggedId = decoded.data[0];
+  const userLoggedRole = decoded.data[2];
+  // const idValidation = userController.validateId(id);
+
+  if (userController.validateId(id)) {
+    return res.status(404).send({ message: 'recipe not found' });
+  }
+
+  const result = await services.recipeServices.getRecipe(id);
+
+  if (!result) {
+    return res.status(404).send({ message: 'recipe not found' });
+  }
+  const userIdRecipe = result.userId;
+
+  await services.recipeServices.deleteRecipeService(
+    id,
+    userLoggedId,
+    userLoggedRole,
+    userIdRecipe,
+  );
+
+  res.status(204).end();
+};
+
+
 module.exports = {
   createRecipe,
   showAllRecipes,
   showRecipe,
   updateRecipe,
+  deleteRecipe,
 };

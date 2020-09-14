@@ -29,9 +29,22 @@ const updateRecipeService =
     return result;
   };
 
+const deleteRecipeService = async (id, userLoggedId, userLoggedRole, userIdRecipe) => {
+  // regras de negócio
+  if (userLoggedRole === 'admin') {
+    await model.deleteRecipetById(id);
+
+  }
+  if (userLoggedId !== userIdRecipe) {
+    return { message: 'Usuário não pode editar essa receita' };
+  }
+  await model.deleteRecipetById(id);
+};
+
 module.exports = {
   createNewRecipe,
   getAllRecipes,
   getRecipe,
   updateRecipeService,
+  deleteRecipeService,
 };
