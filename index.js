@@ -12,6 +12,7 @@ app.post('/users', userController.addUser);
 app.post('/login', userController.userLogin);
 
 app.post('/recipes', authMiddleware, recipeController.addRecipe);
+app.get('/recipes', recipeController.getRecipes);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
