@@ -19,6 +19,4 @@ app.get('/recipes/:id', recipesController);
 app.put('/recipes/:id', userAuth, recipesController);
 app.get('/recipes', recipesController);
 
-
-
 app.listen(3000, () => console.log('Welcome 3000'));
