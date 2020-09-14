@@ -25,3 +25,5 @@ app.post('/recipes', verifyRecipe, authToken, recipesController.newRecipe);
 app.get('/recipes', recipesController.showAllRecipes);
 
 app.get('/recipes/:id', recipesController.showRecipeById);
+
+app.put('/recipes/:id', authToken, recipesController.editRecipe);

@@ -5,7 +5,7 @@ const secret = 'secret';
 const authToken = (req, res, next) => {
   const { authorization } = req.headers;
 
-  if (!authorization) return res.status(401).json({ message: 'invalid token' });
+  if (!authorization) return res.status(401).json({ message: 'missing auth token' });
 
   try {
     const { _id, email, role } = jwt.verify(authorization, secret);

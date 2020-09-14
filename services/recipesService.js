@@ -21,8 +21,14 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async (id, userId, name, ingredients, preparation) => {
+  const recipe = await recipesModel.updateRecipe(id, userId, name, ingredients, preparation);
+  return recipe;
+};
+
 module.exports = {
   addRecipe,
   listAllRecipes,
   getRecipeById,
+  updateRecipe,
 };
