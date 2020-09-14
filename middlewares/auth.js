@@ -20,7 +20,7 @@ const validateJWT = async (req, res, next) => {
         _id: { id },
       },
     } = decoded;
-    
+
     const user = await userModel.findUserById(id);
 
     if (!user) {
