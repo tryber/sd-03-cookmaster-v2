@@ -18,8 +18,13 @@ recipes.post('/', rescue(async (req, res) => {
 
 recipes.get('/', rescue(async (_req, res) => {
   const recipesResult = await recipesServices.listRecipesService();
-  console.log(recipesResult);
   return res.status(200).json(recipesResult);
 }));
 
+recipes.get('/:id', rescue(async (req, res) => {
+  const { id } = req.params;
+  const recipesResult = await recipesServices.RecipeByIdService(id);
+  if (recipesResult && recipesResult.code === 'not_found') return res.status(404).json(recipesResult);
+  return res.status(200).json(recipesResult);
+}));
 module.exports = recipes;

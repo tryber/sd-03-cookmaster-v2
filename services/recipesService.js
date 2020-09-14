@@ -34,7 +34,19 @@ const listRecipesService = async () => {
   return recipes;
 };
 
+const RecipeByIdService = async (id) => {
+  let recipes;
+  if (id.length === 24) {
+    recipes = await recipesModel.RecipeByIdModel(id);
+    return recipes;
+  }
+  if (recipes === undefined) {
+    return { code: 'not_found', message: 'recipe not found' };
+  }
+};
+
 module.exports = {
   createRecipeService,
   listRecipesService,
+  RecipeByIdService,
 };
