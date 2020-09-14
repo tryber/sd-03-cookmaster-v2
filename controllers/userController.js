@@ -1,4 +1,5 @@
 const userService = require('../services/userService');
+require('dotenv/config');
 
 function validateNewUserData({ email, name, password }) {
   const validEmail = email && /\S+@\S+[.][0-9a-z]+/.test(email) && typeof email === 'string';
@@ -7,11 +8,10 @@ function validateNewUserData({ email, name, password }) {
   if (!validEmail || !validName || !validPassword) return false;
   return true;
 }
-
 const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) return res.status(401).json({ message: 'All fields must be filled' });
-  const token = await userService.login({ email, password });
+  const token = await userService.login({ email, password, JWT_SECRET });
   if (token.error) return res.status(token.code).json({ message: token.message });
   if (!token) return res.status(500).json({ message: 'Error when generating token' });
   return res.status(200).json({ token });

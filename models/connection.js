@@ -12,7 +12,6 @@ const connection = () => MongoClient.connect(MONGO_DB_URL, {
 })
   .then((conn) => conn.db(DB_NAME))
   .catch((err) => {
-    console.log('XXXXXX', MONGO_DB_URL);
     console.error(err.message, err.stack);
     process.exit(1);
   });
