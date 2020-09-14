@@ -33,7 +33,6 @@ const deleteRecipeService = async (id, userLoggedId, userLoggedRole, userIdRecip
   // regras de negócio
   if (userLoggedRole === 'admin') {
     await model.deleteRecipetById(id);
-
   }
   if (userLoggedId !== userIdRecipe) {
     return { message: 'Usuário não pode editar essa receita' };
