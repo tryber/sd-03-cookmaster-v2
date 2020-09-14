@@ -14,7 +14,7 @@ const login = async ({ email, password }) => {
     algorithm: 'HS256',
   };
   const JWT_SECRET = 'segredo';
-  const token = jwt.sign({ data: userInfo }, process.env.JWT_SECRET, jwtConfig);
+  const token = jwt.sign({ data: userInfo }, JWT_SECRET, jwtConfig);
   return token;
 };
 
