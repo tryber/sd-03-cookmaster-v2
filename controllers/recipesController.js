@@ -33,7 +33,9 @@ recipes.put('/:id', rescue(async (req, res) => {
   const userInfo = await jwtDecodification(authorization);
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
-  const recipesResult = await recipesServices.RecipeEditService(id, authorization, name, ingredients, preparation, userInfo);
+  const recipesResult = await recipesServices.RecipeEditService(
+    id, authorization, name, ingredients, preparation, userInfo,
+  );
   if (recipesResult && recipesResult.code === 'not_logged') return res.status(401).json(recipesResult);
 
   if (recipesResult && recipesResult.code === 'invalid_token') return res.status(401).json(recipesResult);
