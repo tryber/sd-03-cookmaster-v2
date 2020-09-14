@@ -34,12 +34,12 @@ const getRecipeFromDB = async (id) => mongo.connect()
   )
   .catch((error) => error);
 
-const updateRecipe = async (id, name, ingredients, preparation) =>
+const updateRecipe = async (id, name, ingredients, preparation, image) =>
   mongo.connect()
   .then((db) => db.collection('recipes')
   .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }),
   )
-  .then(() => ({ name, ingredients, preparation }))
+  .then(() => ({ name, ingredients, preparation, image }))
   .catch((error) => error);
 
 const deleteRecipetById = async (id) => mongo.connect()

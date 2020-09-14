@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const controllers = require('./controllers');
 const validateJWT = require('./auth/validateJWT');
+const uploadToDisk = require('./upload-to-disk');
 
 const app = express();
 app.use(bodyParser.json());
@@ -12,6 +13,7 @@ app.get('/', (request, response) => {
 });
 
 app.post('/users', controllers.userController.createUser);
+app.put('/recipes/:id/image', validateJWT, uploadToDisk);
 app.get('/recipes/:id', controllers.recipeController.showRecipe);
 app.put('/recipes/:id', validateJWT, controllers.recipeController.updateRecipe);
 app.delete('/recipes/:id', validateJWT, controllers.recipeController.deleteRecipe);
