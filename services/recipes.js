@@ -21,8 +21,21 @@ const findRecipesById = async (id) => {
   return recipe;
 };
 
+const editRecipe = async (id, name, ingredients, preparation, userId, role) => {
+  if (!name || !ingredients || !preparation) return badRequest('Invalid entries. Try again.');
+  if (!checkForHexRegExp(id)) return notFound('recipe not found');
+  const recipe = await recipes.findRecipesById(id);
+  if (recipe === null) return notFound('recipe not found');
+  if (recipe.userId.toString() === userId.toString() || role === 'admin') {
+    const recipeEdited = await recipes.editRecipe(id, name, ingredients, preparation, userId);
+    return recipeEdited;
+  }
+  return badRequest('Invalid entries. Try again.');
+};
+
 module.exports = {
   setNewRecipe,
   findAllRecipes,
   findRecipesById,
+  editRecipe,
 };

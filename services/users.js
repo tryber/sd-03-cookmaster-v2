@@ -20,7 +20,7 @@ const findUser = async (email, passwordValue) => {
   if (user.password !== passwordValue) return unauthorized('Incorrect username or password');
   const { password, ...rest } = user;
   const jwtConfig = {
-    expiresIn: '15m',
+    expiresIn: '1d',
     algorithm: 'HS256',
   };
   const token = jwt.sign({ data: rest }, secret, jwtConfig);
