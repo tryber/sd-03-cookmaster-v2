@@ -8,7 +8,6 @@ const errors = {
 };
 
 module.exports = function makeError(err) {
-  console.log(err);
   return {
     status: errors[err].status,
     payload: { message: errors[err].message },

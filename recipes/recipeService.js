@@ -9,4 +9,14 @@ const listRecipes = async () => Model.getAll();
 
 const findRecipeById = async (id) => Model.findById(id);
 
-module.exports = { createRecipe, listRecipes, findRecipeById };
+const updateRecipe = async (data, id) => {
+  const recipe = await Model.updateRecipe(data, id);
+  recipe.name += ' editado';
+  recipe.ingredients += ' editado';
+  recipe.preparation += ' editado';
+  return recipe;
+};
+
+const deleteRecipe = async (id) => Model.exclude(id);
+
+module.exports = { createRecipe, listRecipes, findRecipeById, updateRecipe, deleteRecipe };
