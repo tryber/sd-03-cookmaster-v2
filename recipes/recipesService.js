@@ -14,4 +14,6 @@ const editRecipe = async (id, name, ingredients, preparation) => {
   return { _id: id, name, ingredients, preparation };
 };
 
-module.exports = { addRecipe, getAllRecipes, getRecipeById, editRecipe };
+const deleteRecipe = (id) => recipesModel.deleteRecipe(id);
+
+module.exports = { addRecipe, getAllRecipes, getRecipeById, editRecipe, deleteRecipe };

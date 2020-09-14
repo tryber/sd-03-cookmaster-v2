@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const Boom = require('@hapi/boom');
+const recipesService = require('../recipes/recipesService');
 
 const errorHandler = (error, _req, res, _next) => {
   if (error.isBoom) {
@@ -34,4 +35,14 @@ const verifyId = (req, _res, next) => {
   return next();
 };
 
-module.exports = { errorHandler, verifyId };
+const verifyUserRecipePermission = async (req, _res, next) => {
+  const { id } = req.params;
+  const recipe = await recipesService.getRecipeById(id);
+  const { _id, role } = req.user;
+  if (role !== 'admin' && recipe.userId.toString() !== _id.toString()) {
+    return next(Boom.unauthorized('jwt malformed', 'unauthorized'));
+  }
+  return next();
+};
+
+module.exports = { errorHandler, verifyId, verifyUserRecipePermission };

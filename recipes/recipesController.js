@@ -3,7 +3,7 @@ const rescue = require('express-rescue');
 const Boom = require('@hapi/boom');
 const validateJWT = require('../middlewares/validateJWT');
 const recipesService = require('./recipesService');
-const { verifyId } = require('../middlewares/errorHandler.js');
+const { verifyId, verifyUserRecipePermission } = require('../middlewares/errorHandler.js');
 const schemas = require('./schemas');
 
 const recipesRouter = Router();
@@ -29,20 +29,25 @@ const getRecipeById = rescue(async (req, res, next) => {
   return res.status(200).json(result);
 });
 
-const editRecipe = rescue(async (req, res, next) => {
+const editRecipe = rescue(async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
-  const recipe = await recipesService.getRecipeById(id);
-  const { _id, role } = req.user;
-  if (role !== 'admin' && recipe.userId.toString() !== _id.toString()) {
-    return next(Boom.unauthorized('jwt malformed', 'unauthorized'));
-  }
   const result = await recipesService.editRecipe(id, name, ingredients, preparation);
   return res.status(200).json(result);
 });
 
+const deleteRecipe = rescue(async (req, res) => {
+  const { id } = req.params;
+  const result = await recipesService.deleteRecipe(id);
+  res.status(204).json(result);
+});
+
 recipesRouter.route('/').post(validateJWT, newRecipe).get(listRecipes);
 
-recipesRouter.route('/:id').get(verifyId, getRecipeById).put(validateJWT, verifyId, editRecipe);
+recipesRouter
+  .route('/:id')
+  .get(verifyId, getRecipeById)
+  .put(validateJWT, verifyId, verifyUserRecipePermission, editRecipe)
+  .delete(validateJWT, verifyId, verifyUserRecipePermission, deleteRecipe);
 
 module.exports = recipesRouter;
