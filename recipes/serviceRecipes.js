@@ -12,7 +12,6 @@ async function getRecipes() {
 async function getRecipesById(id) {
   const validate = validateId(id);
   const findRecipeById = await model.getRecipesById(id);
-  console.log(findRecipeById, 'dins')
 
   if (validate) return { message: 'recipe not found' };
   if (!findRecipeById) return { message: 'recipe not found' };
@@ -21,11 +20,9 @@ async function getRecipesById(id) {
 }
 
 // const verifyAdmin = (id) => {
-
 // }
-
 // async function updateRecipes(name, ingredients, preparation, id) {
-//   if (id) 
+//   if (id)
 // }
 
 module.exports = {

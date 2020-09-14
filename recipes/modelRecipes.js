@@ -4,7 +4,8 @@ const connect = require('../users/connection');
 async function createRecipes(name, ingredients, preparation, userId) {
   return connect()
     .then((db) => db.collection('recipes').insertOne({ name, ingredients, preparation, userId }))
-    .then(({ insertedId }) => ({ name, ingredients, preparation, userId, _id: insertedId }));
+    .then(({ insertedId }) => ({ name, ingredients, preparation, userId, _id: insertedId }))
+    .catch((err) => err);
 }
 
 async function getRecipes() {
