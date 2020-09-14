@@ -45,15 +45,17 @@ const RecipeByIdService = async (id) => {
   }
 };
 
-const RecipeEditService = async (id, token, name, ingredients, preparation) => {
+const RecipeEditService = async (id, token, name, ingredients, preparation, userId) => {
   if (token === undefined) {
     return { code: 'not_logged', message: 'missing auth token' };
   }
   if (token.length < 171) {
     return { code: 'invalid_token', message: 'jwt malformed' };
   }
-  const recipes = await recipesModel.RecipeEditModel(id);
-  console.log(recipes);
+
+  const userInfo = await userModel.searchByEmail(userId.data);
+ 
+  const recipes = await recipesModel.RecipeEditModel(id, name, ingredients, preparation, userId);
   return recipes;
 };
 

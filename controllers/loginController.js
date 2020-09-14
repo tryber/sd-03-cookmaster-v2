@@ -7,10 +7,12 @@ let token;
 const login = Router();
 function jwtDecodification(tokenP) {
   const secret = 'seusecretdetoken';
-  if (tokenP.length < 170) {
-    return { code: 'no_name', message: 'Invalid entries. Try again.' };
+  if (tokenP !== undefined) {
+    if (tokenP.length < 170) {
+      return { code: 'no_name', message: 'Invalid entries. Try again.' };
+    }
+    return jwt.verify(tokenP, secret);
   }
-  return jwt.verify(tokenP, secret);
 }
 function jwtGenerator(email, res) {
   const secret = 'seusecretdetoken';
