@@ -10,6 +10,7 @@ const connection = () => MongoClient.connect(MONGO_URL, {
 })
   .then((conn) => conn.db(DB_NAME))
   .catch((err) => {
+    console.log("XXXXXX", MONGO_URL);
     console.error(err.message, err.stack);
     process.exit(1);
   });
