@@ -45,4 +45,12 @@ const verifyUserRecipePermission = async (req, _res, next) => {
   return next();
 };
 
-module.exports = { errorHandler, verifyId, verifyUserRecipePermission };
+const verifyIsAdmin = async (req, _res, next) => {
+  const { role } = req.user;
+  if (role !== 'admin') {
+    return next(Boom.forbidden('Only admins can register new admins', 'unauthorized'));
+  }
+  return next();
+};
+
+module.exports = { errorHandler, verifyId, verifyUserRecipePermission, verifyIsAdmin };
