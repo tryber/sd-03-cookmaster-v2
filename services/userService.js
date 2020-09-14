@@ -13,6 +13,7 @@ const login = async ({ email, password }) => {
     expiresIn: '2h',
     algorithm: 'HS256',
   };
+  const JWT_SECRET = 'segredo';
   const token = jwt.sign({ data: userInfo }, process.env.JWT_SECRET, jwtConfig);
   return token;
 };
