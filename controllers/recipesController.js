@@ -1,9 +1,12 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
+const multer = require('multer');
 const recipesServices = require('../services/recipesService');
 const { jwtDecodification } = require('./loginController');
 
 const recipes = Router();
+
+const image = multer({ dest: 'images' });
 
 recipes.post('/', rescue(async (req, res) => {
   const { authorization } = req.headers;
@@ -52,5 +55,19 @@ recipes.delete('/:id', rescue(async (req, res) => {
   }
   return res.status(204).json(deletedRecipe);
 }));
+
+recipes.put('/recipes/:id/image', image.single('image'), (req, res) => {
+  const { id } = req.params;
+  const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+      callback(null, 'images');
+    },
+    filename: (req, file, callback) => {
+      callback(null, `${id}.jpeg`);
+    },
+  });
+  console.log(storage);
+  res.send().status(200);
+});
 
 module.exports = recipes;
