@@ -66,7 +66,15 @@ const updateRecipe = async (req, res) => {
   }
 
   const response = await services.recipeServices
-    .updateRecipeService(id, userLoggedId, userLoggedRole, userIdRecipe, name, ingredients, preparation);
+    .updateRecipeService(
+      id,
+      userLoggedId,
+      userLoggedRole,
+      userIdRecipe,
+      name,
+      ingredients,
+      preparation
+    );
 
   res.status(200).send(response);
 };

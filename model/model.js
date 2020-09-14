@@ -37,7 +37,7 @@ const getRecipeFromDB = async (id) => mongo.connect()
 const updateRecipe = async (id, name, ingredients, preparation) =>
   mongo.connect()
   .then((db) => db.collection('recipes')
-  .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } })
+  .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }),
   )
   .then(() => ({ name, ingredients, preparation }))
   .catch((error) => error);

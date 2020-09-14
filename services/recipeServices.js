@@ -27,7 +27,7 @@ const updateRecipeService =
     }
     const result = await model.updateRecipe(id, name, ingredients, preparation);
     return result;
-};
+  };
 
 module.exports = {
   createNewRecipe,
