@@ -11,8 +11,8 @@ const authMechanism = 'DEFAULT';
 const MONGO_DB_URL = `mongodb://${user}:${password}@localhost:27017/?authMechanism=${authMechanism}`; */
 
 // para rodar na pipeline github Trybe
-const dbURL = MONGO_DB_URL || 'mongodb://mongodb:27017/Cookmaster';
-const dbName = DB_NAME || 'Cookmaster';
+const dbURL = 'mongodb://mongodb:27017/Cookmaster';
+const dbName = 'Cookmaster';
 
 const connect = () =>
   MongoClient.connect(dbURL, {
