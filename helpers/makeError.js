@@ -5,6 +5,7 @@ const errors = {
   incorrect_login: { message: 'Incorrect username or password', status: 401 },
   invalid_token: { message: 'jwt malformed', status: 401 },
   noauth: { status: 401, message: 'missing auth token' },
+  not_found: { status: 404, message: 'recipe not found' },
 };
 
 module.exports = function makeError(err) {

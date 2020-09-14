@@ -1,7 +1,5 @@
 const service = require('./recipeService');
 
-const recipeNotFound = (res) => res.status(404).json({ message: 'recipe not found' });
-
 const registerRecipe = async (req, res, next) => {
   try {
     const { body } = req;
@@ -24,33 +22,34 @@ const listRecipes = async (_req, res, next) => {
   }
 };
 
-const findRecipeById = async (req, res) => {
+const findRecipeById = async (req, res, next) => {
   try {
     const recipe = await service.findRecipeById(req.params.id);
-    if (!recipe) return recipeNotFound(res);
+    if (!recipe) return next('not_found');
     return res.status(200).json(recipe);
   } catch (err) {
     console.log('findRecipeById error', err);
-    return recipeNotFound(res);
+    next('not_found');
   }
 };
 
-const updateRecipe = async (req, res) => {
+const updateRecipe = async (req, res, next) => {
   try {
     const recipe = await service.updateRecipe(req.body, req.params.id);
-    if (!recipe) return recipeNotFound(res);
+    if (!recipe) return next('not_found');
+
     return res.status(200).json(recipe);
   } catch (err) {
-    recipeNotFound(res);
+    next('not_found');
   }
 };
 
-const deleteRecipe = async (req, res) => {
+const deleteRecipe = async (req, res, next) => {
   try {
     await service.deleteRecipe(req.params.id);
     return res.status(204).json();
   } catch (err) {
-    return res.status(401).json({ message: 'missing auth token' });
+    next('noauth');
   }
 };
 

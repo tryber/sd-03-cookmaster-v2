@@ -1,3 +1,5 @@
+const path = require('path');
+// const multer = require('multer');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -17,19 +19,12 @@ mongoose.connect(MONGO_DB_URL, {
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
   response.send();
 });
-// app.use((req, res, next) => {
-//   console.log(`==================== requestito ====================
-//   ${req.method} ${req.path}`);
-//   console.log(`${JSON.stringify(req.body)}
-//   ==================== requestito ====================`);
-
-//   next();
-// });
 app.use('/users', UserRouter);
 app.use('/recipes', RecipeRouter);
 
@@ -41,3 +36,12 @@ const { PORT = 3000 } = process.env;
 
 app.listen(PORT);
 console.log(`conectado na porta ${PORT}`);
+
+// app.use((req, res, next) => {
+//   console.log(`==================== requestito ====================
+//   ${req.method} ${req.path}`);
+//   console.log(`${JSON.stringify(req.body)}
+//   ==================== requestito ====================`);
+
+//   next();
+// });
