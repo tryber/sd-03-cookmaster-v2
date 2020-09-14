@@ -27,7 +27,7 @@ Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu
     * Você deve criar uma branch no seguinte formato: `nome-de-usuario-nome-do-projeto`
     * Exemplo: `git checkout -b joaozinho-sd-03-cookmaster-v2`
 
-4. Adicione as mudanças ao _stage_ do Git e faça um `commit`
+4. Adicione as  ao _stage_ do Git e faça um `commit`
   * Verifique que as mudanças ainda não estão no _stage_
     * Exemplo: `git status` (deve aparecer listada a pasta _joaozinho_ em vermelho)
   * Adicione o novo arquivo ao _stage_ do Git
