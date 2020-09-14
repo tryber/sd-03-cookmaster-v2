@@ -30,4 +30,20 @@ recipes.get('/:id', async (req, res) => {
   return res.status(200).json(recipe);
 });
 
+recipes.put('/:id', userAuth, async (req, res) => {
+  const recipe = req.body;
+  const idRecipe = req.params.id;
+  const { _id: userId } = req.user;
+
+  const update = await service.updateRecipes(idRecipe, userId, recipe);
+
+  if (update.message) return res.status(401).json(update);
+  return res.status(200).json(update);
+});
+
+// recipes.delete('/:id', userAuth, async (req, res) => {
+
+
+// });
+
 module.exports = recipes;
