@@ -6,11 +6,10 @@ const recipes = Router();
 recipes.post('/recipes', async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { user } = req;
-  console.log(user)
 
-  // if (!user) {
-  //   return res.status(401).json({ message: 'user not found' });
-  // }
+  if (!user) {
+    return res.status(401).json({ message: 'user not found' });
+  }
 
   if (!name || !ingredients || !preparation) {
     return res.status(400).json({ message: 'Invalid entries. Try again.' });

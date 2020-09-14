@@ -9,19 +9,19 @@ const userAuth = async (req, res, next) => {
     return res.status(401).json({ message: 'missing auth token' });
   }
   const payload = jwt.verify(token, SECRET);
-  const { user: data } = payload || {};
+  const { emailPayload } = payload;
 
-  const user = await model.checkEmail(data.emailPayload);
-  console.log('teste', user);
-
-  if (!user) {
-    return res.status(401).json({ message: 'jwt malformed' });
+  const user = await model.checkEmail(emailPayload);
+  console.log(user)
+  
+  if (emailPayload) {
+    res.status(201).json({ message: 'jwt' });
+    return next();
   }
-
   req.user = user;
 
-  // return res.status(401).json({ message: 'jwt malformed' });
-  next();
+  res.status(401).json({ message: 'jwt malformed' });
+  return next();
 };
 
 module.exports = {

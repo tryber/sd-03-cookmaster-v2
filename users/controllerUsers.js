@@ -31,8 +31,8 @@ users.post('/login', async (req, res) => {
   if (!userPassword) return res.status(401).json({ message: 'All fields must be filled' });
 
   const { _id, email: emailPayload, role } = userEmail;
-  const jwtConfig = { algorithm: 'HS256', expiresIn: '15' };
-  const token = jwt.sign({ user: { _id, emailPayload, role } }, SECRET, jwtConfig);
+  const jwtConfig = { algorithm: 'HS256', expiresIn: '1h' };
+  const token = jwt.sign({ _id, emailPayload, role }, SECRET, jwtConfig);
 
   return res.status(200).json({ token });
 });
