@@ -5,7 +5,10 @@ const createNewRecipe = async (name, ingredients, preparation, user) => {
     return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
   }
 
-  const createdRecipe = await recipeModel.createNewRecipe(name, ingredients, preparation, user._id);
+  const {
+    _id: { id },
+  } = user;
+  const createdRecipe = await recipeModel.createNewRecipe(name, ingredients, preparation, id);
   return createdRecipe;
 };
 
@@ -23,9 +26,9 @@ const getRecipeById = async (id) => {
 const editRecipe = async (id, name, ingredients, preparation) => {
   const { userId } = await recipeModel.findRecipeById(id);
 
-  const editRecipe = await recipeModel.editRecipe(id, name, ingredients, preparation, userId);
+  const editedRecipe = await recipeModel.editRecipe(id, name, ingredients, preparation, userId);
 
-  return editRecipe;
+  return editedRecipe;
 };
 
 const deleteRecipe = async (id) => {
