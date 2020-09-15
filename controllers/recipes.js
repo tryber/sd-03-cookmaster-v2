@@ -1,46 +1,57 @@
-
-const express = require('express');
 const rescue = require('express-rescue');
-const Boom = require('boom');
+const { recipesServices } = require('../services');
 
-const { usersServices } = require('../services');
-const { auth } = require('../middlewares');
+const registerRecipes = rescue(async (req, res) => {
+  const { name, ingredients, preparation } = req.body;
+  const { _id: userId } = req.user;
+  const newRecipe = await recipesServices.createRecipe(name, ingredients, preparation, userId);
 
-const usersRouter = express.Router();
-
-const EMAIL_REGEX = /^[A-z0-9]+(\.?[A-z0-9]+)?@[A-z0-9]+(\.?[A-z0-9]+)?$/;
-const INVALID_ENTRIES = 'Invalid entries. Try again.';
-
-const validateNewUser = rescue(async (req, _res, next) => {
-  const { name, email, password } = req.body || {};
-  if (!name || !email || !password || !EMAIL_REGEX.test(email)) {
-    return next(Boom.badRequest(INVALID_ENTRIES));
-  }
-
-  const user = await usersServices.getUserByEmail(email);
-  if (user) return next(Boom.conflict('Email already registered'));
-
-  return next();
+  return res.status(201).json(newRecipe);
 });
 
-const createUser = rescue(async (req, res) => {
-  const { name, email, password } = req.body;
-  const user = await usersServices.createUser('user', { name, email, password });
-  return res.status(201).json({ user });
+const listRecipes = rescue(async (req, res) => {
+  const recipes = await recipesServices.listRecipes();
+  return res.status(200).json(recipes);
 });
 
-const createAdmin = rescue(async (req, res, next) => {
-  const { user: { role }, body: { name, email, password } } = req;
-  if (role !== 'admin') return next(Boom.forbidden('Only admins can register new admins'));
-
-  const user = await usersServices.createUser('admin', { name, email, password });
-  return res.status(201).json({ user });
+const recipeById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const recipe = await recipesServices.getRecipeById(id);
+  if (recipe.err) return res.status(404).json(recipe.message);
+  return res.status(200).json(recipe);
 });
 
-usersRouter.route('/')
-  .post(validateNewUser, createUser);
+const updateRecipeById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+  const newData = req.body;
+  const updatedRecipe = await recipesServices.updateRecipe(id, userId, newData);
+  if (updatedRecipe.err) return res.status(401).json(updatedRecipe.message);
 
-usersRouter.route('/admin')
-  .post(auth, validateNewUser, createAdmin);
+  return res.status(200).json(updatedRecipe);
+});
 
-module.exports = usersRouter;
+const deleteRecipeById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+  await recipesServices.deleteRecipe(id, userId);
+
+  return res.status(204).json({ message: 'deleted recipe' });
+});
+
+const updateRecipeImageById = rescue(async (req, res) => {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+  const updatedRecipe = await recipesServices.updateRecipeImage(id, userId);
+
+  return res.status(200).json(updatedRecipe);
+});
+
+module.exports = {
+  registerRecipes,
+  listRecipes,
+  recipeById,
+  updateRecipeById,
+  deleteRecipeById,
+  updateRecipeImageById,
+};
