@@ -58,4 +58,43 @@ recipes.put(
   }),
 );
 
+recipes.delete(
+  '/:id',
+  validateJWT,
+  rescue(async (req, res) => {
+    const { id } = req.params;
+
+    await recipeService.deleteRecipe(id);
+
+    return res.status(204).end();
+  }),
+);
+
+// Referência para utilização do multer:
+// https://github.com/tryber/sd-03-live-lectures/pull/12
+
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, 'images'),
+  filename: (req, _file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
+
+recipes.put(
+  '/:id/image',
+  validateJWT,
+  upload.single('image'),
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const { filename } = req.file;
+
+    const addedImage = await recipeService.addImageToRecipe(id, filename);
+
+    return res.status(200).json(addedImage);
+  }),
+);
+
 module.exports = recipes;

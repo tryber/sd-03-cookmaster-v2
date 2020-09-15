@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { jwtConfig, secret } = require('./jwtConfiguration');
 const userModel = require('../models/userModel');
 
-const generateJwt = (data) => {
+const generateJWT = (data) => {
   const token = jwt.sign({ data }, secret, jwtConfig);
   return { token };
 };
@@ -16,12 +16,10 @@ const validateJWT = async (req, res, next) => {
     const decoded = jwt.verify(token, secret);
 
     const {
-      data: {
-        _id: { id },
-      },
+      data: { email },
     } = decoded;
 
-    const user = await userModel.getUserById(id);
+    const user = await userModel.getUserByEmail(email);
 
     if (!user) {
       return res.status(401).json({ message: 'invalid token' });
@@ -38,6 +36,6 @@ const validateJWT = async (req, res, next) => {
 };
 
 module.exports = {
-  generateJwt,
+  generateJWT,
   validateJWT,
 };
