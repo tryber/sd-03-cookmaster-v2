@@ -9,8 +9,7 @@ const authAdminMiddleware = async (req, _res, next) => {
     const decode = jwt.verify(token, 'seusecretdetoken');
     if (!decode) return next(unauthorized('invalid token'));
     const user = await users.findUserByEmail(decode.data.email);
-    if (!user) return next(unauthorized('jwt malformed'));
-    if (user.role !== 'admin') return next(forbidden('Only admins can register new admins'));
+    if (!user || user.role !== 'admin') return next(forbidden('Only admins can register new admins'));
     next();
   } catch (err) {
     return next(unauthorized('jwt malformed'));
