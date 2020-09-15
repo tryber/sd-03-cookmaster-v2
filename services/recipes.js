@@ -50,7 +50,7 @@ const addImage = async (id, userId, role, filename) => {
   if (recipe === null) return notFound('recipe not found');
   if (recipe.userId.toString() === userId.toString() || role === 'admin') {
     const recipeEdited = await recipes
-      .addImage(id, name, ingredients, preparation, userId, filename);
+      .addImage(id, name, ingredients, preparation, userId, `localhost:3000/images/${filename}`);
     return recipeEdited;
   }
   return badRequest('Invalid entries. Try again.');
