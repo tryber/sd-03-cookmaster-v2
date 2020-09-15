@@ -11,5 +11,4 @@ router.get('/:id', index.recipesController.findRecipesById);
 router.put('/:id', middlewares.auth, index.recipesController.editRecipe);
 router.delete('/:id', middlewares.auth, index.recipesController.deleteRecipe);
 
-
 module.exports = router;

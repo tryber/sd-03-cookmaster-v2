@@ -27,7 +27,16 @@ const findUser = async (email, passwordValue) => {
   return token;
 };
 
+const setNewAdmin = async (name, email, password) => {
+  if (!name || !email || !emailRegx.test(email) || !password) return badRequest('Invalid entries. Try again.');
+  const valid = await users.findUserByEmail(email);
+  if (valid !== null) return conflict('Email already registered');
+  const infos = await users.setNewAdmin(name, email, password);
+  return infos;
+};
+
 module.exports = {
   setNewUser,
   findUser,
+  setNewAdmin,
 };
