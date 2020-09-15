@@ -7,9 +7,9 @@ const getUserByEmail = async (email) =>
 const getUserById = async (id) =>
   connection().then((db) => db.collection('users').findOne(ObjectId(id)));
 
-const registerUser = async (name, email, password) =>
+const registerUser = async (name, email, password, role = 'user') =>
   connection()
-    .then((db) => db.collection('users').insertOne({ name, email, password, role: 'user' }))
+    .then((db) => db.collection('users').insertOne({ name, email, password, role }))
     .then(({ insertedId }) => ({ user: { name, email, password, role: 'user', _id: insertedId } }));
 
 module.exports = {
