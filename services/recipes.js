@@ -43,10 +43,24 @@ const deleteRecipe = async (id, userId, role) => {
   return badRequest('Invalid entries. Try again.');
 };
 
+const addImage = async (id, userId, role, filename) => {
+  if (!checkForHexRegExp(id)) badRequest('Invalid entries. Try again.');
+  const recipe = await recipes.findRecipesById(id);
+  const { name, ingredients, preparation } = recipe;
+  if (recipe === null) return notFound('recipe not found');
+  if (recipe.userId.toString() === userId.toString() || role === 'admin') {
+    const recipeEdited = await recipes
+      .addImage(id, name, ingredients, preparation, userId, filename);
+    return recipeEdited;
+  }
+  return badRequest('Invalid entries. Try again.');
+};
+
 module.exports = {
   setNewRecipe,
   findAllRecipes,
   findRecipesById,
   editRecipe,
   deleteRecipe,
+  addImage,
 };
