@@ -1,45 +1,32 @@
-const express = require('express');
 const rescue = require('express-rescue');
-const Boom = require('boom');
+const { userServices } = require('../services'); // Changed. Attention
 
-const { usersServices } = require('../services');
-const { auth } = require('../middlewares');
-
-const usersRouter = express.Router();
-
-const EMAIL_REGEX = /^[A-z0-9]+(\.?[A-z0-9]+)?@[A-z0-9]+(\.?[A-z0-9]+)?$/;
-const INVALID_ENTRIES = 'Invalid entries. Try again.';
-
-const validateNewUser = rescue(async (req, _res, next) => {
-  const { name, email, password } = req.body || {};
-  if (!name || !email || !password || !EMAIL_REGEX.test(email)) {
-    return next(Boom.badRequest(INVALID_ENTRIES));
-  }
-
-  const user = await usersServices.getUserByEmail(email);
-  if (user) return next(Boom.conflict('Email already registered'));
-
-  return next();
-});
-
-const createUser = rescue(async (req, res) => {
+const registerUser = rescue(async (req, res) => {
   const { name, email, password } = req.body;
-  const user = await usersServices.createUser('user', { name, email, password });
-  return res.status(201).json({ user });
+  const newUser = await userServices.createUser(name, email, password, 'user');
+  if (newUser.err) return res.status(409).json(newUser.message);
+  return res.status(201).json(newUser);
 });
 
-const createAdmin = rescue(async (req, res, next) => {
-  const { user: { role }, body: { name, email, password } } = req;
-  if (role !== 'admin') return next(Boom.forbidden('Only admins can register new admins'));
-
-  const user = await usersServices.createUser('admin', { name, email, password });
-  return res.status(201).json({ user });
+const registerAdmin = rescue(async (req, res) => {
+  const { name, email, password } = req.body;
+  const { _id: userId } = req.user;
+  const newAdmin = await userServices.createAdmin(name, email, password, userId, 'admin');
+  if (newAdmin.err) return res.status(403).json(newAdmin.message);
+  return res.status(201).json(newAdmin);
 });
 
-usersRouter.route('/')
-  .post(validateNewUser, createUser);
+const loginUser = rescue(async (req, res) => {
+  const { email, password } = req.body;
+  const token = await userServices.tryLoginToken(email, password);
+  if (token.err) {
+    return res.status(401).json(token.message);
+  }
+  return res.status(200).json(token);
+});
 
-usersRouter.route('/admin')
-  .post(auth, validateNewUser, createAdmin);
-
-module.exports = usersRouter;
+module.exports = {
+  registerUser,
+  loginUser,
+  registerAdmin,
+};
