@@ -31,7 +31,22 @@ const registerUser = async (name, email, password) => {
   return registeredUser;
 };
 
+const registerAdmin = async (name, email, password, user) => {
+  if (!name || !email || !regexEmail.test(email) || !password) {
+    return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
+  }
+
+  const loggedUser = await userModel.getUserByEmail(user.email);
+
+  if (loggedUser.role !== 'admin') return { message: 'Only admins can register new admins' };
+
+  const registeredUser = await userModel.registerUser(name, email, password, 'admin');
+
+  return registeredUser;
+};
+
 module.exports = {
   registerUser,
   userLogin,
+  registerAdmin,
 };
