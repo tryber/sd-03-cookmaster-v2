@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
+const multer = require('multer');
+const path = require('path');
 const { recipeService } = require('../services');
 const { validateJWT } = require('../middlewares/auth');
 
@@ -12,7 +14,7 @@ recipes.post(
     const { name, ingredients, preparation } = req.body;
     const { user } = req;
 
-    const createdRecipe = await recipeService.createNewRecipe(name, ingredients, preparation, user);
+    const createdRecipe = await recipeService.createRecipe(name, ingredients, preparation, user);
 
     if (createdRecipe.message) return res.status(400).json({ message: createdRecipe.message });
 
@@ -23,7 +25,7 @@ recipes.post(
 recipes.get(
   '/',
   rescue(async (_req, res) => {
-    const allRecipes = await recipeService.getAll();
+    const allRecipes = await recipeService.getAllRecipes();
 
     return res.status(200).json(allRecipes);
   }),

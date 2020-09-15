@@ -8,7 +8,7 @@ const regexEmail = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
 const userLogin = async (email, password) => {
   if (!email || !password) return { message: 'All fields must be filled' };
 
-  const user = await userModel.findUserByEmail(email);
+  const user = await userModel.getUserByEmail(email);
 
   if (!user || user.password !== password) return { message: 'Incorrect username or password' };
 
@@ -20,7 +20,7 @@ const registerUser = async (name, email, password) => {
     return { code: 'invalid_data', message: 'Invalid entries. Try again.' };
   }
 
-  const isEmailAlreadyRegistered = await userModel.findUserByEmail(email);
+  const isEmailAlreadyRegistered = await userModel.getUserByEmail(email);
 
   if (isEmailAlreadyRegistered) {
     return { code: 'conflict', message: 'Email already registered' };
