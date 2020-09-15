@@ -20,6 +20,6 @@ router.get('/', index.recipesController.findAllRecipes);
 router.get('/:id', index.recipesController.findRecipesById);
 router.put('/:id', middlewares.auth, index.recipesController.editRecipe);
 router.delete('/:id', middlewares.auth, index.recipesController.deleteRecipe);
-router.post('/:id/image', middlewares.auth, upload.single('image'), index.recipesController.addImage);
+router.put('/:id/image', middlewares.auth, upload.single('image'), index.recipesController.addImage);
 
 module.exports = router;
