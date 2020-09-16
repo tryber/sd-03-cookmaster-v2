@@ -1,57 +1,114 @@
+const express = require('express');
 const rescue = require('express-rescue');
+const Boom = require('boom');
+const multer = require('multer');
+const path = require('path');
+
 const { recipesServices } = require('../services');
+const { auth } = require('../middlewares');
 
-const registerRecipes = rescue(async (req, res) => {
+const recipesRouter = express.Router();
+
+const validateNewRecipe = (req, _res, next) => {
+  const { user } = req;
+
+  if (!user) return next(Boom.unauthorized('Invalid Token'));
+
   const { name, ingredients, preparation } = req.body;
-  const { _id: userId } = req.user;
-  const newRecipe = await recipesServices.createRecipe(name, ingredients, preparation, userId);
+  if (!name || !ingredients || !preparation) {
+    return next(Boom.badRequest('Invalid entries. Try again.'));
+  }
 
-  return res.status(201).json(newRecipe);
+  next();
+};
+
+const createRecipe = rescue(async (req, res) => {
+  const {
+    user: { _id: id },
+    body: { name, ingredients, preparation } = {},
+  } = req;
+  const recipe = await recipesServices.addRecipe(id, { name, ingredients, preparation });
+  return res.status(201).json({ recipe });
 });
 
-const listRecipes = rescue(async (req, res) => {
-  const recipes = await recipesServices.listRecipes();
-  return res.status(200).json(recipes);
+const getAllRecipes = rescue(async (req, res) => {
+  const recipes = await recipesServices.getRecipes();
+  res.status(200).json(recipes);
 });
 
-const recipeById = rescue(async (req, res) => {
+const getRecipe = rescue(async (req, res, next) => {
   const { id } = req.params;
+
+  if (id.length !== 24) return next(Boom.notFound('recipe not found'));
+
   const recipe = await recipesServices.getRecipeById(id);
-  if (recipe.err) return res.status(404).json(recipe.message);
+
+  if (!recipe) return next(Boom.notFound('recipe not found'));
+
   return res.status(200).json(recipe);
 });
 
-const updateRecipeById = rescue(async (req, res) => {
-  const { id } = req.params;
-  const { _id: userId } = req.user;
-  const newData = req.body;
-  const updatedRecipe = await recipesServices.updateRecipe(id, userId, newData);
-  if (updatedRecipe.err) return res.status(401).json(updatedRecipe.message);
+const evaluatePermission = rescue(async (req, res, next) => {
+  const {
+    params: { id },
+    user: { _id: userId, role },
+  } = req || {};
 
-  return res.status(200).json(updatedRecipe);
+  if (role === 'admin') {
+    req.permission = true;
+    return next();
+  }
+
+  const permission = await recipesServices.validateOwnerShip(userId, id);
+
+  if (permission.error) return next(Boom.unauthorized(permission.message));
+
+  res.permission = permission;
+
+  next();
 });
 
-const deleteRecipeById = rescue(async (req, res) => {
-  const { id } = req.params;
-  const { _id: userId } = req.user;
-  await recipesServices.deleteRecipe(id, userId);
+const updateRecipe = rescue(async (req, res) => {
+  const {
+    params: { id },
+    body: { name, ingredients, preparation },
+  } = req || {};
 
-  return res.status(204).json({ message: 'deleted recipe' });
+  const newRecipe = await recipesServices.updateRecipe(id, name, ingredients, preparation);
+
+  res.status(200).json(newRecipe);
 });
 
-const updateRecipeImageById = rescue(async (req, res) => {
-  const { id } = req.params;
-  const { _id: userId } = req.user;
-  const updatedRecipe = await recipesServices.updateRecipeImage(id, userId);
+const deleteRecipe = rescue(async (req, res) =>
+  recipesServices.deleteRecipe(req.params.id).then(() => res.status(204).end()),
+);
 
-  return res.status(200).json(updatedRecipe);
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, 'images'),
+  filename: (req, file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
 });
 
-module.exports = {
-  registerRecipes,
-  listRecipes,
-  recipeById,
-  updateRecipeById,
-  deleteRecipeById,
-  updateRecipeImageById,
-};
+const upload = multer({ storage });
+
+const putImage = rescue(async (req, res) => {
+  const { params: { id }, file: { filename } = {} } = req;
+  const recipe = await recipesServices.putImageOnRecipe(id, `localhost:3000/images/${filename}`);
+
+  return res.status(200).json(recipe);
+});
+
+recipesRouter.route('/').post(auth, validateNewRecipe, createRecipe).get(getAllRecipes);
+
+recipesRouter
+  .route('/:id')
+  .get(getRecipe)
+  .put(auth, evaluatePermission, validateNewRecipe, updateRecipe)
+  .delete(auth, evaluatePermission, deleteRecipe);
+
+recipesRouter.route('/:id/image')
+  .put(auth, evaluatePermission, upload.single('image'), putImage);
+
+module.exports = recipesRouter;

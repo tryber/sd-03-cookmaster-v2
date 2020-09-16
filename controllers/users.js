@@ -1,32 +1,45 @@
+const express = require('express');
 const rescue = require('express-rescue');
-const { userServices } = require('../services'); // Changed. Attention
+const Boom = require('boom');
 
-const registerUser = rescue(async (req, res) => {
-  const { name, email, password } = req.body;
-  const newUser = await userServices.createUser(name, email, password, 'user');
-  if (newUser.err) return res.status(409).json(newUser.message);
-  return res.status(201).json(newUser);
-});
+const { usersServices } = require('../services');
+const { auth } = require('../middlewares');
 
-const registerAdmin = rescue(async (req, res) => {
-  const { name, email, password } = req.body;
-  const { _id: userId } = req.user;
-  const newAdmin = await userServices.createAdmin(name, email, password, userId, 'admin');
-  if (newAdmin.err) return res.status(403).json(newAdmin.message);
-  return res.status(201).json(newAdmin);
-});
+const usersRouter = express.Router();
 
-const loginUser = rescue(async (req, res) => {
-  const { email, password } = req.body;
-  const token = await userServices.tryLoginToken(email, password);
-  if (token.err) {
-    return res.status(401).json(token.message);
+const EMAIL_REGEX = /^[A-z0-9]+(\.?[A-z0-9]+)?@[A-z0-9]+(\.?[A-z0-9]+)?$/;
+const INVALID_ENTRIES = 'Invalid entries. Try again.';
+
+const validateNewUser = rescue(async (req, _res, next) => {
+  const { name, email, password } = req.body || {};
+  if (!name || !email || !password || !EMAIL_REGEX.test(email)) {
+    return next(Boom.badRequest(INVALID_ENTRIES));
   }
-  return res.status(200).json(token);
+
+  const user = await usersServices.getUserByEmail(email);
+  if (user) return next(Boom.conflict('Email already registered'));
+
+  return next();
 });
 
-module.exports = {
-  registerUser,
-  loginUser,
-  registerAdmin,
-};
+const createUser = rescue(async (req, res) => {
+  const { name, email, password } = req.body;
+  const user = await usersServices.createUser('user', { name, email, password });
+  return res.status(201).json({ user });
+});
+
+const createAdmin = rescue(async (req, res, next) => {
+  const { user: { role }, body: { name, email, password } } = req;
+  if (role !== 'admin') return next(Boom.forbidden('Only admins can register new admins'));
+
+  const user = await usersServices.createUser('admin', { name, email, password });
+  return res.status(201).json({ user });
+});
+
+usersRouter.route('/')
+  .post(validateNewUser, createUser);
+
+usersRouter.route('/admin')
+  .post(auth, validateNewUser, createAdmin);
+
+module.exports = usersRouter;

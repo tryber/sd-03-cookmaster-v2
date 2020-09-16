@@ -1,8 +1,8 @@
-require('dotenv/config');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const rescue = require('express-rescue');
 const Boom = require('boom');
+require('dotenv/config');
 
 const { usersServices } = require('../services');
 
