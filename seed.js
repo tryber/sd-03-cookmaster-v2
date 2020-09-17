@@ -1,6 +1,1 @@
-db.users.insertOne({
-  name: 'root',
-  password: 'admin',
-  email: 'potew@gmail.com',
-  role: 'admin'
-});
+db.users.insertOne({ name: 'admin', email: 'root@email.com', password: 'admin', role: 'admin' });

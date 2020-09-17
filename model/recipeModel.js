@@ -5,8 +5,16 @@ const create = async (name, ingredients, preparation, userId) => connect()
 .then((db) =>
   db
   .collection('recipes')
-  .insertOne({ name, ingredients, preparation, userId}))
-  .then(({insertedId}) => ({ recipe: { name, ingredients, preparation, userId, _id: insertedId } }));
+  .insertOne({ name, ingredients, preparation, userId }))
+  .then(({ insertedId }) => (
+    { recipe: {
+      name,
+      ingredients,
+      preparation,
+      userId,
+      _id: insertedId
+    } 
+  }));
 
 const listAll = async () => connect()
   .then((db) =>
@@ -20,8 +28,7 @@ const selectById = async (id) => connect()
   .then((db) =>
     db
     .collection('recipes')
-    .find(ObjectId(id))
-    .toArray(),
+    .findOne(ObjectId(id))
   );
 
 const update = async (id, name, ingredients, preparation) => connect()
