@@ -5,6 +5,7 @@ const recipeSchema = new mongoose.Schema({
   ingredients: { type: String, require: true },
   preparation: { type: String, require: true },
   userId: { type: String },
+  image: String,
 });
 
 const Recipe = mongoose.model('Recipe', recipeSchema);
@@ -31,4 +32,10 @@ const updateRecipe = async (data, id) => {
 
 const exclude = async (id) => Recipe.findByIdAndDelete(id).exec();
 
-module.exports = { createRecipe, getAll, findById, updateRecipe, exclude };
+const updateImage = async (image, id) => {
+  const found = Recipe.findByIdAndUpdate(id, image).exec();
+  if (!found) return false;
+  return found;
+};
+
+module.exports = { createRecipe, getAll, findById, updateRecipe, exclude, updateImage };

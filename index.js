@@ -1,5 +1,4 @@
 const path = require('path');
-// const multer = require('multer');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -22,7 +21,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'uploads')));
 
 // não remova esse endpoint, e para o avaliador funcionar
-app.get('/', (request, response) => {
+app.get('/', (_request, response) => {
   response.send();
 });
 app.use('/users', UserRouter);
