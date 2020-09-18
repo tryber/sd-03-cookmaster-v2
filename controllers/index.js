@@ -1,7 +1,7 @@
-const usersController = require('./usersController');
-const recipesController = require('./recipesController');
+const userController = require('./userController');
+const recipeController = require('./recipeController');
 
 module.exports = {
-  usersController,
-  recipesController,
+  userController,
+  recipeController,
 };
