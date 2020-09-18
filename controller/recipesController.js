@@ -43,6 +43,14 @@ const updateRecipe = rescue(async (req, res) => {
   res.status(200).json({ ...updRecp, userId: _id });
 });
 
+const addImageToRecipe = rescue(async (req, res) => {
+  const { id, image } = req.params;
+  const updatedRecipe = await recipeService.setImage(id, image);
+  return updatedRecipe.image ?
+  res.status(200).json({updatedRecipe}) :
+  res.status(401).json({updatedRecipe});
+});
+
 const deleteRecipe = rescue(async (req, res) => {
   const { _id, role } = req.user;
   await recipeService.deleteOne(req.params.id, _id, role);
@@ -54,5 +62,6 @@ module.exports = {
   getById,
   createRecipe,
   updateRecipe,
+  addImageToRecipe,
   deleteRecipe,
 };

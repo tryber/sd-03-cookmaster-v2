@@ -6,7 +6,7 @@ const usersModel = require('../model/usersModel');
 
 require('dotenv/config');
 
-const USER_KEY =  'agendadoida';
+const USER_KEY = 'agendadoida';
 
 module.exports = async (req, res, next) => {
   // Aquele token gerado anteriormente virá na requisição através do

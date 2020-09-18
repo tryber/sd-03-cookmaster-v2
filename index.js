@@ -1,6 +1,7 @@
 const validateJWT = require('./middlewares/validateJwt');
 const bodyParser = require('body-parser');
 const express = require('express');
+
 const app = express();
 
 app.get('/', (_request, response) => {
@@ -11,7 +12,7 @@ const multer = require('multer');
 const usersControler = require('./controller/usersControler');
 const recipesController = require('./controller/recipesController');
 
-const uploadInstance = multer({dest: 'images'})
+const uploadInstance = multer({ dest: 'images' });
 
 app.use(bodyParser.json());
 
@@ -23,10 +24,10 @@ app.get('/recipes/:id', recipesController.getById);
 app.post('/recipes', validateJWT, recipesController.createRecipe);
 app.delete('/recipes/:id', validateJWT, recipesController.deleteRecipe);
 app.put('/recipes/:id', validateJWT, recipesController.updateRecipe);
-// app.put('/recipes/:id/image', validateJWT, recipesController);
+app.put('/recipes/:id/image', validateJWT, recipesController.addImageToRecipe);
 
 app.post('/recipes/:id/image', uploadInstance.single('image'), (req, res) =>
-  res.send().status(200)
-  );
+  res.send().status(200),
+);
 
-  app.listen(3000, () => { console.log('Escutando na porta 3k'); });
+app.listen(3000, () => { console.log('Escutando na porta 3k'); });

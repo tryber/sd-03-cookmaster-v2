@@ -6,26 +6,27 @@ require('dotenv/config');
 
 const userService = require('../service/userService');
 
-const USER_KEY =  'agendadoida';
+const USER_KEY = 'agendadoida';
 const jwtconfig = {
   expiresIn: '1d',
   algorithm: 'HS256', // SHA-256
 };
 
+// Função criada para resolver duplicidade de código das próximas 2 funções
+const newUserFeedback = (user, resp) => {
+  user.message ?
+  resp.status(user.code).json({ message: user.message }) :
+  resp.status(201).json(user);
+}
+
 const insertUser = rescue(async (req, res) => {
   const user = await userService.checkAndInsert(req.body, 'user', 'user');
-
-  return user.message ?
-  res.status(user.code).json({ message: user.message }) :
-  res.status(201).json(user);
+  newUserFeedback(user, res);
 });
 
 const insertAdmin = rescue(async (req, res) => {
   const user = await userService.checkAndInsert(req.body, req.user.role, 'admin');
-
-  return user.message ?
-  res.status(user.code).json({ message: user.message }) :
-  res.status(201).json(user);
+  newUserFeedback(user, res);
 });
 
 const selectUser = rescue(async (req, res) => {

@@ -24,7 +24,7 @@ const checkAndInsert = async (user, currUserRole, newUserRole) => {
   const hasEmail = await usersModel.findByEmail(email);
 
   // Única situação em que um user tenta criar um admin
-  if (currUserRole != newUserRole) return errPrivilege;
+  if (currUserRole !== newUserRole) return errPrivilege;
   if ( // RegEx obtido em regexr.com
     !(/([\w.\-_]+)?\w+@[\w-_]+(\.\w+){1,}/igm).test(email)
     || !name
@@ -42,9 +42,9 @@ const selectOne = async (loginData) => {
 
   const user = await usersModel.findByEmail(loginData.email);
 
-  if(!user) return invalidUserError;
+  if (!user) return invalidUserError;
   // Usuário inexistente ou senha incorreta retornam o mesmo erro
-  
+
   return loginData.password === user.password
   ? { code: 200, user }
   : invalidUserError;

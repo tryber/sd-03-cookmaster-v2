@@ -19,7 +19,7 @@ const findByEmail = async (email) => connect()
   .then((db) =>
     db
     .collection('users')
-    .findOne({ email })
+    .findOne({ email }),
   );
 
 module.exports = {
