@@ -17,6 +17,17 @@ const validateImputsRecipe = async (name, ingredients, preparation) => {
   return { error: false };
 };
 
+const seePermision = async (role, userId, _id) => {
+  if (role !== 'admin' && ObjectId(userId).toString() !== ObjectId(_id).toString()) {
+    return {
+      cod: 401,
+      error: true,
+      message: 'Permision denied',
+    };
+  }
+  return { error: false };
+};
+
 const createRecipe = async (name, ingredients, preparation, userId) => {
   const validation = await validateImputsRecipe(name, ingredients, preparation);
 
@@ -60,13 +71,9 @@ const updateRecipe = async (id, name, ingredients, preparation, _id, role) => {
 const deleteRecipe = async (id, _id, role) => {
   const recipe = await getRecipeById(id);
 
-  if (role !== 'admin' && ObjectId(recipe.userId).toString() !== ObjectId(_id).toString()) {
-    return {
-      cod: 401,
-      error: true,
-      message: 'Permision denied',
-    };
-  }
+  const permisionCheck = await seePermision(role, recipe.userId, _id);
+
+  if (permisionCheck.error) return permisionCheck;
 
   return recipesModel.deleteRecipe(id);
 };
@@ -75,13 +82,9 @@ const updateRecipeImage = async (id, image, _id, role) => {
   const recipe = await getRecipeById(id);
   const { name, ingredients, preparation, userId } = recipe;
 
-  if (role !== 'admin' && ObjectId(userId).toString() !== ObjectId(_id).toString()) {
-    return {
-      cod: 401,
-      error: true,
-      message: 'Permision denied',
-    };
-  }
+  const permisionCheck = await seePermision(role, userId, _id);
+
+  if (permisionCheck.error) return permisionCheck;
 
   return recipesModel.updateRecipeImage(id, name, ingredients, preparation, userId, image);
 };
