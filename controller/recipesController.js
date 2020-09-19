@@ -46,8 +46,9 @@ const updateRecipe = rescue(async (req, res) => {
 });
 
 const addImageToRecipe = rescue(async (req, res) => {
-  const { id, image } = req.params;
-  const updatedRecipe = await recipeService.setImage(id, image);
+  const { id, image, user } = req.params;
+  const { _id: uId, role } = user;
+  const updatedRecipe = await recipeService.setImage(uId, role, id, image);
 
   return updatedRecipe.image ?
   res.status(200).json({ updatedRecipe }) :

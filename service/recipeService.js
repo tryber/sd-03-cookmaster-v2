@@ -11,11 +11,10 @@ const getById = async (id) => {
   return result || { message: 'recipe not found' };
 };
 
-const insertOne = async ({ name, ingredients, preparation }, uid) => {
-  return (!name || !ingredients || !preparation) ?
+const insertOne = async ({ name, ingredients, preparation }, uid) =>
+  (!name || !ingredients || !preparation) ?
   { message: 'Invalid entries. Try again.' } :
   recipeModel.create(name, ingredients, preparation, uid);
-};
 
 const updateOne = async (uId, role, rId, name, ingredients, preparation) => {
   const recipe = await recipeModel.selectById(rId);
@@ -26,7 +25,7 @@ const updateOne = async (uId, role, rId, name, ingredients, preparation) => {
   { message: 'Forbidden.' };
 };
 
-const setImage = async (id, imagePath) => {
+const setImage = async (uId, role, id, imagePath) => {
   const recipe = await recipeModel.selectById(id);
 
   return (uId.toString() === recipe.userId.toString() || role === 'admin') ?
@@ -48,6 +47,6 @@ module.exports = {
   getById,
   insertOne,
   updateOne,
-  // setImage,
+  setImage,
   deleteOne,
 };
