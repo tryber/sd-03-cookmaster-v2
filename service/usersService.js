@@ -36,7 +36,20 @@ const createUsers = async (name, email, password) => {
   return usersModel.createUser(name, email, password);
 };
 
+const createAdmin = async (name, email, password, role) => {
+  if (role !== 'admin') {
+    return {
+      cod: 403,
+      error: true,
+      message: 'Only admins can register new admins',
+    };
+  }
+
+  return usersModel.createUser(name, email, password, role);
+};
+
 module.exports = {
   getAllUsers,
   createUsers,
+  createAdmin,
 };
