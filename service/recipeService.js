@@ -27,11 +27,12 @@ const updateOne = async (uId, role, rId, name, ingredients, preparation) => {
 };
 
 const setImage = async (id, imagePath) => {
-  const recipe = await recipeModel.selectById(rId);
+  const recipe = await recipeModel.selectById(id);
+
   return (uId.toString() === recipe.userId.toString() || role === 'admin') ?
   recipeModel.setImagePath(id, recipe, imagePath) :
   { message: 'Forbidden.' };
-}
+};
 
 const deleteOne = async (rId, uId, role) => {
   const recipe = await recipeModel.selectById(rId);
@@ -47,6 +48,6 @@ module.exports = {
   getById,
   insertOne,
   updateOne,
-  setImage,
+  // setImage,
   deleteOne,
 };

@@ -4,7 +4,9 @@ const rescue = require('express-rescue');
 const recipeService = require('../service/recipeService');
 
 const createRecipe = rescue(async (req, res) => {
-  const newRecipe = await recipeService.insertOne(req.body, req.user._id);
+  const { body, user } = req;
+  const { _id: uId } = user;
+  const newRecipe = await recipeService.insertOne(body, uId);
 
   return newRecipe.message ?
   res.status(400).json(newRecipe) :
@@ -46,9 +48,10 @@ const updateRecipe = rescue(async (req, res) => {
 const addImageToRecipe = rescue(async (req, res) => {
   const { id, image } = req.params;
   const updatedRecipe = await recipeService.setImage(id, image);
+
   return updatedRecipe.image ?
-  res.status(200).json({updatedRecipe}) :
-  res.status(401).json({updatedRecipe});
+  res.status(200).json({ updatedRecipe }) :
+  res.status(401).json({ updatedRecipe });
 });
 
 const deleteRecipe = rescue(async (req, res) => {

@@ -14,10 +14,10 @@ const jwtconfig = {
 
 // Função criada para resolver duplicidade de código das próximas 2 funções
 const newUserFeedback = (user, resp) => {
-  user.message ?
+  return user.message ?
   resp.status(user.code).json({ message: user.message }) :
   resp.status(201).json(user);
-}
+};
 
 const insertUser = rescue(async (req, res) => {
   const user = await userService.checkAndInsert(req.body, 'user', 'user');
@@ -31,9 +31,13 @@ const insertAdmin = rescue(async (req, res) => {
 
 const selectUser = rescue(async (req, res) => {
   const { code, message, user } = await userService.selectOne(req.body);
+
   let token = '';
-  // Só vai rolar se o usuário e senha coresponderem a algum no banco
-  if (user) token = jwt.sign({ data: user._id }, USER_KEY, jwtconfig);
+  // Só vai puxar se o usuário e senha coresponderem a algum no banco
+  if (user) {
+    const { _id: uId } = user;
+    token = jwt.sign({ data: uId }, USER_KEY, jwtconfig);
+  }
 
   return message ?
   res.status(code).json({ message }) :
