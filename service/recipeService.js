@@ -12,8 +12,9 @@ const getById = async (id) => {
 };
 
 const insertOne = async ({ name, ingredients, preparation }, uid) => {
-  if (name && ingredients && preparation)
+  if (name && ingredients && preparation) {
     return recipeModel.create(name, ingredients, preparation, uid);
+  }
   return { message: 'Invalid entries. Try again.' };
 };
 

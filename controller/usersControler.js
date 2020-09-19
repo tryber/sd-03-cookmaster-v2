@@ -14,8 +14,7 @@ const jwtconfig = {
 
 // Função criada para resolver duplicidade de código das próximas 2 funções
 const newUserFeedback = (user, resp) => {
-  if (user.message)
-    return resp.status(user.code).json({ message: user.message });
+  if (user.message) { return resp.status(user.code).json({ message: user.message }) };
   return resp.status(201).json(user);
 };
 
