@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 app.get('/', (request, response) => {
   response.send();
 });
+// teste do codeClimate
 
 app.use('/users', usersControllers);
 
