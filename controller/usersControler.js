@@ -13,10 +13,11 @@ const jwtconfig = {
 };
 
 // Função criada para resolver duplicidade de código das próximas 2 funções
-const newUserFeedback = (user, resp) =>
-  user.message ?
-  resp.status(user.code).json({ message: user.message }) :
-  resp.status(201).json(user);
+const newUserFeedback = (user, resp) => {
+  if (user.message)
+    return resp.status(user.code).json({ message: user.message });
+  return resp.status(201).json(user);
+};
 
 const insertUser = rescue(async (req, res) => {
   const user = await userService.checkAndInsert(req.body, 'user', 'user');

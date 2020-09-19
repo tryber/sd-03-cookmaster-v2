@@ -11,10 +11,11 @@ const getById = async (id) => {
   return result || { message: 'recipe not found' };
 };
 
-const insertOne = async ({ name, ingredients, preparation }, uid) =>
-  (!name || !ingredients || !preparation) ?
-  { message: 'Invalid entries. Try again.' } :
-  recipeModel.create(name, ingredients, preparation, uid);
+const insertOne = async ({ name, ingredients, preparation }, uid) => {
+  if (name && ingredients && preparation)
+    return recipeModel.create(name, ingredients, preparation, uid);
+  return { message: 'Invalid entries. Try again.' };
+};
 
 const updateOne = async (uId, role, rId, name, ingredients, preparation) => {
   const recipe = await recipeModel.selectById(rId);
