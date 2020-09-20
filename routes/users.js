@@ -8,5 +8,5 @@ const validate = require('../middlewares/validate/index');
 router
   .post('/', validate.user.validateUserSingup,
     rescue(registerUser))
-  .post('/admin', validate.token.validateToken, validate.user.validateUserSingup, rescue(registerAdmin));
+  .post('/admin', validate.token.validateToken, validate.user.validateAdminSingup, rescue(registerAdmin));
 module.exports = router;

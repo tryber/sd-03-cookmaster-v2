@@ -1,15 +1,19 @@
 const Validator = require('validatorjs');
 const { findUser } = require('../../users/userModel');
 
+const validateEntries = (req, next) => {
+  const validate = new Validator(req.body, {
+    name: 'required',
+    password: 'required',
+    email: 'required|email',
+  });
+
+  validate.checkAsync(() => null, () => next('invalid_entries'));
+};
+
 const validateUserSingup = async (req, _res, next) => {
   try {
-    const validate = new Validator(req.body, {
-      name: 'required',
-      password: 'required',
-      email: 'required|email',
-    });
-
-    validate.checkAsync(() => null, () => next('invalid_entries'));
+    validateEntries(req, next);
     const user = await findUser(req.body.email, 'email');
     if (user) next('email_registered');
     next();
@@ -21,14 +25,8 @@ const validateUserSingup = async (req, _res, next) => {
 
 const validateAdminSingup = async (req, _res, next) => {
   try {
-    const validate = new Validator(req.body, {
-      name: 'required',
-      password: 'required',
-      email: 'required|email',
-    });
+    validateEntries(req, next);
 
-    validate.checkAsync(() => null, () => next('invalid_entries'));
-    console.log('req.user', req.user);
     if (req.user.role !== 'admin') next('not_admin');
 
     const user = await findUser(req.body.email, 'email');
