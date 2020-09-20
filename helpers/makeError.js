@@ -6,6 +6,7 @@ const errors = {
   invalid_token: { message: 'jwt malformed', status: 401 },
   noauth: { status: 401, message: 'missing auth token' },
   not_found: { status: 404, message: 'recipe not found' },
+  not_admin: { status: 403, message: 'Only admins can register new admins' },
 };
 
 module.exports = function makeError(err) {

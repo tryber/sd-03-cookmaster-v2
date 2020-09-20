@@ -10,6 +10,26 @@ const validateUserSingup = async (req, _res, next) => {
     });
 
     validate.checkAsync(() => null, () => next('invalid_entries'));
+    const user = await findUser(req.body.email, 'email');
+    if (user) next('email_registered');
+    next();
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+};
+
+const validateAdminSingup = async (req, _res, next) => {
+  try {
+    const validate = new Validator(req.body, {
+      name: 'required',
+      password: 'required',
+      email: 'required|email',
+    });
+
+    validate.checkAsync(() => null, () => next('invalid_entries'));
+    console.log('req.user', req.user);
+    if (req.user.role !== 'admin') next('not_admin');
 
     const user = await findUser(req.body.email, 'email');
     if (user) next('email_registered');
@@ -41,4 +61,4 @@ const validateLogin = async (req, _res, next) => {
   }
 };
 
-module.exports = { validateUserSingup, validateLogin };
+module.exports = { validateUserSingup, validateLogin, validateAdminSingup };

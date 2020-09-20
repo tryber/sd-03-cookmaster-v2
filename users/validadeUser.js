@@ -11,4 +11,14 @@ const validadeUser = (req, res, next) => {
   }
 };
 
-module.exports = validadeUser;
+const validadeAdmin = (req, res, next) => {
+  const validate = new Validator(req.body, newUserValidationRules);
+  if (validate.passes() === true) {
+    next();
+  }
+  if (validate.errors.Errors) {
+    return res.json(validate.errors).status(201);
+  }
+};
+
+module.exports = { validadeUser, validadeAdmin };
