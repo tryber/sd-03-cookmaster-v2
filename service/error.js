@@ -4,12 +4,14 @@ const messages = {
   3: 'All fields must be filled',
   4: 'Incorrect username or password',
   5: 'jwt malformed',
+  6: 'recipe not found',
 };
 
 const codes = {
   400: '400',
   409: '409',
   401: '401',
+  404: '404',
 };
 
 const emailTest = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;

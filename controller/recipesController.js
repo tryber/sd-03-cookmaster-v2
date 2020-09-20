@@ -13,6 +13,21 @@ const newRecipe = rescue(async (req, res, next) => {
   return res.status(201).json(recipe);
 });
 
+const getRecipes = rescue(async (_req, res, _next) => {
+  const recipes = await recipeService.getAllRecipes();
+  res.status(200).json(recipes);
+});
+
+const getRecipeById = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  console.log('id passado na url', id);
+  const recipe = await recipeService.getRecipeWithId(id);
+  if (recipe.code) next(recipe);
+  res.status(200).json(recipe);
+});
+
 module.exports = {
   newRecipe,
+  getRecipes,
+  getRecipeById,
 };
