@@ -15,7 +15,9 @@ app.post('/login', userController.login);
 
 app.post('/recipes', middleware.authMiddleware(true), recipesController.newRecipe);
 app.get('/recipes', middleware.authMiddleware(false), recipesController.getRecipes);
+
 app.get('/recipes/:id', middleware.authMiddleware(false), recipesController.getRecipeById);
+app.post('/recipes/:id', middleware.authMiddleware(true), recipesController.updateRecipe);
 
 app.use((err, _req, res, _next) => {
   const { code, message } = err;

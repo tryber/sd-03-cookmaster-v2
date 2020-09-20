@@ -5,6 +5,7 @@ const messages = {
   4: 'Incorrect username or password',
   5: 'jwt malformed',
   6: 'recipe not found',
+  7: 'missing auth token',
 };
 
 const codes = {

@@ -23,8 +23,23 @@ const getRecipeWithId = async (id) => {
   return recipe;
 };
 
+const updateRecipe = async (payload) => {
+  const { user, body } = payload;
+};
+
 module.exports = {
   newRecipe,
   getAllRecipes,
   getRecipeWithId,
+  updateRecipe,
 };
+
+// user: {
+//   _id: 5f676d5cce8eb057d7dae96b,
+//   name: 'Willy',
+//   email: 'wscatao@gmail.com',
+//   password: 'abc12345',
+//   role: 'user'
+// },
+
+// body { name: 'editar', ingredients: 'string', preparation: 'string' }

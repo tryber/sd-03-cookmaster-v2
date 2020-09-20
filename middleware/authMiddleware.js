@@ -5,13 +5,15 @@ const { secret } = require('../service/secret');
 const error = require('../service/error');
 
 const authMiddleware = (required) => async (req, _res, next) => {
-  console.log('entrou no middleware', required);
+  console.log('entrou no middleware');
   if (required === false) return next();
 
   const token = req.headers.authorization;
-  const err = { code: error.codes[401], message: error.messages[5] };
+  const errLength = { code: error.codes[401], message: error.messages[5] };
+  const errAuth = { code: error.codes[401], message: error.messages[7] };
 
-  if (token.length < 15) next(err);
+  if (!token) next(errAuth);
+  if (token.length < 15) next(errLength);
 
   const payload = jwt.verify(token, secret);
   const user = await userModel.findEmail(payload.email);

@@ -1,4 +1,5 @@
 const rescue = require('express-rescue');
+const { restart } = require('nodemon');
 
 const recipeService = require('../service/recipeService');
 
@@ -26,8 +27,15 @@ const getRecipeById = rescue(async (req, res, next) => {
   res.status(200).json(recipe);
 });
 
+const updateRecipe = rescue(async (req, res, next) => {
+  const payload = req;
+  
+  const update = await recipeService.updateRecipe(payload);
+});
+
 module.exports = {
   newRecipe,
   getRecipes,
   getRecipeById,
+  updateRecipe,
 };
