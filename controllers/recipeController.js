@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
+const multer = require('multer');
+const path = require('path');
 const { recipeService } = require('../services');
 const { validateJWT } = require('../middlewares/auth');
 
@@ -12,7 +14,7 @@ recipes.post(
     const { name, ingredients, preparation } = req.body;
     const { user } = req;
 
-    const createdRecipe = await recipeService.createNewRecipe(name, ingredients, preparation, user);
+    const createdRecipe = await recipeService.createRecipe(name, ingredients, preparation, user);
 
     if (createdRecipe.message) return res.status(400).json({ message: createdRecipe.message });
 
@@ -23,7 +25,7 @@ recipes.post(
 recipes.get(
   '/',
   rescue(async (_req, res) => {
-    const allRecipes = await recipeService.getAll();
+    const allRecipes = await recipeService.getAllRecipes();
     return res.status(200).json(allRecipes);
   }),
 );
@@ -67,6 +69,28 @@ recipes.delete(
   }),
 );
 
-// recipes.post('/:id/image', upload.single('file'), (_req, res) => res.send().status(200));
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, 'images'),
+  filename: (req, _file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
+
+recipes.put(
+  '/:id/image',
+  validateJWT,
+  upload.single('image'),
+  rescue(async (req, res) => {
+    const { id } = req.params;
+    const { filename } = req.file;
+
+    const addedImage = await recipeService.addImageToRecipe(id, filename);
+
+    return res.status(200).json(addedImage);
+  }),
+);
 
 module.exports = recipes;

@@ -1,19 +1,27 @@
 const { ObjectId } = require('mongodb');
 const connection = require('./connect');
 
-const findUserByEmail = async (email) =>
+const getUserByEmail = async (email) =>
   connection().then((db) => db.collection('users').findOne({ email }));
 
-const findUserById = async (id) =>
+const getUserById = async (id) =>
   connection().then((db) => db.collection('users').findOne(ObjectId(id)));
 
-const registerUser = async (name, email, password) =>
+const registerUser = async (name, email, password, role = 'user') =>
   connection()
-    .then((db) => db.collection('users').insertOne({ name, email, password, role: 'user' }))
-    .then(({ insertedId }) => ({ user: { name, email, password, role: 'user', _id: insertedId } }));
+    .then((db) => db.collection('users').insertOne({ name, email, password, role }))
+    .then(({ insertedId }) => ({ user: { name, email, password, role, _id: insertedId } }));
+
+const registerAdminUser = async (name, email, password) =>
+  connection()
+    .then((db) => db.collection('users').insertOne({ name, email, password, role: 'admin' }))
+    .then(({ insertedId }) => ({
+      user: { name, email, password, role: 'admin', _id: insertedId },
+    }));
 
 module.exports = {
-  findUserByEmail,
-  findUserById,
+  getUserByEmail,
+  getUserById,
   registerUser,
+  registerAdminUser,
 };

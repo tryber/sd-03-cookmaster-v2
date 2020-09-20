@@ -15,7 +15,7 @@ const validateJWT = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, secret);
 
-    const user = await userModel.findUserByEmail(decoded.data.email);
+    const user = await userModel.getUserByEmail(decoded.data.email);
 
     if (!user) {
       return res.status(401).json({ message: 'invalid token' });

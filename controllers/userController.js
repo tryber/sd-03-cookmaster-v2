@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
 const { userService } = require('../services');
+const { validateJWT } = require('../middlewares/auth');
 
 const users = Router();
 
@@ -20,6 +21,23 @@ users.post(
     }
 
     return res.status(201).json(registeredUser);
+  }),
+);
+
+users.post(
+  '/admin',
+  validateJWT,
+  rescue(async (req, res) => {
+    const { name, email, password } = req.body;
+    const { user } = req;
+
+    const registeredAdmin = await userService.registerAdmin(name, email, password, user);
+
+    if (registeredAdmin.message) {
+      return res.status(403).json(registeredAdmin);
+    }
+
+    return res.status(201).json(registeredAdmin);
   }),
 );
 
