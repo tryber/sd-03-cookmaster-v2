@@ -1,7 +1,6 @@
 // model
 const { createUser } = require('../models/userModel');
 const { getUserByEmail } = require('../models/recipesModel');
-const { create } = require('frisby');
 
 const validateUser = async (name, email, password) => {
   const validEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
