@@ -36,9 +36,8 @@ const updateRecipe = async (payload) => {
 };
 
 const deleteRecipeById = async (id) => {
-  console.log('service recipe antes de ir pro banco', id);
-  const deleted = await recipeModel.deleteRecipe(id);
-  if (deleted === 'terminated') return console.log('exterminado');
+  await recipeModel.deleteRecipe(id);
+  return null;
 };
 
 module.exports = {

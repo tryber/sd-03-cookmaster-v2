@@ -1,5 +1,4 @@
 const rescue = require('express-rescue');
-const { restart } = require('nodemon');
 
 const recipeService = require('../service/recipeService');
 
@@ -36,10 +35,8 @@ const updateRecipe = rescue(async (req, res) => {
 
 const deleteRecipe = rescue(async (req, res) => {
   const { id } = req.params;
-  console.log('id em deleteRecipe Controller', id);
-  await recipeService.deleteRecipeById(id);
-  console.log('voltou pro controller');
 
+  await recipeService.deleteRecipeById(id);
   res.status(204).json();
 });
 
