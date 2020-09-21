@@ -8,7 +8,7 @@ const validateUser = async (name, email, password) => {
   switch (true) {
     case (!name || !email || !password || !validEmail):
       return { ok: false, status: 400, message: 'Invalid entries. Try again.' };
-    case (!duplicate):
+    case (duplicate):
       return { ok: false, status: 409, message: 'Email already registered' };
     default:
       return { ok: true };
