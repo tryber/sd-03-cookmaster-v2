@@ -1,19 +1,27 @@
 const { Router } = require('express');
+const {
+  createRecipe,
+  deleteRecipe,
+  getAllRecipes,
+  getRecipeById,
+  updateImage,
+  updateRecipe,
+} = require('../controllers/recipesController');
 
 // Listar receitas
-Router.get('/');
+Router.get('/', getAllRecipes);
 
 // Listar uma receita específica
-Router.get('/:id');
+Router.get('/:id', getRecipeById);
 
 // Editar uma receita
-Router.put('/:id');
+Router.put('/:id', updateRecipe);
 
 // Adicionar uma imagem
-Router.put('/:id/image');
+Router.put('/:id/image', updateImage);
 
 // Criar uma receita
-Router.post('/');
+Router.post('/', createRecipe);
 
 // Excluir uma receita
-Router.delete('/:id');
+Router.delete('/:id', deleteRecipe);
