@@ -1,5 +1,3 @@
-const getUserByEmail = async (email) => console.log(email);
+const connection = require('./connection');
 
-module.exports = {
-  getUserByEmail,
-};
+module.exports = connection;

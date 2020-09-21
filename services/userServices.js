@@ -1,6 +1,5 @@
 // model
-const { createUser } = require('../models/userModel');
-const { getUserByEmail } = require('../models/recipesModel');
+const { createUser, getUserByEmail } = require('../models/userModel');
 
 const validateUser = async (name, email, password) => {
   const validEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
@@ -8,7 +7,7 @@ const validateUser = async (name, email, password) => {
   switch (true) {
     case (!name || !email || !password || !validEmail):
       return { ok: false, status: 400, message: 'Invalid entries. Try again.' };
-    case (duplicate):
+    case (duplicate && duplicate.email === email):
       return { ok: false, status: 409, message: 'Email already registered' };
     default:
       return { ok: true };
