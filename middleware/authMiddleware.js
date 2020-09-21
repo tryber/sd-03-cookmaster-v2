@@ -10,6 +10,7 @@ const validateToken = (token) => {
 
   if (!token) return errAuth;
   if (token.length < 15) return errLength;
+  return 'ok';
 };
 
 const authMiddleware = (required) => async (req, _res, next) => {
@@ -17,7 +18,7 @@ const authMiddleware = (required) => async (req, _res, next) => {
 
   const token = req.headers.authorization;
 
-  const validToken = await validateToken(token);
+  const validToken = validateToken(token);
   //* Se gerou algum código de erro vai embora.
   if (validToken.code) return next(validToken);
 
