@@ -24,7 +24,21 @@ const getRecipeWithId = async (id) => {
 };
 
 const updateRecipe = async (payload) => {
-  const { user, body } = payload;
+  const {
+    user: { _id },
+    body: { name, ingredients, preparation },
+    params: { id: recipeId },
+  } = payload;
+
+  const result = await recipeModel.updateRecipe(recipeId, name, ingredients, preparation, _id);
+
+  return result;
+};
+
+const deleteRecipeById = async (id) => {
+  console.log('service recipe antes de ir pro banco', id);
+  const deleted = await recipeModel.deleteRecipe(id);
+  if (deleted === 'terminated') return console.log('exterminado');
 };
 
 module.exports = {
@@ -32,14 +46,5 @@ module.exports = {
   getAllRecipes,
   getRecipeWithId,
   updateRecipe,
+  deleteRecipeById,
 };
-
-// user: {
-//   _id: 5f676d5cce8eb057d7dae96b,
-//   name: 'Willy',
-//   email: 'wscatao@gmail.com',
-//   password: 'abc12345',
-//   role: 'user'
-// },
-
-// body { name: 'editar', ingredients: 'string', preparation: 'string' }

@@ -17,7 +17,8 @@ app.post('/recipes', middleware.authMiddleware(true), recipesController.newRecip
 app.get('/recipes', middleware.authMiddleware(false), recipesController.getRecipes);
 
 app.get('/recipes/:id', middleware.authMiddleware(false), recipesController.getRecipeById);
-app.post('/recipes/:id', middleware.authMiddleware(true), recipesController.updateRecipe);
+app.put('/recipes/:id', middleware.authMiddleware(true), recipesController.updateRecipe);
+app.delete('/recipes/:id', middleware.authMiddleware(true), recipesController.deleteRecipe);
 
 app.use((err, _req, res, _next) => {
   const { code, message } = err;

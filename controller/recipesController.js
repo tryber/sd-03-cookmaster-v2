@@ -27,10 +27,20 @@ const getRecipeById = rescue(async (req, res, next) => {
   res.status(200).json(recipe);
 });
 
-const updateRecipe = rescue(async (req, res, next) => {
+const updateRecipe = rescue(async (req, res) => {
   const payload = req;
-  
   const update = await recipeService.updateRecipe(payload);
+
+  res.status(200).json(update);
+});
+
+const deleteRecipe = rescue(async (req, res) => {
+  const { id } = req.params;
+  console.log('id em deleteRecipe Controller', id);
+  await recipeService.deleteRecipeById(id);
+  console.log('voltou pro controller');
+
+  res.status(204).json();
 });
 
 module.exports = {
@@ -38,4 +48,5 @@ module.exports = {
   getRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };
