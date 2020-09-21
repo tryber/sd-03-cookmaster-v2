@@ -8,20 +8,24 @@ const {
   updateRecipe,
 } = require('../controllers/recipesController');
 
+const recipesRoute = Router();
+
 // Listar receitas
-Router.get('/', getAllRecipes);
+recipesRoute.get('/', getAllRecipes);
 
 // Listar uma receita específica
-Router.get('/:id', getRecipeById);
+recipesRoute.get('/:id', getRecipeById);
 
 // Editar uma receita
-Router.put('/:id', updateRecipe);
+recipesRoute.put('/:id', updateRecipe);
 
 // Adicionar uma imagem
-Router.put('/:id/image', updateImage);
+recipesRoute.put('/:id/image', updateImage);
 
 // Criar uma receita
-Router.post('/', createRecipe);
+recipesRoute.post('/', createRecipe);
 
 // Excluir uma receita
-Router.delete('/:id', deleteRecipe);
+recipesRoute.delete('/:id', deleteRecipe);
+
+module.exports = recipesRoute;

@@ -1,11 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const app = express();
+
 const loginRoute = require('./routers/loginRouter');
 const recipesRoute = require('./routers/recipesRouter');
 const usersRoute = require('./routers/userRouter');
-
-const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

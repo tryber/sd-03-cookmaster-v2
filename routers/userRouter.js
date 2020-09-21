@@ -1,8 +1,12 @@
 const { Router } = require('express');
 const { createAdmin, createUser } = require('../controllers/usersController');
 
+const usersRoute = Router();
+
 // Criar um usuário
-Router.post('/', createUser);
+usersRoute.post('/', createUser);
 
 // Criar um admin
-Router.post('/admin', createAdmin);
+usersRoute.post('/admin', createAdmin);
+
+module.exports = usersRoute;
