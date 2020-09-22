@@ -7,14 +7,15 @@ const {
   updateImage,
   updateRecipe,
 } = require('../controllers/recipesController');
+const auth = require('../middlewares/authMiddleware');
 
 const recipesRoute = Router();
 
 // Listar receitas
-recipesRoute.get('/', getAllRecipes);
+recipesRoute.get('/', auth(false), getAllRecipes);
 
 // Listar uma receita específica
-recipesRoute.get('/:id', getRecipeById);
+recipesRoute.get('/:id', auth(false), getRecipeById);
 
 // Editar uma receita
 recipesRoute.put('/:id', updateRecipe);
@@ -23,7 +24,7 @@ recipesRoute.put('/:id', updateRecipe);
 recipesRoute.put('/:id/image', updateImage);
 
 // Criar uma receita
-recipesRoute.post('/', createRecipe);
+recipesRoute.post('/', auth(true), createRecipe);
 
 // Excluir uma receita
 recipesRoute.delete('/:id', deleteRecipe);
