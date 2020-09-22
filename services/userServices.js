@@ -28,10 +28,24 @@ const ValidadeLogin = (email, password) => {
   }
 };
 
+const CreateAdmin = async (role, name, email, password) => {
+  if (role !== 'admin') {
+    return {
+      ok: false, status: 403, message: 'Only admins can register new admins'
+    };
+  }
+  const { ok, status, message } = await ValidateUser(name, email, password);
+  if (ok) {
+    const user = await createUser(name, email, password, 'admin');
+    return { ok: true, status, user };
+  }
+  return { ok, status, message };
+};
+
 const CreateUser = async (name, email, password) => {
   const { ok, status, message } = await ValidateUser(name, email, password, 'REGISTER');
   if (ok) {
-    const user = await createUser(name, email, password);
+    const user = await createUser(name, email, password, 'user');
     return { ok: true, status, user };
   }
   return { ok, status, message };
@@ -53,6 +67,7 @@ const LogUser = async (uEmail, uPassword) => {
 };
 
 module.exports = {
+  CreateAdmin,
   CreateUser,
   LogUser,
 };

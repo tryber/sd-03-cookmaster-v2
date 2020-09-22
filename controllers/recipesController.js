@@ -26,7 +26,10 @@ const updateRecipe = async (req, res) => {
   return res.status(status).json({ message });
 };
 
-const updateImage = async (_req, res) => res.status(404);
+const updateImage = async (req, res) => {
+  const { user: { id: userId }, params: { id } } = req;
+  res.status(200).json({ userId, id });
+};
 
 const createRecipe = async (req, res) => {
   const { user: { id }, body: { name, ingredients, preparation } } = req;

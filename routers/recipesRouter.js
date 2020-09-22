@@ -21,7 +21,7 @@ recipesRoute.get('/:id', auth(false), getRecipeById);
 recipesRoute.put('/:id', auth(true), updateRecipe);
 
 // Adicionar uma imagem
-recipesRoute.put('/:id/image', updateImage);
+recipesRoute.put('/:id/image', auth(true), updateImage);
 
 // Criar uma receita
 recipesRoute.post('/', auth(true), createRecipe);

@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { createAdmin, createUser } = require('../controllers/usersController');
+const auth = require('../middlewares/authMiddleware');
 
 const usersRoute = Router();
 
@@ -7,6 +8,6 @@ const usersRoute = Router();
 usersRoute.post('/', createUser);
 
 // Criar um admin
-usersRoute.post('/admin', createAdmin);
+usersRoute.post('/admin', auth(true), createAdmin);
 
 module.exports = usersRoute;
