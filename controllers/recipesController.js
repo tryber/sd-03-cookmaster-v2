@@ -39,9 +39,9 @@ const createRecipe = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
   const { user, params: { id } } = req;
-  const { ok, status } = await deleteRecipe(user.id, user.role, id);
-  if (ok) return res.status(status);
-  return res.status(status);
+  const { ok, status } = await DeleteRecipe(user.id, user.role, id);
+  if (ok) return res.status(status).json();
+  return res.status(status).json();
 };
 
 module.exports = {

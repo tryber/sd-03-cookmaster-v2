@@ -40,13 +40,12 @@ const UpdateRecipe = async (userIdFromToken, role, id, name, ingredients, prepar
 };
 
 const DeleteRecipe = async (userIdFromToken, role, recipeId) => {
-  console.log(userIdFromToken)
   const { userId } = await getRecipeById(recipeId);
   if (role === 'admin' || userId === userIdFromToken) {
     await deleteRecipe(recipeId);
     return { ok: true, status: 204 };
   }
-  return { ok: false, status: 500 };
+  return { ok: false };
 };
 
 module.exports = {
