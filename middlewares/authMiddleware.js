@@ -6,7 +6,7 @@ const verifyToken = (required) => async (req, _res, next) => {
     const { authorization } = req.headers;
     const SECRET = 'alaalaoluisefera';
     const data = jwt.verify(authorization, SECRET);
-    if (!authorization && required) {
+    if (!authorization) {
       return next({ status: 401, message: 'invalid token' });
     }
     req.user = data;
