@@ -13,7 +13,7 @@ const verifyToken = (required) => async (req, _res, next) => {
   const { authorization } = req.headers;
   if (!required) return next();
   if (!authorization) {
-    return next({ status: 401, message: 'invalid token' });
+    return next({ status: 401, message: 'missing auth token' });
   }
   req.user = tokenHandler(authorization, next);
   return next();

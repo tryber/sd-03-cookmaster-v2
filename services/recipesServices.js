@@ -1,4 +1,6 @@
-const { createRecipe, getAllRecipes, getRecipeById } = require('../models/recipesModel');
+const {
+  createRecipe, deleteRecipe, getAllRecipes, getRecipeById, updateRecipe,
+} = require('../models/recipesModel');
 
 const ValidateRecipe = (name, ingredients, preparation) => {
   switch (true) {
@@ -27,8 +29,30 @@ const GetRecipeById = async (id) => {
   return { ok: true, status: 200, recipe };
 };
 
+const UpdateRecipe = async (userIdFromToken, role, id, name, ingredients, preparation) => {
+  const { ok } = ValidateRecipe(name, ingredients, preparation);
+  const { userId } = await getRecipeById(id);
+  if (ok || role === 'admin' || userId === userIdFromToken) {
+    const recipe = await updateRecipe(id, name, ingredients, preparation, userIdFromToken);
+    return { ok: true, status: 200, message: '', recipe };
+  }
+  return { ok, status: 422, message: 'Invalid data' };
+};
+
+const DeleteRecipe = async (userIdFromToken, role, recipeId) => {
+  console.log(userIdFromToken)
+  const { userId } = await getRecipeById(recipeId);
+  if (role === 'admin' || userId === userIdFromToken) {
+    await deleteRecipe(recipeId);
+    return { ok: true, status: 204 };
+  }
+  return { ok: false, status: 500 };
+};
+
 module.exports = {
   CreateRecipe,
+  DeleteRecipe,
   GetAllRecipes,
   GetRecipeById,
+  UpdateRecipe,
 };

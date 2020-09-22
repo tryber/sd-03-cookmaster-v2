@@ -18,7 +18,7 @@ recipesRoute.get('/', auth(false), getAllRecipes);
 recipesRoute.get('/:id', auth(false), getRecipeById);
 
 // Editar uma receita
-recipesRoute.put('/:id', updateRecipe);
+recipesRoute.put('/:id', auth(true), updateRecipe);
 
 // Adicionar uma imagem
 recipesRoute.put('/:id/image', updateImage);
@@ -27,6 +27,6 @@ recipesRoute.put('/:id/image', updateImage);
 recipesRoute.post('/', auth(true), createRecipe);
 
 // Excluir uma receita
-recipesRoute.delete('/:id', deleteRecipe);
+recipesRoute.delete('/:id', auth(true), deleteRecipe);
 
 module.exports = recipesRoute;
