@@ -2,13 +2,7 @@
 const jwt = require('jsonwebtoken');
 const { createUser, getUserByEmail } = require('../models/userModel');
 
-const SECRET = 'alaalaoluisefera';
-const JWTCONFIG = {
-  expiresIn: '7d',
-  algorithm: 'HS256',
-};
-
-const validateUser = async (name, email, password, type) => {
+const ValidateUser = async (name, email, password, type) => {
   const validEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
   const duplicate = await getUserByEmail(email);
   switch (true) {
@@ -21,8 +15,21 @@ const validateUser = async (name, email, password, type) => {
   }
 };
 
+const ValidadeLogin = (email, password) => {
+  const validEmail = email && /^[^@\s]+@[a-zA-Z]+\.[^@\s]+$/.test(email);
+  const validPass = password && password.length > 6;
+  switch (true) {
+    case (!email || !password):
+      return { ok: false, status: 401, message: 'All fields must be filled' };
+    case (!validEmail || !validPass):
+      return { ok: false, status: 401, message: 'Incorrect username or password' };
+    default:
+      return { ok: true, status: 200 };
+  }
+};
+
 const CreateUser = async (name, email, password) => {
-  const validation = await validateUser(name, email, password, 'REGISTER');
+  const validation = await ValidateUser(name, email, password, 'REGISTER');
   if (validation.ok) {
     const user = await createUser(name, email, password);
     return { ok: true, user };
@@ -31,11 +38,18 @@ const CreateUser = async (name, email, password) => {
 };
 
 const LogUser = async (uEmail, uPassword) => {
-  // so some token things
-  const { _id, email, role } = await getUserByEmail();
-  const token = jwt.sign({ user }, SECRET, JWTCONFIG)
-  if (email && password) return { token: 'blablabla' };
-  return false;
+  const { ok, status, message } = ValidadeLogin(uEmail, uPassword);
+  if (ok) {
+    const user = await getUserByEmail(uEmail);
+    const SECRET = 'alaalaoluisefera';
+    const JWTCONFIG = {
+      expiresIn: '7d',
+      algorithm: 'HS256',
+    };
+    const token = jwt.sign({ user }, SECRET, JWTCONFIG);
+    return { ok, status, token };
+  }
+  return { ok, status, message };
 };
 
 module.exports = {
