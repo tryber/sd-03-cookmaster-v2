@@ -2,13 +2,13 @@
 const jwt = require('jsonwebtoken');
 const { createUser, getUserByEmail } = require('../models/userModel');
 
-const ValidateUser = async (name, email, password, type) => {
+const ValidateUser = async (name, email, password) => {
   const validEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
   const duplicate = await getUserByEmail(email);
   switch (true) {
     case (!name || !email || !password || !validEmail):
       return { ok: false, status: 400, message: 'Invalid entries. Try again.' };
-    case (type === 'REGISTER' && duplicate && duplicate.email === email):
+    case (duplicate && duplicate.email === email):
       return { ok: false, status: 409, message: 'Email already registered' };
     default:
       return { ok: true, status: 201, message: '' };
@@ -31,7 +31,7 @@ const ValidadeLogin = (email, password) => {
 const CreateAdmin = async (role, name, email, password) => {
   if (role !== 'admin') {
     return {
-      ok: false, status: 403, message: 'Only admins can register new admins'
+      ok: false, status: 403, message: 'Only admins can register new admins',
     };
   }
   const { ok, status, message } = await ValidateUser(name, email, password);
@@ -43,7 +43,7 @@ const CreateAdmin = async (role, name, email, password) => {
 };
 
 const CreateUser = async (name, email, password) => {
-  const { ok, status, message } = await ValidateUser(name, email, password, 'REGISTER');
+  const { ok, status, message } = await ValidateUser(name, email, password);
   if (ok) {
     const user = await createUser(name, email, password, 'user');
     return { ok: true, status, user };
