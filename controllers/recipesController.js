@@ -53,7 +53,7 @@ const deleteRecipe = async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: path.join(__dirname, 'images'),
-  filename: (req, _file, cb) => { cb(null, `${req.params.id}.jpeg`); },
+  filename: (req, _file, cb) => cb(null, `${req.params.id}.jpeg`),
 });
 const upload = multer({ storage });
 
@@ -73,6 +73,6 @@ recipesRoute
 
 recipesRoute
   .route('/:id/image')
-  .put(auth(true), upload.single('img'), updateImage);
+  .put(auth(true), upload.single('image'), updateImage);
 
 module.exports = recipesRoute;
