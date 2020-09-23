@@ -43,6 +43,7 @@ describe('3 - Crie um endpoint para o cadastro de receitas', () => {
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
+        console.log(result)
         return frisby
           .setup({
             request: {
@@ -183,6 +184,7 @@ describe('3 - Crie um endpoint para o cadastro de receitas', () => {
           .expect('status', 201)
           .then((responseLogin) => {
             const { json } = responseLogin;
+            console.log(json.recipe)
             expect(json.recipe.name).toBe('Frango do jacquin');
             expect(json.recipe.ingredients).toBe('Frango');
             expect(json.recipe.preparation).toBe('10 min no forno');
@@ -232,6 +234,7 @@ describe('4 - Crie um endpoint para a listagem de receitas', () => {
       .then((response) => {
         const { body } = response;
         const result = JSON.parse(body);
+        console.log(result);
         expect(result[0].name).toBe('banana caramelizada');
         expect(result[0].ingredients).toBe('banana, açúcar');
         expect(result[0].preparation).toBe('coloque o açúcar na frigideira até virar caramelo e jogue a banana');
