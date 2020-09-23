@@ -1,5 +1,14 @@
-// services
-const { CreateRecipe, DeleteRecipe, GetAllRecipes, GetRecipeById, UpdateRecipe } = require('../services/recipesServices');
+const { Router } = require('express');
+const path = require('path');
+const multer = require('multer');
+
+const {
+  CreateRecipe, DeleteRecipe, GetAllRecipes, GetRecipeById, UpdateRecipe, UpdateRecipeImage,
+} = require('../services/recipesServices');
+
+const auth = require('../middlewares/authMiddleware');
+
+const recipesRoute = Router();
 
 const getAllRecipes = async (_req, res) => {
   const recipes = await GetAllRecipes();
@@ -26,11 +35,6 @@ const updateRecipe = async (req, res) => {
   return res.status(status).json({ message });
 };
 
-const updateImage = async (req, res) => {
-  const { user: { id: userId }, params: { id } } = req;
-  res.status(200).json({ userId, id });
-};
-
 const createRecipe = async (req, res) => {
   const { user: { id }, body: { name, ingredients, preparation } } = req;
   const { ok, status, message, recipe } = await CreateRecipe(id, name, ingredients, preparation);
@@ -47,11 +51,28 @@ const deleteRecipe = async (req, res) => {
   return res.status(status).json();
 };
 
-module.exports = {
-  createRecipe,
-  deleteRecipe,
-  getAllRecipes,
-  getRecipeById,
-  updateImage,
-  updateRecipe,
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, 'images'),
+  filename: (req, _file, cb) => { cb(null, `${req.params.id}.jpeg`); },
+});
+const upload = multer({ storage });
+
+const updateImage = async (req, res) => {
+  const { file: { filename } = {}, params: { id } } = req;
+  const { ok, data } = await UpdateRecipeImage(id, `localhost:3000/images/${filename}`);
+  return ok ? res.status(200).json(data) : res.send(ok);
 };
+
+recipesRoute.route('/').get(getAllRecipes).post(auth(true), createRecipe);
+
+recipesRoute
+  .route('/:id')
+  .get(auth(false), getRecipeById)
+  .put(auth(true), updateRecipe)
+  .delete(auth(true), deleteRecipe);
+
+recipesRoute
+  .route('/:id/image')
+  .put(auth(true), upload.single('img'), updateImage);
+
+module.exports = recipesRoute;

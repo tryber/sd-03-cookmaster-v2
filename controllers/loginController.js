@@ -1,5 +1,7 @@
-// service
+const { Router } = require('express');
 const { LogUser } = require('../services/userServices');
+
+const loginRoute = Router();
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -9,4 +11,6 @@ const login = async (req, res) => {
     : res.status(status).json({ message });
 };
 
-module.exports = { login };
+loginRoute.route('/').post(login);
+
+module.exports = loginRoute;

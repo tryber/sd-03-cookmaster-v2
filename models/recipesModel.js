@@ -21,10 +21,14 @@ const updateRecipe = async (id, name, ingredients, preparation, userId) => conne
     .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }))
   .then(() => ({ _id: ObjectId(id), name, ingredients, preparation, userId }));
 
+const updateRecipeImage = async (id, image) => connection()
+  .then((db) => db.collection('recipes').updateOne({ _id: ObjectId(id) }, { $set: { image } }));
+
 module.exports = {
   createRecipe,
   deleteRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  updateRecipeImage,
 };

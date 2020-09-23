@@ -1,5 +1,5 @@
 const {
-  createRecipe, deleteRecipe, getAllRecipes, getRecipeById, updateRecipe,
+  createRecipe, deleteRecipe, getAllRecipes, getRecipeById, updateRecipe, updateRecipeImage,
 } = require('../models/recipesModel');
 
 const ValidateRecipe = (name, ingredients, preparation) => {
@@ -48,10 +48,20 @@ const DeleteRecipe = async (userIdFromToken, role, recipeId) => {
   return { ok: false };
 };
 
+const UpdateRecipeImage = async (recipeId, image) => {
+  const recipe = await getRecipeById(recipeId);
+  if (recipe) {
+    await updateRecipeImage(recipeId, image);
+    return { ok: true, data: { ...recipe, image } };
+  }
+  return { ok: false };
+};
+
 module.exports = {
   CreateRecipe,
   DeleteRecipe,
   GetAllRecipes,
   GetRecipeById,
   UpdateRecipe,
+  UpdateRecipeImage,
 };

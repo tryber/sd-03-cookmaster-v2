@@ -3,9 +3,9 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const loginRoute = require('./routers/loginRouter');
-const recipesRoute = require('./routers/recipesRouter');
-const usersRoute = require('./routers/userRouter');
+const loginRoute = require('./controllers/loginController');
+const recipesRoute = require('./controllers/recipesController');
+const usersRoute = require('./controllers/usersController');
 const errorHandler = require('./middlewares/errorHandler');
 
 app.use(bodyParser.urlencoded({ extended: true }));

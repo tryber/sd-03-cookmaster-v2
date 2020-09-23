@@ -1,5 +1,8 @@
-// service
+const { Router } = require('express');
+const auth = require('../middlewares/authMiddleware');
 const { CreateAdmin, CreateUser } = require('../services/userServices');
+
+const usersRoute = Router();
 
 const createUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -13,7 +16,8 @@ const createAdmin = async (req, res) => {
   return ok ? res.status(status).json({ user }) : res.status(status).json({ message });
 };
 
-module.exports = {
-  createAdmin,
-  createUser,
-};
+usersRoute.route('/').post(createUser);
+
+usersRoute.route('/admin').post(auth(true), createAdmin);
+
+module.exports = usersRoute;
