@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { createUser, getUserByEmail } = require('../models/userModel');
-require('dotenv/config')
+require('dotenv/config');
 
 const JWTCONFIG = {
   expiresIn: '7d',
