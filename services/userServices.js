@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { createUser, getUserByEmail } = require('../models/userModel');
 require('dotenv/config');
+const SECRET = 'minhastringlongamuitolongaaindaestapequenoachoquefaltammaiscoisasachoqueagorafoi';
 
 const JWTCONFIG = {
   expiresIn: '7d',
@@ -60,7 +61,7 @@ const LogUser = async (uEmail, uPassword) => {
   const { isValid, status, message } = ValidadeLogin(uEmail, uPassword);
   if (isValid) {
     const { password, _id, ...user } = await getUserByEmail(uEmail);
-    const token = jwt.sign({ id: _id, ...user }, process.env.SECRET, JWTCONFIG);
+    const token = jwt.sign({ id: _id, ...user }, SECRET, JWTCONFIG);
     return { isValid, status, token };
   }
   return { isValid, status, message };

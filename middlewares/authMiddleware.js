@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 require('dotenv/config');
-
+const SECRET = 'minhastringlongamuitolongaaindaestapequenoachoquefaltammaiscoisasachoqueagorafoi';
 const isValidMiddleware = (token, next) => {
   try {
-    return jwt.verify(token, process.env.SECRET);
+    return jwt.verify(token, SECRET);
   } catch (err) {
     return next({ status: 401, message: err.message });
   }
