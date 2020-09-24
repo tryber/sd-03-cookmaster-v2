@@ -3,7 +3,12 @@ const path = require('path');
 const multer = require('multer');
 
 const {
-  CreateRecipe, DeleteRecipe, GetAllRecipes, GetRecipeById, UpdateRecipe, UpdateRecipeImage,
+  CreateRecipe,
+  DeleteRecipe,
+  GetAllRecipes,
+  GetRecipeById,
+  UpdateRecipe,
+  UpdateRecipeImage,
 } = require('../services/recipesServices');
 
 const auth = require('../middlewares/authMiddleware');
@@ -28,16 +33,29 @@ const updateRecipe = async (req, res) => {
     body: { name, ingredients, preparation },
     params: { id },
   } = req;
-  const {
-    isValid, status, message, recipe,
-  } = await UpdateRecipe(userId, role, id, name, ingredients, preparation);
+  const { isValid, status, message, recipe } = await UpdateRecipe(
+    userId,
+    role,
+    id,
+    name,
+    ingredients,
+    preparation,
+  );
   if (isValid) return res.status(status).json(recipe);
   return res.status(status).json({ message });
 };
 
 const createRecipe = async (req, res) => {
-  const { user: { id }, body: { name, ingredients, preparation } } = req;
-  const { isValid, status, message, recipe } = await CreateRecipe(id, name, ingredients, preparation);
+  const {
+    user: { id },
+    body: { name, ingredients, preparation },
+  } = req;
+  const { isValid, status, message, recipe } = await CreateRecipe(
+    id,
+    name,
+    ingredients,
+    preparation,
+  );
   if (isValid) {
     return res.status(status).json({ recipe });
   }
@@ -45,7 +63,10 @@ const createRecipe = async (req, res) => {
 };
 
 const deleteRecipe = async (req, res) => {
-  const { user, params: { id } } = req;
+  const {
+    user,
+    params: { id },
+  } = req;
   const { isValid, status } = await DeleteRecipe(user.id, user.role, id);
   if (isValid) return res.status(status).json();
   return res.status(status).json();
@@ -58,7 +79,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const updateImage = async (req, res) => {
-  const { file: { filename } = {}, params: { id } } = req;
+  const {
+    file: { filename } = {},
+    params: { id },
+  } = req;
   const { isValid, data } = await UpdateRecipeImage(id, `localhost:3000/images/${filename}`);
   return isValid ? res.status(200).json(data) : res.send(isValid);
 };
@@ -71,8 +95,6 @@ recipesRoute
   .put(auth(true), updateRecipe)
   .delete(auth(true), deleteRecipe);
 
-recipesRoute
-  .route('/:id/image')
-  .put(auth(true), upload.single('image'), updateImage);
+recipesRoute.route('/:id/image').put(auth(true), upload.single('image'), updateImage);
 
 module.exports = recipesRoute;
