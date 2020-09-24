@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const { createUser, getUserByEmail } = require('../models/userModel');
-require('dotenv/config');
 
 const SECRET = 'minhastringlongamuitolongaaindaestapequenoachoquefaltammaiscoisasachoqueagorafoi';
 
