@@ -6,6 +6,6 @@ const errorHandler = (error, _req, res, _next) => {
   }
   console.log(error);
   return res.status(500).json('A wild server bug has appears...');
-}
+};
 
 module.exports = errorHandler;
