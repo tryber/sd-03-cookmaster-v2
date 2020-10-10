@@ -1,9 +1,11 @@
 const { Router } = require('express');
+const rescue = require('express-rescue');
+
+const { userValidation } = require('../middlewares');
+const { userController } = require('../controllers');
 
 const users = Router();
 
-users.get('/', (req,res) => {
-  res.status(200).json({ test: 'ok' })
-});
+users.post('/', userValidation, rescue(userController.createUser));
 
 module.exports = users;

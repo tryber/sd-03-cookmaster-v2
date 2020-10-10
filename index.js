@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const { userRoute } = require('./routes');
+const { errorHandler } = require('./middlewares');
 
 const app = express();
 
@@ -14,7 +15,9 @@ app.use('/users', userRoute);
 
 app.listen(PORT, () => {
   console.log('Running...')
-})
+});
+
+app.use(errorHandler);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (request, response) => {
