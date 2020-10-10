@@ -10,13 +10,13 @@ const createUser = async ({ name, email, password }) => connect()
       email,
       role: 'user',
       insertedId,
-    }
+    },
   }));
 
-const userByEmail = async (email) => connect()
+const userByEmail = async (userEmail) => connect()
   .then((db) => db
     .collection('users')
-    .findOne({ email: email }));
+    .findOne({ email: userEmail }));
 
 module.exports = {
   createUser,

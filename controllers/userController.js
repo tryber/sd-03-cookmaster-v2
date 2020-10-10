@@ -3,7 +3,7 @@ const { userService } = require('../services');
 
 const createUser = async (req, res, next) => {
   const { userInfo } = req;
-  
+
   const resultUserCreate = await userService.createUser(userInfo);
 
   if (!resultUserCreate) {

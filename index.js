@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use('/users', userRoute);
 
 app.listen(PORT, () => {
-  console.log('Running...')
+  console.log('Running...');
 });
 
 app.use(errorHandler);
