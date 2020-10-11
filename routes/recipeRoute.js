@@ -6,7 +6,7 @@ const { recipesController } = require('../controllers');
 
 const recipe = Router();
 
-// recipe.get('/', )
+recipe.get('/', rescue(recipesController.getAllRecipes));
 
 recipe.post('/', authMiddleware, recipeValidation, rescue(recipesController.createRecipe));
 
