@@ -22,7 +22,7 @@ const login = async (req, res, next) => {
     return next(boom.unauthorized('Incorrect username or password'));
   }
 
-  return res.status(200).json({ token: loginResponse})
+  return res.status(200).json({ token: loginResponse });
 };
 
 module.exports = {

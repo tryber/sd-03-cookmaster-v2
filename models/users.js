@@ -16,8 +16,7 @@ const createUser = async ({ name, email, password }) => connect()
 const userByEmail = async (email) => connect()
   .then((db) => db
     .collection('users')
-    .findOne({ email }))
-  .then((user) => user)
+    .findOne({ email }));
 
 module.exports = {
   createUser,

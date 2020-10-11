@@ -19,7 +19,7 @@ const login = async ({ email: userEmail, password }) => {
     _id,
     role,
     email,
-    password: userPassword
+    password: userPassword,
   } = await usersModel.userByEmail(userEmail);
 
   const userWithoutPassword = { _id, role, email };
@@ -27,7 +27,7 @@ const login = async ({ email: userEmail, password }) => {
 
   if (password !== userPassword) {
     return;
-  };
+  }
 
   return token;
 };
