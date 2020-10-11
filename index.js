@@ -10,7 +10,6 @@ app.get('/', (_request, response) => {
 });
 
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/uploads'));
 
 const usersControler = require('./controller/usersControler');
 const recipesController = require('./controller/recipesController');
@@ -18,8 +17,8 @@ const recipesController = require('./controller/recipesController');
 // Ajusta o caminho de destino e o nome que o arquivo será salvo
 const storage = multer.diskStorage({
   destination: 'images/',
-  filename: (req, _file, callback) => { callback(null, req.params.id + '.jpeg') }
-})
+  filename: (req, _file, callback) => { callback(null, `${req.params.id}.jpeg`); },
+});
 
 const uploadInstance = multer({ storage });
 
@@ -35,7 +34,7 @@ app.put(
   '/recipes/:id/image',
   validateJWT,
   uploadInstance.single('image'),
-  recipesController.addImageToRecipe
+  recipesController.addImageToRecipe,
   );
 
 app.post('/recipes/:id/image', uploadInstance.single('image'), (req, res) =>

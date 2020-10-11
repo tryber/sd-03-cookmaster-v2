@@ -46,13 +46,13 @@ const updateRecipe = rescue(async (req, res) => {
 });
 
 const addImageToRecipe = rescue(async (req, res) => {
-  const { user, params: {id}, file } = req;
+  const { user, params: { id }, file } = req;
   const { _id: uId, role } = user;
   const { filename, destination } = file;
   const updatedRecipe = await recipeService.setImage(
-    uId, role, id, `localhost:3000/${destination}${filename}`
+    uId, role, id, `localhost:3000/${destination}${filename}`,
   );
-    console.log(updatedRecipe);
+
   return updatedRecipe.image ?
   res.status(200).json(updatedRecipe) :
   res.status(401).json(updatedRecipe);
