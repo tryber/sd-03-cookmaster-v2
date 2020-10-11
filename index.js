@@ -1,6 +1,7 @@
 const validateJWT = require('./middlewares/validateJwt');
 const bodyParser = require('body-parser');
 const express = require('express');
+const multer = require('multer');
 
 const app = express();
 
@@ -8,13 +9,19 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-const multer = require('multer');
+app.use(bodyParser.json());
+app.use(express.static(__dirname + '/uploads'));
+
 const usersControler = require('./controller/usersControler');
 const recipesController = require('./controller/recipesController');
 
-const uploadInstance = multer({ dest: 'images' });
+// Ajusta o caminho de destino e o nome que o arquivo será salvo
+const storage = multer.diskStorage({
+  destination: 'images/',
+  filename: (req, _file, callback) => { callback(null, req.params.id + '.jpeg') }
+})
 
-app.use(bodyParser.json());
+const uploadInstance = multer({ storage });
 
 app.post('/users', usersControler.insertUser);
 app.post('/users/admin', validateJWT, usersControler.insertAdmin);
@@ -24,10 +31,15 @@ app.get('/recipes/:id', recipesController.getById);
 app.post('/recipes', validateJWT, recipesController.createRecipe);
 app.delete('/recipes/:id', validateJWT, recipesController.deleteRecipe);
 app.put('/recipes/:id', validateJWT, recipesController.updateRecipe);
-app.put('/recipes/:id/image', validateJWT, recipesController.addImageToRecipe);
+app.put(
+  '/recipes/:id/image',
+  validateJWT,
+  uploadInstance.single('image'),
+  recipesController.addImageToRecipe
+  );
 
 app.post('/recipes/:id/image', uploadInstance.single('image'), (req, res) =>
-  res.send().status(200),
+  res.send(req.file).status(200),
 );
 
 app.listen(3000, () => { console.log('Escutando na porta 3k'); });

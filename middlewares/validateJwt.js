@@ -12,7 +12,6 @@ module.exports = async (req, res, next) => {
   // Aquele token gerado anteriormente virá na requisição através do
   // header Authorization em todas as rotas que queremos que sejam autenticadas.
   const token = req.headers.authorization;
-  // Estava com a notação ['authorization'].
 
   // Caso o token não seja informado, simplesmente retornamos
   // o código de status 401 - não autorizado.

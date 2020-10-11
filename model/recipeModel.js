@@ -47,7 +47,7 @@ const setImagePath = async (id, recipe, image) => connect()
     .findOneAndUpdate(
       { _id: ObjectId(id) },
       { $set: { image } }))
-      .then(() => ({ id, recipe, image }));
+      .then(() => ({...recipe, image}));
 
 const erase = async (id) => connect()
 .then((db) =>

@@ -1,11 +1,11 @@
 require('dotenv/config');
 const { MongoClient } = require('mongodb');
 
-// const { DB_URI, DB_DBNAME } = process.env;
+const { DB_URI, DB_DBNAME } = process.env;
 // Só irá funcionar para testes locais
 
 const connect = async () => MongoClient.connect(
-  'mongodb://mongodb:27017/Cookmaster', {
+  DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     // As novas regras que o team do MongoDB criou,
