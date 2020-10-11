@@ -2,6 +2,13 @@ const jwt = require('jsonwebtoken');
 
 const { usersModel } = require('../models');
 
+const SECRET = '1q2w3e4r';
+
+const JWTCONFIG = {
+  expiresIn: '1h',
+  algorithm: 'HS256',
+};
+
 const createUser = async (user) => {
   const existentUser = await usersModel.userByEmail(user.email);
 
@@ -22,12 +29,12 @@ const login = async ({ email: userEmail, password }) => {
     password: userPassword,
   } = await usersModel.userByEmail(userEmail);
 
-  const userWithoutPassword = { _id, role, email };
-  const token = jwt.sign(JSON.stringify(userWithoutPassword), '1q2w3e4r');
-
   if (password !== userPassword) {
     return;
   }
+
+  const userWithoutPassword = { _id, role, email };
+  const token = jwt.sign(userWithoutPassword, SECRET, JWTCONFIG);
 
   return token;
 };
