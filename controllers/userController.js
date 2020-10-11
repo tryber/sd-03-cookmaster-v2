@@ -13,6 +13,19 @@ const createUser = async (req, res, next) => {
   return res.status(201).json(resultUserCreate);
 };
 
+const login = async (req, res, next) => {
+  const { userInfo } = req;
+
+  const loginResponse = await userService.login(userInfo);
+
+  if (!loginResponse) {
+    return next(boom.unauthorized('Incorrect username or password'));
+  }
+
+  return res.status(200).json({ token: loginResponse})
+};
+
 module.exports = {
   createUser,
+  login,
 };

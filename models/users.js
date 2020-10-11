@@ -13,10 +13,11 @@ const createUser = async ({ name, email, password }) => connect()
     },
   }));
 
-const userByEmail = async (userEmail) => connect()
+const userByEmail = async (email) => connect()
   .then((db) => db
     .collection('users')
-    .findOne({ email: userEmail }));
+    .findOne({ email }))
+  .then((user) => user)
 
 module.exports = {
   createUser,
