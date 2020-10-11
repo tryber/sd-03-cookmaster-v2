@@ -3,9 +3,9 @@ const boom = require('@hapi/boom');
 
 const { usersModel } = require('../models');
 
-const JWT_SECRET ='1q2w3e4r';
+const JWT_SECRET = '1q2w3e4r';
 
-module.exports = async (req , _res, next) => {
+module.exports = async (req, _res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
@@ -14,7 +14,7 @@ module.exports = async (req , _res, next) => {
 
   try {
     const payload = jwt.verify(token, JWT_SECRET);
-    
+
     const user = await usersModel.userByEmail(payload.email);
 
     if (!user) {
@@ -24,7 +24,7 @@ module.exports = async (req , _res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return next(boom.unauthorized('jwt malformed'));
   }
 };
