@@ -2,7 +2,7 @@ require('dotenv/config');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { userRoute, loginRoute } = require('./routes');
+const { userRoute, loginRoute, recipeRoute } = require('./routes');
 const { errorHandler } = require('./middlewares');
 
 const app = express();
@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 
 app.use('/users', userRoute);
 app.use('/login', loginRoute);
+app.use('/recipes', recipeRoute);
 
 app.listen(PORT, () => {
   console.log('Running...');

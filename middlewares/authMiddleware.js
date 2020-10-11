@@ -5,7 +5,7 @@ const { usersModel } = require('../models');
 
 const JWT_SECRET ='1q2w3e4r';
 
-module.exports = async (req , res, next) => {
+module.exports = async (req , _res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
@@ -14,7 +14,7 @@ module.exports = async (req , res, next) => {
 
   try {
     const payload = jwt.verify(token, JWT_SECRET);
-
+    
     const user = await usersModel.userByEmail(payload.email);
 
     if (!user) {
@@ -22,7 +22,9 @@ module.exports = async (req , res, next) => {
     }
 
     req.user = user;
+    next();
   } catch (err) {
-    return next(boom.unauthorized('invalid token'));
+    console.log(err)
+    return next(boom.unauthorized('jwt malformed'));
   }
 };
