@@ -8,6 +8,8 @@ const recipe = Router();
 
 recipe.get('/', rescue(recipesController.getAllRecipes));
 
-recipe.post('/', authMiddleware, recipeValidation, rescue(recipesController.createRecipe));
+recipe.post('/', authMiddleware(), recipeValidation, rescue(recipesController.createRecipe));
+
+recipe.get('/:id', authMiddleware(false), rescue(recipesController.getRecipeById));
 
 module.exports = recipe;

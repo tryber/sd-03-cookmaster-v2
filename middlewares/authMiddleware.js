@@ -5,10 +5,14 @@ const { usersModel } = require('../models');
 
 const JWT_SECRET = '1q2w3e4r';
 
-module.exports = async (req, _res, next) => {
+module.exports = (required = true) =>  async (req, _res, next) => {
   const token = req.headers.authorization;
 
-  if (!token) {
+  if (!required) {
+    return next();
+  }
+
+  if (required && !token) {
     return next(boom.unauthorized('no token informed'));
   }
 
