@@ -13,6 +13,8 @@ module.exports = (required = true) => async (req, _res, next) => {
       return next();
     case required && !token:
       return next(boom.unauthorized('no token informed'));
+    default:
+      console.log('Bora CodeClimate ajuda nois!');
   }
 
   try {
