@@ -41,7 +41,7 @@ const editRecipe = async (req, res, next) => {
   res.status(200).json(updatedRecipe);
 };
 
-const deleteRecipe = async (req, res, next) => {
+const deleteRecipe = async (req, res, _next) => {
   const { _id: idLoged } = req.user;
   const { id: recipeId } = req.params;
 

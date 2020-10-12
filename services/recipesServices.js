@@ -37,7 +37,7 @@ const deleteRecipe = async ({ recipeId, idLoged }) => {
     return;
   }
 
-  const deletedRecipe = await recipesModel.deleteRecipe(id);
+  const deletedRecipe = await recipesModel.deleteRecipe(recipeId);
 
   return deletedRecipe;
 };

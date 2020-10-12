@@ -40,7 +40,7 @@ const editRecipe = async ({ id, name, ingredients, preparation, userId }) => con
       userId,
     })) : null));
 
-const deleteRecipe = async () => connect()
+const deleteRecipe = async (id) => connect()
   .then((db) => (ObjectId.isValid(id)
     ? db
       .collection('recipes')
