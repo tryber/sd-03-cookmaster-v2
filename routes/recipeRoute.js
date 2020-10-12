@@ -14,4 +14,6 @@ recipe.get('/:id', authMiddleware(false), rescue(recipesController.getRecipeById
 
 recipe.put('/:id', authMiddleware(), rescue(recipesController.editRecipe));
 
+recipe.delete('/:id', authMiddleware(), rescue(recipesController.deleteRecipe));
+
 module.exports = recipe;
