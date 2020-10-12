@@ -12,4 +12,6 @@ recipe.post('/', authMiddleware(), recipeValidation, rescue(recipesController.cr
 
 recipe.get('/:id', authMiddleware(false), rescue(recipesController.getRecipeById));
 
+recipe.put('/:id', authMiddleware(), rescue(recipesController.editRecipe));
+
 module.exports = recipe;

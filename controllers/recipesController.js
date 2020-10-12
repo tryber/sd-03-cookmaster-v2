@@ -28,7 +28,21 @@ const getRecipeById = async (req, res, next) => {
   res.status(200).json(recipe);
 };
 
+const editRecipe = async (req, res, next) => {
+  const { id } = req.params;
+  const { name, ingredients, preparation } = req.body;
+
+  const updatedRecipe = await recipesService.editRecipe({ id, name, ingredients, preparation });
+
+  if (!updatedRecipe) {
+    return next(boom.notFound('Invalid Id, or inexistent recipe!'))
+  }
+
+  res.status(200).json(updatedRecipe);
+};
+
 module.exports = {
+  editRecipe,
   createRecipe,
   getAllRecipes,
   getRecipeById,
