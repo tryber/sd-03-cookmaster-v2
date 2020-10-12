@@ -14,7 +14,6 @@ module.exports = (required = true) => async (req, _res, next) => {
     case required && !token:
       return next(boom.unauthorized('missing auth token'));
     default:
-      console.log('Bora CodeClimate ajuda nois!');
   }
 
   try {

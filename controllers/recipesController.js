@@ -35,7 +35,7 @@ const editRecipe = async (req, res, next) => {
   const updatedRecipe = await recipesService.editRecipe({ id, name, ingredients, preparation });
 
   if (!updatedRecipe) {
-    return next(boom.notFound('Invalid Id, or inexistent recipe!'))
+    return next(boom.notFound('Invalid Id, or inexistent recipe!'));
   }
 
   res.status(200).json(updatedRecipe);
