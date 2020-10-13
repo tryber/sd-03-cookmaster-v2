@@ -47,10 +47,21 @@ const deleteRecipe = async (id) => connect()
       .deleteOne({ _id: ObjectId(id) })
     : null));
 
+const editImageRecipe = async ({ id, imagePath: image }, recipe) => connect()
+  .then((db) => (ObjectId.isValid(id)
+  ? db
+    .collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: { image } })
+  .then(() => ({
+    ...recipe,
+    image,
+  })) : null));
+
 module.exports = {
   editRecipe,
   createRecipe,
   deleteRecipe,
   getAllRecipes,
   getRecipeById,
+  editImageRecipe,
 };

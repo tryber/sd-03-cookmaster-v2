@@ -24,7 +24,6 @@ module.exports = (required = true) => async (req, _res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    console.log(err);
     return next(boom.unauthorized('jwt malformed'));
   }
 };

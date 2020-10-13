@@ -42,10 +42,25 @@ const deleteRecipe = async ({ recipeId, idLoged }) => {
   return deletedRecipe;
 };
 
+const editImageRecipe = async ({ id, filename }) => {
+  const imagePath = `localhost:3000/images/${filename}`;
+
+  const recipeWithoutImage = await recipesModel.getRecipeById(id);
+  
+  if (!recipeWithoutImage) {
+    return;
+  }
+
+  const addedImage = await recipesModel.editImageRecipe({ id, imagePath }, recipeWithoutImage);
+
+  return addedImage;
+};
+
 module.exports = {
   editRecipe,
   createRecipe,
   deleteRecipe,
   getAllRecipes,
   getRecipeById,
+  editImageRecipe,
 };
