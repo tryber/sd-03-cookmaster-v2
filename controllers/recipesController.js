@@ -50,14 +50,14 @@ const deleteRecipe = async (req, res, _next) => {
   res.status(204).end();
 };
 
-const editImageRecipe = async (req, res, _next) => {
+const editImageRecipe = async (req, res, next) => {
   const { id } = req.params;
   const { filename } = req.file;
 
   const recipeWithImage = await recipesService.editImageRecipe({ id, filename });
 
   if (!recipeWithImage) {
-    return next(boom.notFound('Recipe not found!'))
+    return next(boom.notFound('Recipe not found!'));
   }
 
   res.status(200).json(recipeWithImage);

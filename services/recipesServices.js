@@ -46,7 +46,7 @@ const editImageRecipe = async ({ id, filename }) => {
   const imagePath = `localhost:3000/images/${filename}`;
 
   const recipeWithoutImage = await recipesModel.getRecipeById(id);
-  
+
   if (!recipeWithoutImage) {
     return;
   }

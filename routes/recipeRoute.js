@@ -32,7 +32,7 @@ recipe.put(
   '/:id/image',
   authMiddleware(),
   upload.single('image'),
-  rescue(recipesController.editImageRecipe)
+  rescue(recipesController.editImageRecipe),
 );
 
 module.exports = recipe;
