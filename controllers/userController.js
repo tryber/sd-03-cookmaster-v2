@@ -13,6 +13,19 @@ const createUser = async (req, res, next) => {
   return res.status(201).json(resultUserCreate);
 };
 
+const createAdmin = async (req, res, next) => {
+  const { userInfo } = req;
+  const { role } = req.user;
+
+  if (role !== 'admin') {
+    return next(boom.forbidden('Only admins can register new admins'));
+  }
+
+  const resultAdminCreate = await userService.createAdmin(userInfo);
+
+  return res.status(201).json(resultAdminCreate);
+};
+
 const login = async (req, res, next) => {
   const { userInfo } = req;
 
@@ -26,6 +39,7 @@ const login = async (req, res, next) => {
 };
 
 module.exports = {
-  createUser,
   login,
+  createUser,
+  createAdmin,
 };

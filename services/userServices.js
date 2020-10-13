@@ -21,6 +21,18 @@ const createUser = async (user) => {
   return createdUser;
 };
 
+const createAdmin = async (admin) => {
+  const existentAdmin = await usersModel.userByEmail(admin.email);
+
+  if (existentAdmin) {
+    return;
+  }
+
+  const createdAdmin = await usersModel.createAdmin(admin);
+
+  return createdAdmin;
+};
+
 const login = async ({ email: userEmail, password }) => {
   const {
     _id,
@@ -40,6 +52,7 @@ const login = async ({ email: userEmail, password }) => {
 };
 
 module.exports = {
-  createUser,
   login,
+  createUser,
+  createAdmin,
 };
