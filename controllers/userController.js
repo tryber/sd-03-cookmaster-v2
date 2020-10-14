@@ -13,4 +13,13 @@ user.post('/users', rescue(async (req, res) => {
   return res.status(201).json(postUser);
 }));
 
+user.post('/login', rescue(async (req, res) => {
+  const { email, password } = req.body;
+  const login = await userService.login(email, password);
+  if (login.error) {
+    return res.status(login.status).json({ message: login.message });
+  }
+  return res.status(200).json(login);
+}));
+
 module.exports = user;

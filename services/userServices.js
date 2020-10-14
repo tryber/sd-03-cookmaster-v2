@@ -1,4 +1,7 @@
+const jwt = require('jsonwebtoken');
 const userModel = require('../models/userModel');
+
+const JWT_SECRET = 'mirellasproject';
 
 const validateEmail = (email) => {
   const regex = /^(([^<>()[\]\\.,;:\s@]+(\.[^<>()[\]\\.,;:\s@]+)*)|(.+))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -19,6 +22,26 @@ const createUser = async (name, email, password) => {
   return user;
 };
 
+const validateLoginData = async (email, password) => {
+  if (!email || !password) return { error: true, status: 401, message: 'All fields must be filled' };
+
+  const userData = await userModel.getUserByEmail(email);
+  if (!userData || password !== userData.password) return { error: true, status: 401, message: 'Incorrect username or password' };
+  return { error: false };
+};
+
+const login = async (email, password) => {
+  const validation = await validateLoginData(email, password);
+  if (validation.error) return validation;
+
+  const user = await userModel.getUserByEmail({ email });
+
+  const jwtConfig = { expiresIn: '50min', algorithm: 'HS256' };
+  const token = jwt.sign({ user }, JWT_SECRET, jwtConfig);
+  return { token };
+};
+
 module.exports = {
   createUser,
+  login,
 };
