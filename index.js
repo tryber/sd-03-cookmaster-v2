@@ -12,7 +12,7 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/', controllers);
+app.use('/', controllers.userController);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { console.log(`Lintening on ${PORT}`); });

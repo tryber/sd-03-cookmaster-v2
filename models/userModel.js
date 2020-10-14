@@ -11,6 +11,10 @@ const createUser = async (name, email, password) => connect()
     },
   }));
 
+const getUserByEmail = async (email) => connect()
+  .then((db) => db.collection('users').findOne({ email }));
+
 module.exports = {
   createUser,
+  getUserByEmail,
 };
