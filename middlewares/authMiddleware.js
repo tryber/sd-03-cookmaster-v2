@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
   if (!token) return res.status(401).json({ message: 'invalid token' });
 
   const payload = jwt.verify(token, JWT_SECRET);
-  const user = await userModel.getUserByEmail({ email: payload.email });
+  const user = await userModel.getUserByEmail(payload.user.email);
   if (!user) return res.status(401).json({ message: 'user not found' });
 
   req.user = user;

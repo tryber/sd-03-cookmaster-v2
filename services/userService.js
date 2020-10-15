@@ -34,10 +34,12 @@ const login = async (email, password) => {
   const validation = await validateLoginData(email, password);
   if (validation.error) return validation;
 
-  const user = await userModel.getUserByEmail({ email });
+  const user = await userModel.getUserByEmail(email);
+  console.log(user);
 
   const jwtConfig = { expiresIn: '50min', algorithm: 'HS256' };
   const token = jwt.sign({ user }, JWT_SECRET, jwtConfig);
+  console.log(user);
   return { token };
 };
 
