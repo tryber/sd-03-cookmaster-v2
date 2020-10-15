@@ -36,11 +36,11 @@ const getAllRecipes = rescue(async (req, res) => {
 const getRecipe = rescue(async (req, res) => {
   const { id } = req.params;
 
-  if (id.length !== 24) return res.status(404).json({ error: 'Recipe not found' });
+  if (id.length !== 24) return res.status(404).json({ error: 'recipe not found' });
 
   const recipe = await services.getRecipeById(id);
 
-  if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
+  if (!recipe) return res.status(404).json({ error: 'recipe not found' });
 
   return res.status(200).json(recipe);
 });

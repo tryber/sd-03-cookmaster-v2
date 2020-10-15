@@ -15,13 +15,13 @@ module.exports = rescue(async (req, res, next) => {
     const data = jwt.verify(token, SECRET_KEY);
     const { user } = data || {};
 
-    if (!data || !user) return res.status(401).json({ error: 'Invalid token' });
+    if (!data || !user) return res.status(401).json({ error: 'invalid token' });
 
     req.user = user;
 
     next();
   } catch (err) {
     console.log(err);
-    res.status(401).json({ error: 'Invalid token' });
+    res.status(401).json({ error: 'invalid token' });
   }
 });
