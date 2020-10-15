@@ -6,8 +6,8 @@ const middleware = require('../middleware');
 
 const users = Router();
 
-// https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
-const REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// https://regexr.com/3e48o
+const REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const validateNewUser = rescue(async (req, res, next) => {
   const { name, email, password } = req.body;
