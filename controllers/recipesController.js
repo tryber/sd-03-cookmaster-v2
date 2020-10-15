@@ -33,7 +33,7 @@ const getAllRecipes = rescue(async (req, res) => {
   res.status(200).json(recipes);
 });
 
-const getRecipe = rescue(async (req, res, next) => {
+const getRecipe = rescue(async (req, res) => {
   const { id } = req.params;
 
   if (id.length !== 24) return res.status(404).json({ error: 'Receita não encontrada' });
