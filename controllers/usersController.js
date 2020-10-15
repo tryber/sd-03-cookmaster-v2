@@ -7,7 +7,7 @@ const middleware = require('../middleware');
 const users = Router();
 
 // https://regexr.com/3e48o
-const REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+const REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const validateNewUser = rescue(async (req, res, next) => {
   const { name, email, password } = req.body;
