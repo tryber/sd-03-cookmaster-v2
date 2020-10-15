@@ -15,4 +15,9 @@ recipe.post('/', async (req, res) => {
   return res.status(201).json(postRecipe);
 });
 
+recipe.get('/', async (_, res) => {
+  const recipes = await recipeService.getAllRecipes();
+  res.status(200).json(recipes);
+});
+
 module.exports = recipe;
