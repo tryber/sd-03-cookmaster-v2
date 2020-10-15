@@ -9,7 +9,7 @@ module.exports = rescue(async (req, res, next) => {
 
   if (!token) return res.status(401).json({ error: 'jwt malformed' });
 
-  const { SECRET_KEY = 2147483647 } = process.env;
+  const { SECRET_KEY = '2147483647' } = process.env;
 
   try {
     const data = jwt.verify(token, SECRET_KEY);
