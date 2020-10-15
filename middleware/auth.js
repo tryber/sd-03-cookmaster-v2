@@ -7,12 +7,12 @@ module.exports = rescue(async (req, res, next) => {
 
   console.log(token);
 
-  if (!token) return res.status(401).json({ error: 'Token invalido' });
+  if (!token) return res.status(401).json({ error: 'jwt malformed' });
 
-  const segredo = process.env.SECRET_KEY || 2147483647;
+  const { SECRET_KEY = 2147483647 } = process.env;
 
   try {
-    const data = jwt.verify(token, segredo);
+    const data = jwt.verify(token, SECRET_KEY);
     const { user } = data || {};
 
     if (!data || !user) return res.status(401).json({ error: 'Invalid token' });

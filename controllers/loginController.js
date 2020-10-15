@@ -7,7 +7,7 @@ const models = require('../models');
 
 const login = Router();
 
-const segredo = process.env.SECRET_KEY || 2147483647;
+const { SECRET_KEY = 2147483647 } = process.env;
 
 login.route('/').post(rescue(async (req, res, next) => {
   const { email, password } = req.body;
@@ -26,7 +26,7 @@ rescue(async (req, res) => {
   const emailUser = await models.getUser(req.user);
   console.log(req.user);
   if (!emailUser) return res.status(401).json({ message: 'Incorrect username or password' });
-  const token = jwt.sign({ user: req.user }, segredo, { expiresIn: '1h', algorithm: 'HS256' });
+  const token = jwt.sign({ user: req.user }, SECRET_KEY, { expiresIn: '1h', algorithm: 'HS256' });
   res.status(200).json({ token });
 }));
 
