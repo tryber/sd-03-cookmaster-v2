@@ -25,7 +25,6 @@ const validateNewUser = rescue(async (req, res, next) => {
 
 const createUser = rescue(async (req, res) => {
   const { name, email, password } = req.body;
-  console.log(req.body);
   const user = await services.createUser('user', { name, email, password });
   return res.status(201).json({ user });
 });

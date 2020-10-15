@@ -1,8 +1,5 @@
-const connection = require('./connection');
+const { connectCollumn } = require('./config');
 
-const getUser = async (userObj) =>
-  connection()
-    .then((db) => db.collection('users'))
-    .then((table) => table.findOne(userObj));
+const getUser = async (userObj) => connectCollumn('users').then((table) => table.findOne(userObj));
 
 module.exports = getUser;

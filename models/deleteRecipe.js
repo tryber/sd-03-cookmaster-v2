@@ -1,9 +1,8 @@
 const { ObjectID } = require('mongodb');
-const connection = require('./connection');
+const { connectCollumn } = require('./config');
 
 const deleteRecipe = async (id) =>
-  connection()
-    .then((db) => db.collection('recipes'))
+  connectCollumn('recipe')
     .then((table) => table.deleteOne({ _id: ObjectID(id) }));
 
 module.exports = deleteRecipe;

@@ -1,8 +1,5 @@
-const connection = require('./connection');
+const { handleColumn } = require('./config');
 
-const createRecipe = () => async (instance) =>
-  connection('recipes')
-    .then((table) => table.insertOne(instance))
-    .then(({ insertedId }) => ({ _id: insertedId, ...instance }));
+const createRecipe = handleColumn('recipes');
 
 module.exports = createRecipe;

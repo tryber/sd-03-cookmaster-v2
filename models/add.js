@@ -1,8 +1,5 @@
-const connection = require('./connection');
+const { handleColumn } = require('./config');
 
-const add = (x) => async (instance) =>
-  connection(x)
-    .then((table) => table.insertOne(instance))
-    .then(({ insertedId }) => ({ _id: insertedId, ...instance }));
+const add = () => handleColumn('users');
 
 module.exports = add;

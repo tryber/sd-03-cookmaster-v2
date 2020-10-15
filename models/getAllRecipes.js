@@ -1,8 +1,6 @@
-const connection = require('./connection');
+const { connectCollumn } = require('./config');
 
 const getAllRecipes = async () =>
-  connection()
-    .then((db) => db.collection('recipes'))
-    .then((table) => table.find().toArray());
+  connectCollumn('recipes').then((table) => table.find().toArray());
 
 module.exports = getAllRecipes;
