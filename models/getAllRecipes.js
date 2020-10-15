@@ -1,4 +1,4 @@
-const { connectCollumn } = require('./config');
+const { connectCollumn } = require('./connection');
 
 const getAllRecipes = async () =>
   connectCollumn('recipes').then((table) => table.find().toArray());

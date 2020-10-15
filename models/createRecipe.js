@@ -1,4 +1,4 @@
-const { handleColumn } = require('./config');
+const { handleColumn } = require('./connection');
 
 const createRecipe = handleColumn('recipes');
 

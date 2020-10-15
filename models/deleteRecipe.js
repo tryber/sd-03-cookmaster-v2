@@ -1,5 +1,5 @@
 const { ObjectID } = require('mongodb');
-const { connectCollumn } = require('./config');
+const { connectCollumn } = require('./connection');
 
 const deleteRecipe = async (id) =>
   connectCollumn('recipe')

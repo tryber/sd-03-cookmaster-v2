@@ -1,5 +1,5 @@
-const { handleColumn } = require('./config');
+const { handleColumn } = require('./connection');
 
-const add = () => handleColumn('users');
+const add = handleColumn('users');
 
 module.exports = add;
