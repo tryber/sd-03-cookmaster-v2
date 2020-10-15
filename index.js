@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 
 const controllers = require('./controllers');
+const authMiddleware = require('./middlewares/authMiddleware');
 
 const app = express();
 app.use(bodyParser.json());
@@ -13,6 +14,8 @@ app.get('/', (request, response) => {
 });
 
 app.use('/', controllers.userController);
+
+app.use('/recipes', authMiddleware, controllers.recipeController);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { console.log(`Lintening on ${PORT}`); });
