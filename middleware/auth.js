@@ -3,7 +3,9 @@ const jwt = require('jsonwebtoken');
 const rescue = require('express-rescue');
 
 module.exports = rescue(async (req, res, next) => {
-  const { Authorization: token } = req.headers || {};
+  const token = req.headers.authorization.substr(7); // remove o bearer
+
+  console.log(token);
 
   if (!token) return res.status(401).json({ error: 'Token invalido' });
 
@@ -13,13 +15,13 @@ module.exports = rescue(async (req, res, next) => {
     const data = jwt.verify(token, segredo);
     const { user } = data || {};
 
-    if (!data || !user) return res.status(401).json({ error: 'Token invalido' });
+    if (!data || !user) return res.status(401).json({ error: 'Invalid token' });
 
     req.user = user;
 
     next();
   } catch (err) {
     console.log(err);
-    res.status(401).json({ error: 'Token invalido' });
+    res.status(401).json({ error: 'Invalid token' });
   }
 });

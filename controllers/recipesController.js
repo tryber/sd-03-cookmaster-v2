@@ -7,13 +7,13 @@ const middleware = require('../middleware');
 
 const recipesRoute = Router();
 
-const checkNewRecipe = (req, res, next) => {
+const checkNewRecipe = async (req, res, next) => {
   const { user } = req;
 
-  if (!user) return res.status(401).json({ error: 'Token invalidos' });
+  if (!user) return res.status(401).json({ error: 'invalid token' });
 
   if (!req.body.name || !req.body.ingredients || !req.body.preparation) {
-    return res.status(400).json({ error: 'Dados invalidos' });
+    return res.status(400).json({ error: 'Invalid entries. Try again.' });
   }
 
   next();
@@ -36,11 +36,11 @@ const getAllRecipes = rescue(async (req, res) => {
 const getRecipe = rescue(async (req, res) => {
   const { id } = req.params;
 
-  if (id.length !== 24) return res.status(404).json({ error: 'Receita não encontrada' });
+  if (id.length !== 24) return res.status(404).json({ error: 'Recipe not found' });
 
   const recipe = await services.getRecipeById(id);
 
-  if (!recipe) return res.status(404).json({ error: 'Receita não encontrada' });
+  if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
 
   return res.status(200).json(recipe);
 });
@@ -58,7 +58,7 @@ const evaluatePermission = rescue(async (req, res, next) => {
 
   const permission = await services.validateOwner(userId, id);
 
-  if (permission.error) return res.status(401).json({ error: 'Sem permissão' });
+  if (permission.error) return res.status(401).json({ error: 'No authorization' });
 
   res.permission = permission;
 
@@ -96,7 +96,9 @@ const putImage = rescue(async (req, res) => {
   return res.status(200).json(recipe);
 });
 
-recipesRoute.route('/').post(middleware.auth, checkNewRecipe, createRecipe).get(getAllRecipes);
+recipesRoute.route('/')
+  .post(middleware.auth, checkNewRecipe, createRecipe)
+  .get(getAllRecipes);
 
 recipesRoute
   .route('/:id')

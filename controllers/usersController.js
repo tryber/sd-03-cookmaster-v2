@@ -12,20 +12,20 @@ const REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const validateNewUser = rescue(async (req, res, next) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password || !REGEX.test(email)) {
-    return res.status(400).send('Requisição mal sucessedida');
+    return res.status(400).json({ message: 'Invalid entries. Try again.' });
   }
 
   const checkUserExist = await services.getUserByEmail(email);
   if (checkUserExist) {
-    return next(Boom.conflict('Email já cadatrato'));
+    return res.status(409).json({ message: 'Email already registered' });
   }
 
   return next();
 });
 
 const createUser = rescue(async (req, res) => {
-  const { name, email, password } = req.body;
-  const user = await services.createUser('user', { name, email, password });
+  const { name, email, password, role } = req.body;
+  const user = await services.createUser('user', { name, email, password, role });
   return res.status(201).json({ user });
 });
 
