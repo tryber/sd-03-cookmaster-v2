@@ -6,16 +6,16 @@ const middleware = require('../middleware');
 
 const users = Router();
 
-// https://pt.stackoverflow.com/questions/1386/express%C3%A3o-regular-para-valida%C3%A7%C3%A3o-de-e-mail
-const REGEX = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i;
+// https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+const REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const validateNewUser = rescue(async (req, res, next) => {
-  if (!req.body.name || !req.body.email || !req.body.password || !REGEX.test(req.body.email)) {
-    console.log(res.body);
-    return next(Boom.badRequest('dados invalidos'));
+  const { name, email, password } = req.body;
+  if (!name || !email || !password || !REGEX.test(email)) {
+    return res.status(400).send('Requisição mal sucessedida');
   }
 
-  const checkUserExist = await services.getUserByEmail(req.body.email);
+  const checkUserExist = await services.getUserByEmail(email);
   if (checkUserExist) {
     return next(Boom.conflict('Email já cadatrato'));
   }

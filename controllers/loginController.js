@@ -20,7 +20,7 @@ login.route('/').post(rescue(async (req, res, next) => {
 
   const user = await services.checkLogin(req.body.email, req.body.password);
 
-  if (user.error) { return res.status(401).json({ error: 'Sem autorização' }); }
+  if (user.error) return res.status(401);
   req.user = user;
   next();
 }),

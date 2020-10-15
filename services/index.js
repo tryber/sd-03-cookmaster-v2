@@ -6,6 +6,8 @@ const validateOwner = require('./validateOwner');
 const updateRecipe = require('./updateRecipe');
 const putImageOnRecipe = require('./putImageOnRecipe');
 const deleteRecipe = require('./deleteRecipe');
+const getUserByEmail = require('./getUserByEmail');
+const createUser = require('./createUser');
 
 module.exports = {
   checkLogin,
@@ -16,4 +18,6 @@ module.exports = {
   updateRecipe,
   putImageOnRecipe,
   deleteRecipe,
+  getUserByEmail,
+  createUser,
 };
