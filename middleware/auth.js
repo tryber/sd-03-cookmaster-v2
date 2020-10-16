@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const rescue = require('express-rescue');
 
 module.exports = rescue(async (req, res, next) => {
-  const token = `${req.headers.authorization.substr(7)}`; // remover o substr quando enviar!!
+  const token = `${req.headers.authorization}`; // remover o substr quando enviar!! .substr(7)
 
   console.log(token);
 
