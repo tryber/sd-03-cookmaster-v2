@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const rescue = require('express-rescue');
 
 module.exports = rescue(async (req, res, next) => {
-  const token = req.headers.authorization.substr(7); // remove o bearer
+  const token = `${req.headers.authorization}`; // remove o bearer
 
   console.log(token);
 
