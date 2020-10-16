@@ -7,7 +7,7 @@ const models = require('../models');
 
 const login = Router();
 
-const { SECRET_KEY = '2147483647' } = process.env;
+const { SECRET_KEY = '6437658488' } = process.env;
 
 login.route('/').post(rescue(async (req, res, next) => {
   const { email, password } = req.body;
