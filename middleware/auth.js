@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken');
 const rescue = require('express-rescue');
 
 module.exports = rescue(async (req, res, next) => {
-  const token = `${req.headers.authorization}`; // remover o substr quando enviar!! .substr(7)
+  const token = `${req.headers.authorization.substr(7)}`; // remover o substr quando enviar!! .substr(7)
 
-  // console.log(token);
+  console.log(token);
 
   if (!token) return res.status(401).json({ error: 'jwt malformed' });
 
-  const { SECRET_KEY } = process.env;
+  const { SECRET_KEY = '6437658488' } = process.env;
 
   try {
     const data = jwt.verify(token, SECRET_KEY);
