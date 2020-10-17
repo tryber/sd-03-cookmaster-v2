@@ -1,10 +1,11 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
 const recipeService = require('../services/recipeService');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 const recipe = Router();
 
-recipe.post('/', rescue(async (req, res) => {
+recipe.post('/', authMiddleware, rescue(async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
   const postRecipe = await recipeService.createRecipe(name, ingredients, preparation, userId);
