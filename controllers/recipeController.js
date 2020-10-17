@@ -22,7 +22,9 @@ recipe.get('/', async (_, res) => {
 
 recipe.get('/:id', async (req, res) => {
   const { id } = req.params;
-  const getRecipe = recipeService.getRecipeById(id);
+  console.log(id);
+  const getRecipe = await recipeService.getRecipeById(id);
+  console.log(getRecipe);
   if (getRecipe.error) {
     return res.status(getRecipe.status).json({ message: getRecipe.message });
   }

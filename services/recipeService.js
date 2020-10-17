@@ -16,9 +16,11 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
 const getAllRecipes = async () => recipeModel.getAllRecipes();
 
 const getRecipeById = async (id) => {
-  if (!ObjectId.isValid(id)) return { error: true, status: 404, message: 'Wrong sale ID format' };
+  console.log(id);
+  if (!ObjectId.isValid(id)) return { error: true, status: 404, message: 'recipe not found' };
   const recipe = await recipeModel.getRecipeById(id);
   if (!recipe) return { error: true, status: 404, message: 'recipe not found' };
+  return recipe;
 };
 
 const updateRecipe = async (id, { name, ingredients, preparation }) => {
