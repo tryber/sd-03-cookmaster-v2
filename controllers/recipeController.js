@@ -1,17 +1,17 @@
 const { Router } = require('express');
-const rescue = require('express-rescue');
+// const rescue = require('express-rescue');
 const recipeService = require('../services/recipeService');
 
 const recipe = Router();
 
-recipe.post('/recipes', rescue(async (req, res) => {
+recipe.post('/', async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const postRecipe = await recipeService.createRecipe(name, ingredients, preparation);
   if (postRecipe.error) {
     return res.status(postRecipe.status).json({ message: postRecipe.message });
   }
   return res.status(201).json(postRecipe);
-}));
+});
 
 // recipe.post('/recipes', rescue(async (req, res) => {
 //   const { name, ingredients, preparation } = req.body;

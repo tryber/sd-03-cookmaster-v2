@@ -16,7 +16,7 @@ app.get('/', (request, response) => {
 
 app.use('/', controllers.userController);
 
-app.use('/', controllers.recipeController);
+// app.use('/recipes', controllers.recipeController);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { console.log(`Lintening on ${PORT}`); });
