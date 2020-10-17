@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const recipeModel = require('../models/recipeModel');
 
 const validateRecipeData = async (name, ingredients, preparation) => {
@@ -5,16 +6,32 @@ const validateRecipeData = async (name, ingredients, preparation) => {
   return { error: false };
 };
 
-const createRecipe = async (name, ingredients, preparation, userId) => {
+const createRecipe = async (name, ingredients, preparation) => {
   const validation = await validateRecipeData(name, ingredients, preparation);
   if (validation.error) return validation;
-  const recipe = await recipeModel.createRecipe(name, ingredients, preparation, userId);
+  const recipe = await recipeModel.createRecipe(name, ingredients, preparation);
   return recipe;
 };
 
 const getAllRecipes = async () => ({ recipes: await recipeModel.getAllRecipes() });
 
+const getRecipeById = async (id) => {
+  if (!ObjectId.isValid(id)) return { error: true, status: 404, message: 'Wrong sale ID format' };
+  const recipe = await recipeModel.getRecipeById(id);
+  if (!recipe) return { error: true, status: 404, message: 'recipe not found' };
+};
+
+const updateRecipe = async (id, { name, ingredients, preparation }) => {
+  const recipe = await recipeModel.getRecipeById(id);
+  if (recipe.error) return recipe;
+  const validation = await validateRecipeData(name, ingredients, preparation);
+  if (validation.error) return validation;
+  return recipeModel.updateRecipe(id, { name, ingredients, preparation });
+}; // FALTA VALIDAR SE O USUÁRIO ESTÁ LOGADO OU É ADMIN
+
 module.exports = {
   createRecipe,
   getAllRecipes,
+  getRecipeById,
+  updateRecipe,
 };

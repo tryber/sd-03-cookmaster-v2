@@ -1,9 +1,9 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-const rescue = require('express-rescue');
+// const rescue = require('express-rescue');
 
 const controllers = require('./controllers');
-const authMiddleware = require('./middlewares/authMiddleware');
+// const authMiddleware = require('./middlewares/authMiddleware');
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,7 +16,7 @@ app.get('/', (request, response) => {
 
 app.use('/', controllers.userController);
 
-app.use('/recipes', authMiddleware, rescue(controllers.recipeController));
+app.use('/', controllers.recipeController);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { console.log(`Lintening on ${PORT}`); });
