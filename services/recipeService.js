@@ -13,7 +13,7 @@ const createRecipe = async (name, ingredients, preparation, userId) => {
   return recipe;
 };
 
-const getAllRecipes = async () => ({ recipes: await recipeModel.getAllRecipes() });
+const getAllRecipes = async () => recipeModel.getAllRecipes();
 
 const getRecipeById = async (id) => {
   if (!ObjectId.isValid(id)) return { error: true, status: 404, message: 'Wrong sale ID format' };
