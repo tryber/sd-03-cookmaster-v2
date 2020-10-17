@@ -5,7 +5,7 @@ const JWT_SECRET = 'mirellasproject';
 
 module.exports = async (req, res, next) => {
   const token = req.headers.authorization;
-  if (!token) return res.status(401).json({ message: 'invalid token' });
+  if (!token) return res.status(401).json({ message: 'missing auth token' });
 
   const payload = jwt.verify(token, JWT_SECRET);
   const user = await userModel.getUserByEmail(payload.user.email);

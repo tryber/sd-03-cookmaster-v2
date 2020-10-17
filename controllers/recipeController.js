@@ -1,29 +1,18 @@
 const { Router } = require('express');
-// const rescue = require('express-rescue');
+const rescue = require('express-rescue');
 const recipeService = require('../services/recipeService');
 
 const recipe = Router();
 
-recipe.post('/', async (req, res) => {
+recipe.post('/', rescue(async (req, res) => {
   const { name, ingredients, preparation } = req.body;
-  const postRecipe = await recipeService.createRecipe(name, ingredients, preparation);
+  const { _id: userId } = req.user;
+  const postRecipe = await recipeService.createRecipe(name, ingredients, preparation, userId);
   if (postRecipe.error) {
     return res.status(postRecipe.status).json({ message: postRecipe.message });
   }
   return res.status(201).json(postRecipe);
-});
-
-// recipe.post('/recipes', rescue(async (req, res) => {
-//   const { name, ingredients, preparation } = req.body;
-//   // const { _id: userId } = req.user;
-//   // console.log(`req.user: ${req.user}`);
-//   const postRecipe = await recipeService.createRecipe(name, ingredients, preparation);
-//   console.log(`postRecipe: ${postRecipe}`);
-//   if (postRecipe.error) {
-//     return res.status(postRecipe.status).json({ message: postRecipe.message });
-//   }
-//   return res.status(201).json(postRecipe);
-// }));
+}));
 
 recipe.get('/', async (_, res) => {
   const recipes = await recipeService.getAllRecipes();

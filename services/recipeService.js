@@ -6,10 +6,10 @@ const validateRecipeData = async (name, ingredients, preparation) => {
   return { error: false };
 };
 
-const createRecipe = async (name, ingredients, preparation) => {
+const createRecipe = async (name, ingredients, preparation, userId) => {
   const validation = await validateRecipeData(name, ingredients, preparation);
   if (validation.error) return validation;
-  const recipe = await recipeModel.createRecipe(name, ingredients, preparation);
+  const recipe = await recipeModel.createRecipe(name, ingredients, preparation, userId);
   return recipe;
 };
 
