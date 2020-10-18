@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
+const multer = require('multer');
+const path = require('path');
 const recipeService = require('../services/recipeService');
 const authMiddleware = require('../middlewares/authMiddleware');
 
@@ -34,8 +36,7 @@ recipe.put('/:id', authMiddleware, async (req, res) => {
   const { name, ingredients, preparation } = req.body;
   const { _id: userId } = req.user;
   const updatedRecipe = await recipeService.updateRecipe(
-    id,
-    { name, ingredients, preparation, userId },
+    id, { name, ingredients, preparation, userId },
   );
   if (updatedRecipe.error) {
     return res.status(updatedRecipe.status).json({ message: updatedRecipe.message });
@@ -52,5 +53,24 @@ recipe.delete('/:id', authMiddleware, async (req, res) => {
   }
   return res.status(204).end();
 });
+
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, 'images'),
+  filename: (req, _file, callback) => {
+    const { id } = req.params;
+    callback(null, `${id}.jpeg`);
+  },
+});
+
+const upload = multer({ storage });
+
+recipe.put('/:id/image', authMiddleware, upload.single('image'), rescue(async (req, res) => {
+  const { id } = req.params;
+  const { filename } = req.file;
+  const { _id: userId } = req.user;
+  const uploadRecipeImage = await recipeService.uploadRecipeImage(id, filename, userId);
+
+  res.status(200).json(uploadRecipeImage);
+}));
 
 module.exports = recipe;

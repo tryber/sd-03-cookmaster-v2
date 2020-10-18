@@ -28,8 +28,7 @@ const updateRecipe = async (id, { name, ingredients, preparation, userId }) => {
   const user = await userService.userIsAdmin(userId);
   const validation = await validateRecipeData(name, ingredients, preparation);
   const updatedRecipe = await recipeModel.updateRecipe(
-    id,
-    { name, ingredients, preparation, userId },
+    id, { name, ingredients, preparation, userId },
   );
 
   switch (true) {
@@ -62,10 +61,28 @@ const deleteRecipe = async (id, userId) => {
   }
 };
 
+const uploadRecipeImage = async (id, filename, userId) => {
+  const actualRecipe = await recipeModel.getRecipeById(id);
+  const user = await userService.userIsAdmin(userId);
+  const imageRoute = `localhost:3000/images/${filename}`;
+
+  switch (true) {
+    case (!actualRecipe):
+      return { error: true, status: 404, message: 'recipe not found' };
+    case (actualRecipe.error):
+      return actualRecipe;
+    case (user === false && actualRecipe.userId.toString() !== userId.toString()):
+      return actualRecipe;
+    default:
+      return recipeModel.uploadRecipeImage(id, imageRoute, actualRecipe);
+  }
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
   deleteRecipe,
+  uploadRecipeImage,
 };
