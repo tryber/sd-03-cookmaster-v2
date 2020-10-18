@@ -35,6 +35,7 @@ const login = async (email, password) => {
   if (validation.error) return validation;
 
   const user = await userModel.getUserByEmail(email);
+  console.log('login', user);
 
   const jwtConfig = { expiresIn: '50min', algorithm: 'HS256' };
   const token = jwt.sign({ user }, JWT_SECRET, jwtConfig);

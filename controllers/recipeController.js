@@ -22,23 +22,23 @@ recipe.get('/', async (_, res) => {
 
 recipe.get('/:id', async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   const getRecipe = await recipeService.getRecipeById(id);
-  console.log(getRecipe);
   if (getRecipe.error) {
     return res.status(getRecipe.status).json({ message: getRecipe.message });
   }
   return res.status(200).json(getRecipe);
 });
 
-recipe.put('/:id', async (req, res) => {
+recipe.put('/:id', authMiddleware, async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
-  const newRecipe = await recipeService.updateRecipe(id, { name, ingredients, preparation });
-  if (newRecipe.error) {
-    return res.status(newRecipe.status).json({ message: newRecipe.message });
+  const userId = req.user._id;
+  const updatedRecipe = await recipeService.updateRecipe(id, { name, ingredients, preparation, userId });
+  console.log('controller', updatedRecipe);
+  if (updatedRecipe.error) {
+    return res.status(updatedRecipe.status).json({ message: updatedRecipe.message });
   }
-  return res.status(200).json(newRecipe);
+  return res.status(200).json(updatedRecipe);
 });
 
 module.exports = recipe;
