@@ -52,9 +52,26 @@ const updateRecipe = async (id, { name, ingredients, preparation, userId }) => {
   }
 };
 
+const deleteRecipe = async (id, userId) => {
+  const recipe = await recipeModel.getRecipeById(id);
+  const user = await userIsAdmin(userId);
+
+  switch (true) {
+    case (!recipe):
+      return { error: true, status: 404, message: 'recipe not found' };
+    case (recipe.error):
+      return recipe;
+    case (user === false && recipe.userId.toString() !== userId.toString()):
+      return recipe;
+    default:
+      return recipeModel.deleteRecipe(id);
+  }
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };

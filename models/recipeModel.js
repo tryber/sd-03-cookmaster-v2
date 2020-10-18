@@ -24,9 +24,13 @@ const updateRecipe = async (id, { name, ingredients, preparation, userId }) => c
     .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }))
   .then(() => ({ _id: id, name, ingredients, preparation, userId }));
 
+const deleteRecipe = async (id, userId) => connect()
+  .then((db) => db.collection('recipes').deleteOne({ _id: ObjectId(id), userId }));
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipeById,
   updateRecipe,
+  deleteRecipe,
 };

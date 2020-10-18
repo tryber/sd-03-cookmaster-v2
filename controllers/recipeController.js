@@ -37,11 +37,20 @@ recipe.put('/:id', authMiddleware, async (req, res) => {
     id,
     { name, ingredients, preparation, userId },
   );
-  console.log('controller', updatedRecipe);
   if (updatedRecipe.error) {
     return res.status(updatedRecipe.status).json({ message: updatedRecipe.message });
   }
   return res.status(200).json(updatedRecipe);
+});
+
+recipe.delete('/:id', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+  const { _id: userId } = req.user;
+  const deleteRecipe = await recipeService.deleteRecipe(id, userId);
+  if (deleteRecipe.error) {
+    return res.status(deleteRecipe.status).json({ message: deleteRecipe.message });
+  }
+  return res.status(204).end();
 });
 
 module.exports = recipe;
