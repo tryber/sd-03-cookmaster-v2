@@ -32,16 +32,24 @@ const userIsAdmin = async (id) => {
 const updateRecipe = async (id, { name, ingredients, preparation, userId }) => {
   const recipe = await recipeModel.getRecipeById(id);
   const user = await userIsAdmin(userId);
-  if (!recipe) return { error: true, status: 404, message: 'recipe not found' };
-  if (recipe.error) return recipe;
-  if (user === false && recipe.userId.toString() !== userId.toString()) return recipe;
-
   const validation = await validateRecipeData(name, ingredients, preparation);
-  if (validation.error) return validation;
+  const updatedRecipe = await recipeModel.updateRecipe(
+    id,
+    { name, ingredients, preparation, userId },
+  );
 
-  const updatedRecipe = await recipeModel.updateRecipe(id, { name, ingredients, preparation, userId });
-  console.log('service2', updatedRecipe);
-  return updatedRecipe;
+  switch (true) {
+    case (!recipe):
+      return { error: true, status: 404, message: 'recipe not found' };
+    case (recipe.error):
+      return recipe;
+    case (user === false && recipe.userId.toString() !== userId.toString()):
+      return recipe;
+    case (validation.error):
+      return validation;
+    default:
+      return updatedRecipe;
+  }
 };
 
 module.exports = {

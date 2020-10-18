@@ -32,8 +32,11 @@ recipe.get('/:id', async (req, res) => {
 recipe.put('/:id', authMiddleware, async (req, res) => {
   const { id } = req.params;
   const { name, ingredients, preparation } = req.body;
-  const userId = req.user._id;
-  const updatedRecipe = await recipeService.updateRecipe(id, { name, ingredients, preparation, userId });
+  const { _id: userId } = req.user;
+  const updatedRecipe = await recipeService.updateRecipe(
+    id,
+    { name, ingredients, preparation, userId },
+  );
   console.log('controller', updatedRecipe);
   if (updatedRecipe.error) {
     return res.status(updatedRecipe.status).json({ message: updatedRecipe.message });
