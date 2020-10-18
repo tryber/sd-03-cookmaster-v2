@@ -41,7 +41,25 @@ const login = async (email, password) => {
   return { token };
 };
 
+const userIsAdmin = async (id) => {
+  const user = await userModel.getUserById(id);
+  if (user.role !== 'admin') return false;
+  return true;
+};
+
+const createUserAdmin = async (name, email, password, userId) => {
+  const validation = await validateUserData(name, email, password);
+  if (validation.error) return validation;
+  const admin = await userIsAdmin(userId);
+  if (admin === false) {
+    return { error: true, status: 403, message: 'Only admins can register new admins' };
+  }
+  const userAdmin = await userModel.createUserAdmin(name, email, password);
+  return userAdmin;
+};
+
 module.exports = {
   createUser,
   login,
+  createUserAdmin,
 };
