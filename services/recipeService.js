@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 const recipeModel = require('../models/recipeModel');
-const userModel = require('../models/userModel');
+const userService = require('./userService');
 
 const validateRecipeData = async (name, ingredients, preparation) => {
   if (!name || !ingredients || !preparation) return { error: true, status: 400, message: 'Invalid entries. Try again.' };
@@ -23,15 +23,9 @@ const getRecipeById = async (id) => {
   return recipe;
 };
 
-const userIsAdmin = async (id) => {
-  const user = await userModel.getUserById(id);
-  if (user.role !== 'admin') return false;
-  return true;
-};
-
 const updateRecipe = async (id, { name, ingredients, preparation, userId }) => {
   const recipe = await recipeModel.getRecipeById(id);
-  const user = await userIsAdmin(userId);
+  const user = await userService.userIsAdmin(userId);
   const validation = await validateRecipeData(name, ingredients, preparation);
   const updatedRecipe = await recipeModel.updateRecipe(
     id,
@@ -54,7 +48,7 @@ const updateRecipe = async (id, { name, ingredients, preparation, userId }) => {
 
 const deleteRecipe = async (id, userId) => {
   const recipe = await recipeModel.getRecipeById(id);
-  const user = await userIsAdmin(userId);
+  const user = await userService.userIsAdmin(userId);
 
   switch (true) {
     case (!recipe):

@@ -61,5 +61,6 @@ const createUserAdmin = async (name, email, password, userId) => {
 module.exports = {
   createUser,
   login,
+  userIsAdmin,
   createUserAdmin,
 };
