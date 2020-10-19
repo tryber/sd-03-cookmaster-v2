@@ -8,12 +8,12 @@ const {
 } = user;
 
 const {
-  createRecipe,
-  getAllRecipes,
-  getRecipeById,
-  editRecipe,
-  deleteRecipe,
-  addImageToRecipe,
+  create,
+  getAll,
+  getById,
+  edit,
+  deleteIt,
+  addImage,
 } = recipes;
 
 module.exports = {
