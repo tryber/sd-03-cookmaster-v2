@@ -23,7 +23,7 @@ users.post(
       return res.status(409).json({ message: newUser.message });
     }
     if (newUser.message) {
-  return res.status(400).json({ message: newUser.message });
+      return res.status(400).json({ message: newUser.message });
     }
     return res.status(201).json(newUser);
   }),

@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const { loginController, recipeController } = require('./controllers');
 
 const app = express();
-
 const PORT = 3000;
 
 app.use(bodyParser.json());
@@ -14,7 +13,6 @@ app.get('/', (_request, response) => {
 });
 
 app.use('/users', loginController);
-
 app.use('/recipes', recipeController);
 
 app.post('/login', loginController);
