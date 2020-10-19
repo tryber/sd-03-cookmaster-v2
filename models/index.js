@@ -1,7 +1,7 @@
 const {
   getUserByEmail,
   getUserById,
-  registerUser,
+  register,
 } = require('./LoginModel');
 
 const {
@@ -14,7 +14,7 @@ const {
 } = require('./RecipeModel');
 
 module.exports = {
-  registerUser,
+  register,
   getUserByEmail,
   getUserById,
   create,

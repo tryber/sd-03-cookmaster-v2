@@ -1,6 +1,6 @@
 const {
   getUserByEmail,
-  registerUser } = require('../models');
+  register } = require('../models');
 const { generateJWT } = require('../middlewares/validation');
 
 // regex simples pra email
@@ -27,7 +27,7 @@ const registerUser = async (name, email, password) => {
   if (isEmailAlreadyRegistered) {
     return { code: 'conflict', message: 'Email already registered' };
   }
-  const registeredUser = await registerUser(name, email, password);
+  const registeredUser = await register(name, email, password);
   return registeredUser;
 };
 

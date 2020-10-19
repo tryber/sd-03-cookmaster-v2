@@ -1,10 +1,10 @@
 const {
-  getAllRecipes,
-  getRecipeById,
-  createRecipe,
-  editRecipe,
-  deleteRecipe,
-  addImageToRecipe,
+  getAll,
+  getById,
+  create,
+  edit,
+  deleteIt,
+  addImage,
 } = require('../models');
 
 const createRecipe = async (name, ingredients, preparation, user) => {
@@ -14,32 +14,32 @@ const createRecipe = async (name, ingredients, preparation, user) => {
   const {
     _id: { id },
   } = user;
-  const newRecipe = await createRecipe(name, ingredients, preparation, id);
+  const newRecipe = await create(name, ingredients, preparation, id);
   return newRecipe;
 };
 
-const getAllRecipes = async () => getAllRecipes();
+const getAllRecipes = async () => getAll();
 
 const getRecipeById = async (id) => {
   if (id.length < 24) return { message: 'recipe not found' };
-  const recipe = await getRecipeById(id);
+  const recipe = await getById(id);
   if (!recipe) return { message: 'recipe not found' };
   return recipe;
 };
 
 const editRecipe = async (id, name, ingredients, preparation) => {
-  const { userId } = await getRecipeById(id);
-  const editedRecipe = await editRecipe(id, name, ingredients, preparation, userId);
+  const { userId } = await getById(id);
+  const editedRecipe = await edit(id, name, ingredients, preparation, userId);
   return editedRecipe;
 };
 
-const deleteRecipe = async (id) => deleteRecipe(id);
+const deleteRecipe = async (id) => deleteIt(id);
 
 const addImageToRecipe = async (id, filename) => {
   const path = `localhost:3000/images/${filename}`;
-  const recipe = await getRecipeById(id);
+  const recipe = await getById(id);
   if (!recipe) return { message: 'recipe not found' };
-  const newImage = await addImageToRecipe(id, path, recipe);
+  const newImage = await addImage(id, path, recipe);
   return newImage;
 };
 
