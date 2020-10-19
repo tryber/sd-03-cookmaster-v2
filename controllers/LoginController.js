@@ -7,7 +7,7 @@ const users = Router();
 
 const login = rescue(async (req, res) => {
   const { email, password } = req.body;
-  const user = await userService.login(email, password);
+  const user = await userService.userLogin(email, password);
   if (user.message) {
     return res.status(401).json(user);
   }

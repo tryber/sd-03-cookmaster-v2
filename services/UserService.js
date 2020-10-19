@@ -1,4 +1,6 @@
-const { userModel } = require('../models');
+const {
+  getUserByEmail,
+  registerUser } = require('../models');
 const { generateJWT } = require('../middlewares/validation');
 
 // regex simples pra email
@@ -13,7 +15,7 @@ const validateEntries = (name, email, password) => {
 
 const userLogin = async (email, password) => {
   if (!email || !password) return { message: 'All fields must be filled' };
-  const user = await userModel.getUserByEmail(email);
+  const user = await getUserByEmail(email);
   if (!user || user.password !== password) return { message: 'Incorrect username or password' };
   return generateJWT(user);
 };
@@ -21,20 +23,20 @@ const userLogin = async (email, password) => {
 const registerUser = async (name, email, password) => {
   const isEntriesValid = validateEntries(name, email, password);
   if (typeof isEntriesValid === 'object') return isEntriesValid;
-  const isEmailAlreadyRegistered = await userModel.getUserByEmail(email);
+  const isEmailAlreadyRegistered = await getUserByEmail(email);
   if (isEmailAlreadyRegistered) {
     return { code: 'conflict', message: 'Email already registered' };
   }
-  const registeredUser = await userModel.registerUser(name, email, password);
+  const registeredUser = await registerUser(name, email, password);
   return registeredUser;
 };
 
 const registerAdmin = async (name, email, password, user) => {
   const isEntriesValid = validateEntries(name, email, password);
   if (typeof isEntriesValid === 'object') return isEntriesValid;
-  const loggedUser = await userModel.getUserByEmail(user.email);
+  const loggedUser = await getUserByEmail(user.email);
   if (loggedUser.role !== 'admin') return { message: 'Only admins can register new admins' };
-  const registeredUser = await userModel.registerUser(name, email, password, 'admin');
+  const registeredUser = await registerUser(name, email, password, 'admin');
   return registeredUser;
 };
 
