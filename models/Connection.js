@@ -6,7 +6,7 @@ const { MONGO_DB_URL, DB_NAME } = process.env;
 const dbURL = MONGO_DB_URL || 'mongodb://mongodb:27017/Cookmaster';
 const dbName = DB_NAME || 'Cookmaster';
 
-const connect = () =>
+const connection = () =>
   MongoClient.connect(dbURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -17,4 +17,4 @@ const connect = () =>
       process.exit(1);
     });
 
-module.exports = connect;
+module.exports = connection;
