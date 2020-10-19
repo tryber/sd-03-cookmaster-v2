@@ -13,8 +13,8 @@ const connect = () =>
   })
     .then((connection) => connection.db(dbName))
     .catch((err) => {
-        console.error(err);
-        process.exit(1);
+      console.error(err);
+      process.exit(1);
     });
 
 module.exports = connect;
