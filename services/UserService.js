@@ -36,7 +36,7 @@ const registerAdmin = async (name, email, password, user) => {
   if (typeof isEntriesValid === 'object') return isEntriesValid;
   const loggedUser = await getUserByEmail(user.email);
   if (loggedUser.role !== 'admin') return { message: 'Only admins can register new admins' };
-  const registeredUser = await registerUser(name, email, password, 'admin');
+  const registeredUser = await register(name, email, password, 'admin');
   return registeredUser;
 };
 
