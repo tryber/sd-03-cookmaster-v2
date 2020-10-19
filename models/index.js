@@ -1,11 +1,8 @@
-const user = require('./LoginModel');
-const recipes = require('./RecipeModel');
-
 const {
   getUserByEmail,
   getUserById,
   registerUser,
-} = user;
+} = require('./LoginModel');
 
 const {
   create,
@@ -14,7 +11,7 @@ const {
   edit,
   deleteIt,
   addImage,
-} = recipes;
+} = require('./RecipeModel');
 
 module.exports = {
   registerUser,
