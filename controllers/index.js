@@ -1,7 +1,8 @@
-const loginController = require('./LoginController');
-const recipeController = require('./RecipeController');
+const {login, users} = require('./LoginController');
+const recipes = require('./RecipeController');
 
 module.exports = {
-  loginController,
-  recipeController,
+  login,
+  users,
+  recipes,
 };

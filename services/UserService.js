@@ -1,5 +1,5 @@
 const { userModel } = require('../models');
-const { generateJWT } = require('../middlewares/auth');
+const { generateJWT } = require('../middlewares/validation');
 
 // regex simples pra email
 const regexEmail = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
