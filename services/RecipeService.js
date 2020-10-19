@@ -7,8 +7,8 @@ const createRecipe = async (name, ingredients, preparation, user) => {
   const {
     _id: { id },
   } = user;
-  const createdRecipe = await recipeModel.createRecipe(name, ingredients, preparation, id);
-  return createdRecipe;
+  const newRecipe = await recipeModel.createRecipe(name, ingredients, preparation, id);
+  return newRecipe;
 };
 
 const getAllRecipes = async () => recipeModel.getAllRecipes();
@@ -29,11 +29,11 @@ const editRecipe = async (id, name, ingredients, preparation) => {
 const deleteRecipe = async (id) => recipeModel.deleteRecipe(id);
 
 const addImageToRecipe = async (id, filename) => {
-  const imagePath = `localhost:3000/images/${filename}`;
+  const path = `localhost:3000/images/${filename}`;
   const recipe = await recipeModel.getRecipeById(id);
   if (!recipe) return { message: 'recipe not found' };
-  const addedImage = await recipeModel.addImageToRecipe(id, imagePath, recipe);
-  return addedImage;
+  const newImage = await recipeModel.addImageToRecipe(id, path, recipe);
+  return newImage;
 };
 
 module.exports = {

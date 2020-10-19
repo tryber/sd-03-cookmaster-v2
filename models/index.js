@@ -1,7 +1,7 @@
 const user = require('./LoginModel');
 const recipes = require('./RecipeModel');
 
-const { 
+const {
   getUserByEmail,
   getUserById,
   registerUser,

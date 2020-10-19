@@ -40,7 +40,7 @@ const addImageToRecipe = async (id, image, initialState) =>
 
 const getAllRecipes = async () =>
     connection().then((db) => db.collection('recipes').find({}).toArray());
-  
+
 const getRecipeById = async (id) =>
     connection().then((db) => db.collection('recipes').findOne(ObjectId(id)));
 

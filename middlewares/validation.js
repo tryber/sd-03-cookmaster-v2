@@ -2,10 +2,9 @@ const jwt = require('jsonwebtoken');
 const userModel = require('../models/userModel');
 
 const jwtConfig = {
-    expiresIn: '2d',
-    algorithm: 'HS256',
+  expiresIn: '2d',
+  algorithm: 'HS256',
 };
-  
 const secret = 'secret';
 
 const generateJWT = (data) => {
