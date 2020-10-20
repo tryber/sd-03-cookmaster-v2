@@ -5,7 +5,10 @@ const getUserByEmail = async (email) =>
   connection().then((db) => db.collection('users').findOne({ email }));
 
 const getUserById = async (id) =>
-  connection().then((db) => db.collection('users').findOne(ObjectId(id)));
+  connection().then((db) => {
+    if (!ObjectId.isValid(id)) return null;
+    return db.collection('users').findOne(ObjectId(id));
+  });
 
 const registerUser = async (name, email, password, role = 'user') =>
   connection()

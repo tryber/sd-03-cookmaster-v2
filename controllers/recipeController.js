@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const rescue = require('express-rescue');
 const multer = require('multer');
-const path = require('path');
 const { recipeService } = require('../services');
 const { validateJWT } = require('../middlewares/auth');
 
@@ -12,9 +11,9 @@ recipes.post(
   validateJWT,
   rescue(async (req, res) => {
     const { name, ingredients, preparation } = req.body;
-    const { user } = req;
+    const { _id } = req.user;
 
-    const createdRecipe = await recipeService.createRecipe(name, ingredients, preparation, user);
+    const createdRecipe = await recipeService.createRecipe(name, ingredients, preparation, _id);
 
     if (createdRecipe.message) return res.status(400).json({ message: createdRecipe.message });
 
@@ -74,7 +73,7 @@ recipes.delete(
 // https://github.com/tryber/sd-03-live-lectures/pull/12
 
 const storage = multer.diskStorage({
-  destination: path.join(__dirname, 'images'),
+  destination: 'images',
   filename: (req, _file, callback) => {
     const { id } = req.params;
     callback(null, `${id}.jpeg`);

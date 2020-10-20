@@ -5,7 +5,10 @@ const getAllRecipes = async () =>
   connection().then((db) => db.collection('recipes').find({}).toArray());
 
 const getRecipeById = async (id) =>
-  connection().then((db) => db.collection('recipes').findOne(ObjectId(id)));
+  connection().then((db) => {
+    if (!ObjectId.isValid(id)) return null;
+    return db.collection('recipes').findOne(ObjectId(id));
+  });
 
 const createRecipe = async (name, ingredients, preparation, userId) =>
   connection().then((db) =>
@@ -18,16 +21,14 @@ const createRecipe = async (name, ingredients, preparation, userId) =>
         preparation,
         userId,
         _id: insertedId,
-      })),
-  );
+      })));
 
 const editRecipe = async (id, name, ingredients, preparation, userId) =>
   connection()
     .then((db) =>
       db
         .collection('recipes')
-        .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }),
-    )
+        .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } }))
     .then(() => ({
       _id: id,
       name,
