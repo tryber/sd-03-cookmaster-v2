@@ -9,6 +9,8 @@ const RecipesRouter = express.Router();
 const CheckNewRecipe = (req, res, next) => {
   const { user } = req;
 
+  console.log(user);
+
   if (!user) res.status(401).json({ message: 'Invalid Token' });
 
   const { name, ingredients, preparation } = req.body;
