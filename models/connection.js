@@ -2,7 +2,7 @@ require('dotenv/config');
 const { MongoClient } = require('mongodb');
 
 const {
-  MONGO_DB_URL = 'mongodb://mongodb:27017/Cookmaster',
+  MONGO_DB_URL = 'mongodb://localhost:27017/Cookmaster',
   DB_NAME = 'Cookmaster',
 } = process.env;
 
@@ -11,21 +11,20 @@ const connection = () =>
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-    .then((conn) => conn.db(DB_NAME))
+    .then((connect) => connect.db(DB_NAME))
     .catch((err) => {
       console.error(err.message, err.stack);
       process.exit(1);
     });
 
-const connectCollumn = (collumn) =>
-  connection().then((db) => db.collection(collumn));
+const connectIn = (collumn) => connection().then((db) => db.collection(collumn));
 
-const handleColumn = (collumn) => async (instance) =>
-  connectCollumn(collumn)
+const handleConnect = (collumn) => async (instance) =>
+  connectIn(collumn)
     .then((table) => table.insertOne(instance))
     .then(({ insertedId }) => ({ _id: insertedId, ...instance }));
 
 module.exports = {
-  connectCollumn,
-  handleColumn,
+  connectIn,
+  handleConnect,
 };

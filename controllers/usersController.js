@@ -1,46 +1,31 @@
-const { Router } = require('express');
+const express = require('express');
 const rescue = require('express-rescue');
-const Boom = require('boom');
-const services = require('../services');
-const middleware = require('../middleware');
+const { usersServices } = require('../services');
 
-const users = Router();
+const UsersRouter = express.Router();
 
-// https://regexr.com/3e48o
-const REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+const REGEX = /^[A-z0-9]+(\.?[A-z0-9]+)?@[A-z0-9]+(\.?[A-z0-9]+)?$/;
 
-const validateNewUser = rescue(async (req, res, next) => {
-  const { name, email, password } = req.body;
+const CheckNewUser = rescue(async (req, res, next) => {
+  const { name, email, password } = req.body || {};
+
   if (!name || !email || !password || !REGEX.test(email)) {
     return res.status(400).json({ message: 'Invalid entries. Try again.' });
   }
 
-  const checkUserExist = await services.getUserByEmail(email);
-  if (checkUserExist) {
-    return res.status(409).json({ message: 'Email already registered' });
-  }
+  const user = await usersServices.getUserByEmail(email);
+  if (user) return res.status(409).json({ message: 'Email already registered' });
 
   return next();
 });
 
-const createUser = rescue(async (req, res) => {
-  const { name, email, password, role } = req.body;
-  const user = await services.createUser('user', { name, email, password, role });
-  return res.status(201).json({ user });
+const CreateUser = rescue(async (req, res) => {
+  const { name, email, password } = req.body;
+  const users = await usersServices.createUser('user', { name, email, password });
+  return res.status(201).json({ users });
 });
 
-const createUserAdmin = rescue(async (req, res, next) => {
-  const { user: { role }, body: { name, email, password } } = req;
-  if (role !== 'admin') return next(Boom.forbidden('Apenas admins'));
+UsersRouter.route('/')
+  .post(CheckNewUser, CreateUser);
 
-  const user = await services.createUser('admin', { name, email, password });
-  return res.status(201).json({ user });
-});
-
-users.route('/')
-  .post(validateNewUser, createUser);
-
-users.route('/admin')
-  .post(middleware.auth, validateNewUser, createUserAdmin);
-
-module.exports = users;
+module.exports = UsersRouter;
