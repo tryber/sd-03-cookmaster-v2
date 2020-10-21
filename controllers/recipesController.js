@@ -28,6 +28,13 @@ const createRecipe = rescue(async (req, res) => {
   return res.status(201).json({ recipe });
 });
 
-RecipesRouter.route('/').post(auth, CheckNewRecipe, createRecipe);
+const getAllRecipes = rescue(async (req, res) => {
+  const recipes = await recipesServices.getAllRecipes();
+  res.status(200).json(recipes);
+});
+
+RecipesRouter.route('/')
+  .post(auth, CheckNewRecipe, createRecipe)
+  .get(getAllRecipes);
 
 module.exports = RecipesRouter;
