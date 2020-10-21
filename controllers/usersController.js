@@ -22,7 +22,7 @@ const CheckNewUser = rescue(async (req, res, next) => {
 const CreateUser = rescue(async (req, res) => {
   const { name, email, password } = req.body;
   const users = await usersServices.createUser('user', { name, email, password });
-  return res.status(201).json({ users });
+  return res.status(201).json({ user: users });
 });
 
 UsersRouter.route('/')
