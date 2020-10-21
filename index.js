@@ -12,5 +12,6 @@ app.get('/', (request, response) => {
 });
 
 app.use('/users', controllers.users);
+app.use('/login', controllers.login);
 
 app.listen(3000);

@@ -5,7 +5,7 @@ const createUser = async (role, { name, email, password }) =>
 
 const getUserByEmail = async (email) => usersModel.getUser({ email });
 
-const validateLogin = async (email, password) =>
+const checkLogin = async (email, password) =>
   usersModel.getUser({ email })
     .then((user) => {
       const errorObj = { error: true, message: 'Incorrect username or password' };
@@ -16,5 +16,5 @@ const validateLogin = async (email, password) =>
 module.exports = {
   getUserByEmail,
   createUser,
-  validateLogin,
+  checkLogin,
 };
