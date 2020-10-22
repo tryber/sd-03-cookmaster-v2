@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv/config');
 const rescue = require('express-rescue');
 
-const { SECRET_KEY = 6437658488 } = process.env;
+const { SECRET_KEY = '6437658488' } = process.env;
 
 module.exports = rescue(async (req, res, next) => {
   const { authorization: token } = req.headers || {};

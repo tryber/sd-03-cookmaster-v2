@@ -21,7 +21,7 @@ const connectIn = (collumn) => connection().then((db) => db.collection(collumn))
 
 const handleConnect = (collumn) => async (instance) =>
   connectIn(collumn)
-    .then((table) => table.insertOne(instance))
+    .then((doc) => doc.insertOne(instance))
     .then(({ insertedId }) => ({ _id: insertedId, ...instance }));
 
 module.exports = {

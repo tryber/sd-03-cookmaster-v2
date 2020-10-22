@@ -1,6 +1,7 @@
 const express = require('express');
 const rescue = require('express-rescue');
 const { usersServices } = require('../services');
+const { auth } = require('../middlewares');
 
 const UsersRouter = express.Router();
 
@@ -25,7 +26,18 @@ const CreateUser = rescue(async (req, res) => {
   return res.status(201).json({ user: users });
 });
 
+const createAdmin = rescue(async (req, res, next) => {
+  const { user: { role }, body: { name, email, password } } = req;
+  if (role !== 'admin') return res.status(403).json({ message: 'Only admins can register new admins' });
+
+  const user = await usersServices.createUser('admin', { name, email, password });
+  return res.status(201).json({ user });
+});
+
 UsersRouter.route('/')
   .post(CheckNewUser, CreateUser);
+
+UsersRouter.route('/admin')
+  .post(auth, CheckNewUser, createAdmin);
 
 module.exports = UsersRouter;
